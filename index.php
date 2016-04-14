@@ -18,30 +18,32 @@
         <!-- include css -->
         <link rel="stylesheet" href="../include/sweetalert/css/sweetalert.css"/>
         <!-- application css -->
+        <link rel="stylesheet" href="css/back-style.css"/>
     </head>
     <body>
+        <!-- BACKGROUND PATTERN-->
+        <div class="bg-pattern"></div>
+        <!-- login form -->
         <div class="login-container">
             <div class="row">
                 <div class="col-md-12">
                     <div class="text-center m-b-md">
-                        <h3 style="color: white;">Duplicating Center</h3>
+                        <h2 style="color: white;">Duplication Request</h2>
                     </div>
                     <div class="hpanel">
                         <div class="panel-body">
                             <form action="#" id="loginForm">
                                 <div class="form-group">
-                                    <label class="control-label">Username</label>
+                                    <label class="control-label">College Email Address</label>
                                     <input type="text" class="form-control" id="username">
-                                    <span class="help-block small">College Email Address</span>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">Password</label>
                                     <input type="password" class="form-control" id="password">
-                                    <span class="help-block small">Password</span>
                                 </div>
                                 <button class="btn btn-success btn-block" id="btn_login">Login</button>
                                 <div class="text-center" id="logn_error">
-                                    <h4 class="font-bold" id="error_msg"></h4>
+                                    <h4 id="error_msg"></h4>
                                 </div>    
                             </form>
                         </div>

@@ -1,9 +1,3 @@
-var m_name = "";
-var m_email = "";
-
-var m_username = "";
-var m_password = "";
-
 ////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {  
     $('#logn_error').hide();
@@ -35,17 +29,31 @@ window.onload = function() {
 ////////////////////////////////////////////////////////////////////////////////
 $(document).ready(function() {      
     $('#btn_login').click(function() { 
-        $('#error_msg').html("");
-        $('#logn_error').hide();
+        var login_error = loginInfo();
+        if(login_error === "") {
+            var user_type = localStorage.getItem('ls_dc_loginType');
+            if (user_type === "Staff") {
+                var result = new Array();
+                result = db_getUserProfile(localStorage.getItem('ls_dc_loginEmail'));
 
-        if(loginInfo()) {
-            sessionData_login(m_name, m_email);
-            window.open('main.html', '_self');
-            return false;
+                if (result.length === 0) {
+                    window.open('userProfile.html', '_self');
+                    return false;
+                }
+                else {
+                    window.open('userHome.html', '_self');
+                    return false;
+                }
+            }
+            else {
+                window.open('userHome.html', '_self');
+                return false;
+            }
         }
         else {
-            $('#error_msg').html("Invalid username or password");
+            $('#error_msg').html(login_error);
             $('#logn_error').show();
+            this.blur();
             return false;
         }
     });
@@ -56,24 +64,56 @@ $(document).ready(function() {
 ////////////////////////////////////////////////////////////////////////////////
 function loginInfo() {   
     var result = new Array();
-    m_username = $('#username').val().toLowerCase().replace("@ivc.edu", "");
-    m_password = $('#password').val();
+    var username = $('#username').val().toLowerCase();
+    var password = $('#password').val();
+    var error = loginEmailValidation(username);
+    if(error !== "") {
+        return error;
+    }
     
-    result = getLoginUserInfo("php/login.php", m_username, m_password);    
-    if (result.length === 0) {
-        return false;
+    var result = new Array();
+    if (username.indexOf("@ivc.edu") >= 1) {
+        username = username.replace("@ivc.edu", "");
+        result = getLoginUserInfo("php/login.php", username, password);
+        if (result.length === 0) {
+            result = getLoginUserInfo("php/login_student.php", username, password);
+        }
     }
     else {
-        m_name = objToString(result[0]);
-        m_email = objToString(result[1]);
+        username = username.replace("@saddleback.edu", "");
+        result = getLoginUserInfo("php/login_saddleback.php", username, password);
+        if (result.length === 0) {
+            result = getLoginUserInfo("php/login_student_saddleback.php", username, password);
+        }
+    } 
+    
+    if (result.length === 0) {
+        return "Invalid Email or Password";
+    }
+    else {
+        var display_name = result[0];
+        var email = result[1];
+        var phone = result[2];
+        var loginID = result[3];
+        var depart = result[4];
+        var login_type = result[5];
         
-        if (location.href.indexOf("ireport.ivc.edu") >= 0) {
-            sessionStorage.setItem('m_parentSite', 'https://ireport.ivc.edu');
+        if (email === null || typeof email === 'undefined') {
+            return "AD Login System Error";
         }
         else {
-            sessionStorage.setItem('m_parentSite', 'https://services.ivc.edu');
+            localData_login(display_name, email, phone, loginID, depart, login_type);
+            return "";
         }
-        
-        return true;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+function loginEmailValidation(login_email) {    
+    if (login_email.indexOf("@ivc.edu") !== -1 || login_email.indexOf("@saddleback.edu") !== -1) {
+        return "";
+    }
+    else {
+        return "Invalid Email";
     }
 }

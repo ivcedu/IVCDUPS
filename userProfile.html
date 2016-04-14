@@ -18,37 +18,52 @@
         <!-- include css -->
         <link rel="stylesheet" href="../include/sweetalert/css/sweetalert.css"/>
         <!-- application css -->
-        <link rel="stylesheet" href="css/back-style.css"/>
+        <link rel="stylesheet" href="css/iconic-color.css"/>
     </head>
-    <body>
-        <!-- BACKGROUND PATTERN-->
-        <div class="bg-pattern"></div>
-        <!-- login form -->
-        <div class="login-container">
+    <body class="blank">
+        <div class="register-container">
             <div class="row">
                 <div class="col-md-12">
                     <div class="text-center m-b-md">
-                        <h2 style="color: white;">Duplication Request</h2>
+                        <h3>User Profile Setting</h3>
+                        <small>Irvine Valley College faculty/staff/student login user information setup page. </small>
                     </div>
                     <div class="hpanel">
                         <div class="panel-body">
                             <form action="#" id="loginForm">
-                                <div class="form-group">
-                                    <label class="control-label">College Email Address</label>
-                                    <input type="text" class="form-control" id="username">
+                                <div class="row">
+                                    <div class="form-group col-lg-6">
+                                        <label>Name</label>
+                                        <input class="form-control" id="up_name">
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label>Email</label>
+                                        <input class="form-control" readonly id="up_email">
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label>Phone</label>
+                                        <input class="form-control" id="up_phone">
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label>Employee ID</label>
+                                        <input class="form-control" readonly id="up_employee_id">
+                                    </div>
+                                    <div class="form-group col-lg-12">
+                                        <label>Department</label>
+                                        <select class="form-control" id="up_department"></select>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label">Password</label>
-                                    <input type="password" class="form-control" id="password">
+                                <div class="text-center">
+                                    <button class="btn btn-success iconic-color-default" id="btn_register">Register</button>
+                                    <button class="btn btn-default iconic-color-default" id="btn_close">Cancel</button>
                                 </div>
-                                <button class="btn btn-success btn-block" id="btn_login">Login</button>
-                                <div class="text-center" id="logn_error">
-                                    <h4 id="error_msg"></h4>
-                                </div>    
                             </form>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">COPYRIGHT @ 2016 IRVINE VALLEY COLLEGE</div>
             </div>
         </div>
         
@@ -61,11 +76,9 @@
         <script src="../homer-1.9/vendor/iCheck/icheck.min.js"></script>
         <script src="../homer-1.9/vendor/sparkline/index.js"></script>
         <!-- include javascript -->
-        <script src="../include/bowser/bowser.min.js"></script>
         <script src="../include/sweetalert/js/sweetalert.min.js"></script>
-        <script src="../include/utilities/js/jquery.backstretch.min.js"></script>
         <!-- application javascript -->
-        <script src="js/Login.js"></script>
+        <script src="js/userProfile.js"></script>
         <script src="js/session_data.js"></script>
         <script src="js/db_access.js"></script>
     </body>
