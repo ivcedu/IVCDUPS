@@ -20,15 +20,16 @@
         <!-- application css -->
         <link rel="stylesheet" href="css/back-style.css"/>
     </head>
+
     <body>
-        <!-- BACKGROUND PATTERN-->
+        <!-- BACKGROUND PATTERN -->
         <div class="bg-pattern"></div>
         <!-- login form -->
         <div class="login-container">
             <div class="row">
                 <div class="col-md-12">
                     <div class="text-center m-b-md">
-                        <h2 style="color: white;">Duplication Request</h2>
+                        <h2 style="color: white;"><i class="pe-7s-unlock pe-2x pe-va" style="color: #fcae11;"></i> Duplication Request</h2>
                     </div>
                     <div class="hpanel">
                         <div class="panel-body">
@@ -41,7 +42,7 @@
                                     <label class="control-label">Password</label>
                                     <input type="password" class="form-control" id="password">
                                 </div>
-                                <button class="btn btn-success btn-block" id="btn_login">Login</button>
+                                <button class="btn btn-primary btn-block btn-outline" id="btn_login">Login</button>
                                 <div class="text-center" id="logn_error">
                                     <h4 id="error_msg"></h4>
                                 </div>    
@@ -60,6 +61,8 @@
         <script src="../homer-1.9/vendor/metisMenu/dist/metisMenu.min.js"></script>
         <script src="../homer-1.9/vendor/iCheck/icheck.min.js"></script>
         <script src="../homer-1.9/vendor/sparkline/index.js"></script>
+        <!-- homer-1.9 custom javascript -->
+        <script src="../homer-1.9/scripts/homer.js"></script>
         <!-- include javascript -->
         <script src="../include/bowser/bowser.min.js"></script>
         <script src="../include/sweetalert/js/sweetalert.min.js"></script>

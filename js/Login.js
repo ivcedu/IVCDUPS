@@ -31,10 +31,10 @@ $(document).ready(function() {
     $('#btn_login').click(function() { 
         var login_error = loginInfo();
         if(login_error === "") {
-            var user_type = localStorage.getItem('ls_dc_loginType');
+            var user_type = sessionStorage.getItem('ls_dc_loginType');
             if (user_type === "Staff") {
                 var result = new Array();
-                result = db_getUserProfile(localStorage.getItem('ls_dc_loginEmail'));
+                result = db_getUserProfile(sessionStorage.getItem('ls_dc_loginEmail'));
 
                 if (result.length === 0) {
                     window.open('userProfile.html', '_self');
