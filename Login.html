@@ -62,7 +62,7 @@
         <script src="../homer-1.9/vendor/iCheck/icheck.min.js"></script>
         <script src="../homer-1.9/vendor/sparkline/index.js"></script>
         <!-- homer-1.9 custom javascript -->
-        <script src="../homer-1.9/scripts/homer.js"></script>
+        <script src="../homer-1.9/scripts/homer.min.js"></script>
         <!-- include javascript -->
         <script src="../include/bowser/bowser.min.js"></script>
         <script src="../include/sweetalert/js/sweetalert.min.js"></script>

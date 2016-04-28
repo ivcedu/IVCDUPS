@@ -790,6 +790,20 @@ function db_updateDepartment(PrintRequestID, DepartmentID) {
     return Result;
 }
 
+function db_updateAttachment(PrintRequestID, FileName, Pages, PDFData) {
+    var Result = false;
+    $.ajax({
+        type:"POST",
+        url:"php/db_updateAttachment.php",
+        data:{PrintRequestID:PrintRequestID, FileName:FileName, Pages:Pages, PDFData:PDFData},
+        async: false,  
+        success:function(data) {
+            Result = JSON.parse(data);
+        }
+    });
+    return Result;
+}
+
 function db_updateAttachmentPages(AttachmentID, Pages) {
     var Result = false;
     $.ajax({
@@ -962,7 +976,37 @@ function db_deleteAdmin(AdminID) {
     return Result;
 }
 
-// pdf file validation /////////////////////////////////////////////////////////
+// upload attach file //////////////////////////////////////////////////////////
+function uploadAttachFile(file_data) {
+    var Result = "";
+    $.ajax({  
+        url: "php/upload_attach_file.php",  
+        type: "POST",  
+        data: file_data,
+        processData: false,  
+        contentType: false,  
+        async: false,
+        success:function(data) {
+            Result = JSON.parse(data);
+        }  
+    });
+    return Result;
+}
+
+function deleteAttachFile(FileLinkName) {
+    var Result = false;
+    $.ajax({  
+        url: "php/delete_attach_file.php",  
+        type: "POST",
+        data:{FileLinkName:FileLinkName},
+        async: false,
+        success:function(data) {
+            Result = JSON.parse(data);
+        }  
+    });
+    return Result;
+}
+
 function pdfGetTotalPages(file_data) {
     var Result = "";
     $.ajax({  

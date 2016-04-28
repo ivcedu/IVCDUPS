@@ -18,7 +18,7 @@
         <link rel="stylesheet" href="../include/sweetalert/css/sweetalert.css"/>
         <link rel="stylesheet" href="../include/iconic-1.9.0/font/css/iconic-bootstrap.css"/>
         <!-- application css -->
-        <link rel="stylesheet" href="css/iconic-color.css"/>
+        <link rel="stylesheet" href="css/ivcdups.css"/>
     </head>
     <body>
         <div id="wrapper">
@@ -28,11 +28,7 @@
                     <ul class="nav metismenu" id="side-menu">
                         <li class="nav-header">
                             <div class="dropdown profile-element">
-                                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                    <span class="clear"> 
-                                        <span class="block m-t-xs"><strong class="font-bold" id="login_user"></strong></span> 
-                                    </span> 
-                                </a>
+                                <span class="block m-t-xs"><strong class="font-bold profile-font-color" id="login_user"></strong></span> 
                             </div>
                             <div class="logo-element">
                                 IN+
@@ -49,16 +45,17 @@
                         </li>
                         <li>
                             <a href=#><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Reports</span><span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
+                            <ul class="nav nav-second-level collapse">
                                 <li class="iconic-color-default"><a href="userHistoryList.html">My History</a></li>
+                                <li class="iconic-color-default" id="nav_completed_list"><a href="rptCompletedList.html">Completed List</a></li>
                                 <li class="iconic-color-default" id="nav_copier_report"><a href="rptBillingReport.html">Copier Report</a></li>
                             </ul>
                         </li>
                         <li id="menu_administrator">
                             <a href=#><i class="fa fa-lock"></i> <span class="nav-label">Administrator</span><span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
+                            <ul class="nav nav-second-level collapse">
                                 <li class="iconic-color-default"><a href="administrator.html">Admin List</a></li>
-                                <li class="iconic-color-default"><a href="userAccess.html">User Access</a></li>
+                                <li class="iconic-color-default" id="nav_user_access"><a href="userAccess.html">User Access</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -69,7 +66,7 @@
                 <!-- top bar menu items -->
                 <div class="row border-bottom">
                     <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
-                        <div class="navbar-header">
+                        <div class="navbar-header iconic-color-default">
                             <a class="navbar-minimalize minimalize-styl-2 btn btn-primary" href="#"><i class="fa fa-bars"></i> </a>
                         </div>
                         <ul class="nav navbar-top-links navbar-right">
@@ -133,7 +130,7 @@
         <script src="../inspinia-2.5/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
         <script src="../inspinia-2.5/js/plugins/dataTables/datatables.min.js"></script>
         <!-- inspinia-2.5 custom javascript -->
-        <script src="../inspinia-2.5/js/inspinia.js"></script>
+        <script src="../inspinia-2.5/js/inspinia.min.js"></script>
         <script src="../inspinia-2.5/js/plugins/pace/pace.min.js"></script>
         <!-- include javascript -->
         <script src="../include/jquery-ui-1.11.4/js/jquery-ui.min.js"></script>

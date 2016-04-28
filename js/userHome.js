@@ -3,9 +3,10 @@ var m_table;
 ////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {
     if (sessionStorage.key(0) !== null) {
-        getLoginInfo();
         setDefaultOption();
         setAdminOption();
+        
+        getLoginInfo();
         getUserPrintList();
     }
     else {
@@ -31,24 +32,21 @@ $(document).ready(function() {
     // table row contract click //////////////////////////////////////////////
     $('table').on('click', 'a[id^="print_request_id_"]', function(e) {
         e.preventDefault();
-        var currentId = $(this).attr('id');
-        var print_request_id = currentId.replace("print_request_id_", "");
-        
-        swal({title: "Warning", text: "table request title clicked", type: "warning"});
-//        window.open('viewPrintRequest.html?print_request_id=' + print_request_id, '_self');
+        var print_request_id = $(this).attr('id').replace("print_request_id_", "");        
+        window.open('viewPrintRequest.html?print_request_id=' + print_request_id, '_self');
+        return false;
     });
     
     $('table').on('click', 'a[id^="edit_request_"]', function() {
-        var currentId = $(this).attr('id');
-        var print_request_id = currentId.replace("edit_request_id_", "");
-        
+        var print_request_id = $(this).attr('id').replace("edit_request_id_", "");        
         if (printRequestLocked(print_request_id)) {
             swal({title: "Warning", text: "Duplicating center is already working on your request. Please contact Jose Delgado at 949.451.5297", type: "warning"});
-            
+            getUserPrintList();
+            return false;
         }
         else {
-            swal({title: "Warning", text: "Duplicating center is already working on your request. Please contact Jose Delgado at 949.451.5297", type: "warning"});
-//            window.open('editPrintRequest.html?print_request_id=' + print_request_id, '_self');
+            window.open('editPrintRequest.html?print_request_id=' + print_request_id, '_self');
+            return false;
         }
     });
 
@@ -58,15 +56,11 @@ $(document).ready(function() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-function getLoginInfo() {
-    var login_name = sessionStorage.getItem('ls_dc_loginDisplayName');
-    $('#login_user').html(login_name);
-}
-
-////////////////////////////////////////////////////////////////////////////////
 function setDefaultOption() {
+    $('#nav_completed_list').hide();
     $('#nav_copier_report').hide();
     $('#menu_administrator').hide();
+    $('#nav_user_access').hide();
 }
 
 function setAdminOption() {        
@@ -75,7 +69,14 @@ function setAdminOption() {
     result = db_getAdminByEmail(login_email);
     
     if (result.length === 1) {
-        if (result[0]['AdminLevel'] === "Master" || result[0]['AdminLevel'] === "Admin") {
+        if (result[0]['AdminLevel'] === "Master") {
+            $('#nav_completed_list').show();
+            $('#nav_copier_report').show();
+            $('#menu_administrator').show();
+            $('#nav_user_access').show();
+        }
+        else if (result[0]['AdminLevel'] === "Admin") {
+            $('#nav_completed_list').show();
             $('#nav_copier_report').show();
             $('#menu_administrator').show();
         }
@@ -83,6 +84,12 @@ function setAdminOption() {
             $('#nav_copier_report').show();
         }
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+function getLoginInfo() {
+    var login_name = sessionStorage.getItem('ls_dc_loginDisplayName');
+    $('#login_user').html(login_name);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -102,7 +109,7 @@ function printRequestLocked(print_request_id) {
 function getUserPrintList() {
     var result = new Array(); 
 //    result = db_getUserPrintRequestList(sessionStorage.getItem("ls_dc_loginEmail"));
-    result = db_getUserPrintRequestList('jdingman@ivc.edu');
+    result = db_getUserPrintRequestList('sfelder@ivc.edu');
     
     var total_cost = 0.0;
     for(var i = 0; i < result.length; i++) { 
