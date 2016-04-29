@@ -1,9 +1,10 @@
 var m_user_profile_id = "";
+var m_login_from_DC_front_desk = false;
 
 ////////////////////////////////////////////////////////////////////////////////
-window.onload = function() {
-    if (sessionStorage.key(0) !== null) {
-        $('.splash').css('display', 'none');
+window.onload = function() {    
+    if (sessionStorage.key(0) !== null) {        
+        m_login_from_DC_front_desk = getLoginLocation();
         getDepartment();
         setUserInfomation();
     }
@@ -23,14 +24,8 @@ $(document).ready(function() {
         }
         
         updateUserProfile();
-        window.open('userHome.html', '_self');
-        return false;
-    });
-    
-    $('#btn_close').click(function() {
-        if (m_user_profile_id === "") {
-            sessionStorage.clear();
-            window.open('Login.html', '_self');
+        if (m_login_from_DC_front_desk) {
+            window.open('dropOffPrintRequest.html', '_self');
             return false;
         }
         else {
@@ -38,10 +33,46 @@ $(document).ready(function() {
             return false;
         }
     });
+    
+    $('#btn_close').click(function() {
+        if (m_user_profile_id === "") {
+            sessionStorage.clear();
+            if (m_login_from_DC_front_desk) {
+                window.open('LoginFromDC.html', '_self');
+                return false;
+            }
+            else {
+                window.open('Login.html', '_self');
+                return false;
+            }
+        }
+        else {
+            if (m_login_from_DC_front_desk) {
+                window.open('dropOffPrintRequest.html', '_self');
+                return false;
+            }
+            else {
+                window.open('userHome.html', '_self');
+                return false;
+            }
+        }
+    });
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function getLoginLocation() {
+    var login_from = sessionStorage.getItem('ls_dc_loginFrom');
+    if (login_from.indexOf("LoginFromDC.html") > 0) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
 function formValidation() {
     var err = "";
 

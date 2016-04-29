@@ -1,29 +1,16 @@
 ////////////////////////////////////////////////////////////////////////////////
-window.onload = function() {  
-    $('#logn_error').hide();
-    var curBrowser = bowser.name;
-    var curVersion = Number(bowser.version);
-    
-    switch (curBrowser) {
-        case "Safari":
-            if (curVersion < 6)
-                window.open('browser_not_support.html', '_self');
-            break;
-        case "Chrome":
-            if (curVersion < 7)
-                window.open('browser_not_support.html', '_self');
-            break;
-        case "Firefox":
-            if (curVersion < 22)
-                window.open('browser_not_support.html', '_self');
-            break;
-        case "Internet Explorer":
-            if (curVersion < 11)
-                window.open('browser_not_support.html', '_self');
-            break;
-        default:     
-            break;
+window.onload = function() {
+    if (user_ip !== "137.164.79.11") {
+        window.open('Login.html', '_self');
+        return false;
     }
+    else {
+//        if (getClientComputerName() !== "") {
+//            window.open('Login.html', '_self');
+//            return false;
+//        }
+    }
+    $('#logn_error').hide();
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -42,12 +29,12 @@ $(document).ready(function() {
                     return false;
                 }
                 else {
-                    window.open('userHome.html', '_self');
+                    window.open('dropOffPrintRequest.html', '_self');
                     return false;
                 }
             }
             else {
-                window.open('userHome.html', '_self');
+                window.open('dropOffPrintRequest.html', '_self');
                 return false;
             }
         }

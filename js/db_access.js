@@ -1022,3 +1022,30 @@ function pdfGetTotalPages(file_data) {
     });
     return Result;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+function getClientComputerName() {
+    var result = "";
+    $.ajax({
+        type:"POST",
+        url:"php/client_computerName.php",
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+// 
+//$.ajax({
+//    url: 'https://freegeoip.net/json/',
+//    type: 'POST',
+//    dataType: 'jsonp',
+//    success: function(location) {
+//        alert(location.ip);
+//    }
+//});
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
