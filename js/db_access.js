@@ -589,6 +589,19 @@ function db_getBillingReportPrint(StartDate, EndDate, DepartmentID, LoginID) {
     return result;
 }
 
+function db_getCopierPrice() {
+    var result = new Array();
+    $.ajax({
+        type:"POST",
+        url:"php/db_getCopierPrice.php",
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
 // insert DB ///////////////////////////////////////////////////////////////////
 function db_insertPrintRequest(DeviceTypeID, DeliveryLocationID, LoginType, LoginID, Requestor, Email, Phone, RequestTitle) {
     var ResultID = "";
@@ -897,6 +910,26 @@ function db_updateAdmin(AdminID, AdminName, AdminEmail, AdminLevel) {
         type:"POST",
         url:"php/db_updateAdmin.php",
         data:{AdminID:AdminID, AdminName:AdminName, AdminEmail:AdminEmail, AdminLevel:AdminLevel},
+        async: false,  
+        success:function(data) {
+            Result = JSON.parse(data);
+        }
+    });
+    return Result;
+}
+
+function db_updateCopierPrice(CopierPriceID, s_letter, d_letter, s_letter_color, d_letter_color,
+                                s_legal, d_legal, s_legal_color, d_legal_color,
+                                s_tabloid, d_tabloid, s_tabloid_color, d_tabloid_color,
+                                front_cover, front_cover_color, back_cover, back_cover_color, cut) {
+    var Result = false;
+    $.ajax({
+        type:"POST",
+        url:"php/db_updateCopierPrice.php",
+        data:{CopierPriceID:CopierPriceID, s_letter:s_letter, d_letter:d_letter, s_letter_color:s_letter_color, d_letter_color:d_letter_color,
+                s_legal:s_legal, d_legal:d_legal, s_legal_color:s_legal_color, d_legal_color:d_legal_color,
+                s_tabloid:s_tabloid, d_tabloid:d_tabloid, s_tabloid_color:s_tabloid_color, d_tabloid_color:d_tabloid_color,
+                front_cover:front_cover, front_cover_color:front_cover_color, back_cover:back_cover, back_cover_color:back_cover_color, cut:cut},
         async: false,  
         success:function(data) {
             Result = JSON.parse(data);

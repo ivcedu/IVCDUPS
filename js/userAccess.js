@@ -93,6 +93,7 @@ function setDefaultOption() {
     $('#nav_completed_list').hide();
     $('#nav_copier_report').hide();
     $('#menu_administrator').hide();
+    $('#nav_copier_price').hide();
     $('#nav_user_access').hide();
 }
 
@@ -106,12 +107,14 @@ function setAdminOption() {
             $('#nav_completed_list').show();
             $('#nav_copier_report').show();
             $('#menu_administrator').show();
+            $('#nav_copier_price').show();
             $('#nav_user_access').show();
         }
         else if (result[0]['AdminLevel'] === "Admin") {
             $('#nav_completed_list').show();
             $('#nav_copier_report').show();
             $('#menu_administrator').show();
+            $('#nav_copier_price').show();
         }
         else if (result[0]['AdminLevel'] === "Report") {
             $('#nav_copier_report').show();
