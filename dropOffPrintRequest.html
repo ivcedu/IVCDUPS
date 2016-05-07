@@ -1,16 +1,153 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
+<!DOCTYPE HTML>
 <html>
     <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+        <meta http-equiv="Cache-Control" content="no-cache"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Copier Center Drop Off Request</title>
+        <!-- inspinia-2.5 css -->
+        <link rel="stylesheet" href="../inspinia-2.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../inspinia-2.5/font-awesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../inspinia-2.5/css/plugins/dataTables/datatables.min.css">
+        <link rel="stylesheet" href="../inspinia-2.5/css/animate.css">
+        <link rel="stylesheet" href="../inspinia-2.5/css/style.css">
+        <!-- include css -->
+        <link rel="stylesheet" href="../include/jquery-ui-themes-1.11.4/themes/flick/jquery-ui.min.css"/>
+        <link rel="stylesheet" href="../include/bootstrap-3-timepicker/css/bootstrap-timepicker.min.css"/>
+        <link rel="stylesheet" href="../include/sweetalert/css/sweetalert.css"/>
+        <link rel="stylesheet" href="../include/iconic-1.9.0/font/css/iconic-bootstrap.css"/>
+        <!-- application css -->
+        <link rel="stylesheet" href="css/ivcdups.css"/>
     </head>
     <body>
-        <div>TODO write content</div>
+        <div id="wrapper">
+            <!-- side bar menu items -->
+            <nav class="navbar-default navbar-static-side" role="navigation">
+                <div class="sidebar-collapse">
+                    <ul class="nav metismenu" id="side-menu">
+                        <li class="nav-header">
+                            <div class="dropdown profile-element">
+                                <span class="block m-t-xs"><strong class="font-bold profile-font-color" id="login_user"></strong></span> 
+                            </div>
+                            <div class="logo-element">
+                                IN+
+                            </div>
+                        </li>
+                        <li class="iconic-color-default">
+                            <a href="userHome.html"><i class="fa fa-home"></i> <span class="nav-label">My Home</span></a>
+                        </li>
+                        <li class="iconic-color-default">
+                            <a href="userProfile.html"><i class="fa fa-user"></i> <span class="nav-label">My Profile</span></a>
+                        </li>
+                        <li class="iconic-color-default">
+                            <a href="newPrintRequest.html"><i class="fa fa-print"></i> <span class="nav-label">New Request</span></a>
+                        </li>
+                        <li>
+                            <a href=#><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Reports</span><span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
+                                <li class="iconic-color-default"><a href="userHistoryList.html">My History</a></li>
+                                <li class="iconic-color-default" id="nav_completed_list"><a href="rptCompletedList.html">Completed List</a></li>
+                                <li class="iconic-color-default" id="nav_copier_report"><a href="rptBillingReport.html">Copier Report</a></li>
+                            </ul>
+                        </li>
+                        <li id="menu_administrator">
+                            <a href=#><i class="fa fa-lock"></i> <span class="nav-label">Administrator</span><span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li class="iconic-color-default"><a href="administrator.html">Admin List</a></li>
+                                <li class="iconic-color-default" id="nav_copier_price"><a href="copierPrice.html">Cpoier Price</a></li>
+                                <li class="iconic-color-default" id="nav_user_access"><a href="userAccess.html">User Access</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <!-- main section -->
+            <div id="page-wrapper" class="gray-bg-2">
+                <!-- top bar menu items -->
+                <div class="row border-bottom">
+                    <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
+                        <div class="navbar-header iconic-color-default">
+                            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary" href="#"><i class="fa fa-bars"></i> </a>
+                        </div>
+                        <ul class="nav navbar-top-links navbar-right">
+                            <li class="iconic-color-default">
+                                <a href="#" id="nav_logout"><i class="fa fa-sign-out"></i> Log out</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <!-- user active print request header-->
+                <div class="row wrapper border-bottom white-bg page-heading">
+                    <div class="col-lg-12">
+                        <h2 class="text-center">Copier Center Drop Off Request</h2>
+                    </div>
+                </div>
+                <!-- user active print request list-->
+                <div class="wrapper wrapper-content animated fadeInRight">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-content">
+                                    <form class="form-horizontal">
+                                        <div class="form-group">
+                                            <label class="col-lg-4 control-label">Single Letter:</label> 
+                                            <div class="col-lg-8">
+                                                <div class="input-group m-b">
+                                                    <span class="input-group-addon">$</span>
+                                                    <input type="text" class="form-control" id="s_letter">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-lg-4 control-label">Double Letter:</label>
+                                            <div class="col-lg-8">
+                                                <div class="input-group m-b">
+                                                    <span class="input-group-addon">$</span>
+                                                    <input type="text" class="form-control" id="d_letter">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="hr-line-dashed"></div>
+                                        <div class="form-group">
+                                            <div class="col-sm-4 col-sm-offset-4">
+                                                <button class="btn btn-success col-sm-12 iconic-color-default" id="btn_update"><i class="iconic iconic-data-transfer-upload"></i> Update</button>
+                                            </div>
+                                        </div>   
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Footer-->
+                <footer class="footer">
+                    <span class="pull-right">
+                        COPYRIGHT &copy; 2016 IRVINE VALLEY COLLEGE
+                    </span>
+                </footer>
+            </div>          
+        </div>
+        
+        <!-- inspinia-2.5 javascript -->
+        <script src="../inspinia-2.5/js/jquery-2.1.1.js"></script>
+        <script src="../inspinia-2.5/js/bootstrap.min.js"></script>
+        <script src="../inspinia-2.5/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+        <script src="../inspinia-2.5/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+        <script src="../inspinia-2.5/js/plugins/dataTables/datatables.min.js"></script>
+        <!-- inspinia-2.5 custom javascript -->
+        <script src="../inspinia-2.5/js/inspinia.min.js"></script>
+        <script src="../inspinia-2.5/js/plugins/pace/pace.min.js"></script>
+        <!-- include javascript -->
+        <script src="../include/jquery-ui-1.11.4/js/jquery-ui.min.js"></script>
+        <script src="../include/jquery-autosize/jquery.autosize.1.18.1.min.js"></script>
+        <script src="../include/bootstrap-3-timepicker/js/bootstrap-timepicker.min.js"></script>
+        <script src="../include/bootstrap-filestyle/js/bootstrap-filestyle.1.1.2.min.js"></script>
+        <script src="../include/sweetalert/js/sweetalert.min.js"></script>
+        <!-- application javascript -->
+        <script src="js/dropOffPrintRequest.js"></script>
+        <script src="js/session_data.js"></script>
+        <script src="js/db_access.js"></script>
+        <script src="js/sendEmail.js"></script>
     </body>
 </html>

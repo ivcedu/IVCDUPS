@@ -1,14 +1,12 @@
-var m_table;
-
 ////////////////////////////////////////////////////////////////////////////////
-window.onload = function() {
+window.onload = function() {   
     if (sessionStorage.key(0) !== null) {
         setDefaultOption();
         setAdminOption();
         
         getLoginInfo();
-        getUserPrintList();
-    }
+
+}
     else {
         window.open('Login.html', '_self');
     }
@@ -23,35 +21,14 @@ $(document).ready(function() {
         return false;
     });
     
-    $('#mobile_nav_logout').click(function() {
-        sessionStorage.clear();
-        window.open('Login.html', '_self');
-        return false;
+    // save button click ///////////////////////////////////////////////////////
+    $('#btn_update').click(function() {
+//        if (updateCopierPrice()) {
+//            swal({title: "Success", text: "Copier Price setting has been updated successfully", type: "success"});
+//            getCopierPrice();
+//            return false;
+//        }
     });
-    
-    // table row contract click //////////////////////////////////////////////
-    $('table').on('click', 'a[id^="print_request_id_"]', function(e) {
-        e.preventDefault();
-        var print_request_id = $(this).attr('id').replace("print_request_id_", "");        
-        window.open('viewPrintRequest.html?print_request_id=' + print_request_id, '_self');
-        return false;
-    });
-    
-    $('table').on('click', 'a[id^="edit_request_"]', function() {
-        var print_request_id = $(this).attr('id').replace("edit_request_id_", "");        
-        if (printRequestLocked(print_request_id)) {
-            swal({title: "Warning", text: "Duplicating center is already working on your request. Please contact Jose Delgado at 949.451.5297", type: "warning"});
-            getUserPrintList();
-            return false;
-        }
-        else {
-            window.open('editPrintRequest.html?print_request_id=' + print_request_id, '_self');
-            return false;
-        }
-    });
-
-    // jquery datatables initialize ////////////////////////////////////////////
-    m_table = $('#tbl_usr_active_list').DataTable({ paging: false, bInfo: false, searching: false, columnDefs: [{ orderable: false, targets: 5 }] });
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -96,30 +73,3 @@ function getLoginInfo() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-function printRequestLocked(print_request_id) {
-    var result = new Array();
-    result = db_getPrintRequest(print_request_id);
-    
-    if (result[0]['Locked'] === "1") {
-        return true;
-    }
-    else {
-        return false;
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-function getUserPrintList() {
-    var result = new Array(); 
-    result = db_getUserPrintRequestList(sessionStorage.getItem("ls_dc_loginEmail"));
-    
-    var total_cost = 0.0;
-    for(var i = 0; i < result.length; i++) { 
-        total_cost += Number(result[i]['TotalCost'].replace('$', ''));
-    }
-    
-    $('#total_cost').html(formatDollar(total_cost, 2));
-    
-    m_table.clear();
-    m_table.rows.add(result).draw();
-}

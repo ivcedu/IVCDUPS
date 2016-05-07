@@ -24,7 +24,7 @@ $(document).ready(function() {
     });
     
     // save button click ///////////////////////////////////////////////////////
-    $('#btn_save').click(function() {
+    $('#btn_update').click(function() {
         if (updateCopierPrice()) {
             swal({title: "Success", text: "Copier Price setting has been updated successfully", type: "success"});
             getCopierPrice();
