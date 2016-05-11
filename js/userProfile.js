@@ -5,7 +5,7 @@ var m_login_from_DC_front_desk = false;
 window.onload = function() {    
     if (sessionStorage.key(0) !== null) {        
         m_login_from_DC_front_desk = getLoginLocation();
-        getDepartment();
+        getUserDepart();
         setUserInfomation();
     }
     else {
@@ -113,9 +113,9 @@ function setUserInfomation() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-function getDepartment() {
+function getUserDepart() {
     var result = new Array();
-    result = db_getDepartment();
+    result = db_getUserDepart();
     
     $('#up_department').empty();
     var html = "<option value='0'>Select...</option>";

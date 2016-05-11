@@ -353,6 +353,33 @@ function db_getBursarByEmail(LoginEmail) {
     return result;
 }
 
+function db_getHonorStudentList() {
+    var result = new Array();
+    $.ajax({
+        type:"POST",
+        url:"php/db_getHonorStudentList.php",
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function db_getHonorStudentByID(HonorStudentID) {
+    var result = new Array();
+    $.ajax({
+        type:"POST",
+        url:"php/db_getHonorStudentByID.php",
+        data:{HonorStudentID:HonorStudentID},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
 function db_getHonorStudentByEmail(LoginEmail) {
     var result = new Array();
     $.ajax({
@@ -602,6 +629,47 @@ function db_getCopierPrice() {
     return result;
 }
 
+function db_getUserDepart() {
+    var result = new Array();
+    $.ajax({
+        type:"POST",
+        url:"php/db_getUserDepart.php",
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function db_getUserDepartID(Department) {
+    var result = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_getUserDepartID.php",
+        data:{Department:Department},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function db_getUserDepartName(DepartmentID) {
+    var result = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_getUserDepartName.php",
+        data:{DepartmentID:DepartmentID},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
 // insert DB ///////////////////////////////////////////////////////////////////
 function db_insertPrintRequest(DeviceTypeID, DeliveryLocationID, LoginType, LoginID, Requestor, Email, Phone, RequestTitle) {
     var ResultID = "";
@@ -710,6 +778,20 @@ function db_insertAdmin(AdminName, AdminEmail, AdminLevel) {
         type:"POST",
         url:"php/db_insertAdmin.php",
         data:{AdminName:AdminName, AdminEmail:AdminEmail, AdminLevel:AdminLevel},
+        async: false,  
+        success:function(data) {
+            ResultID = JSON.parse(data);
+        }
+    });
+    return ResultID;
+}
+
+function db_insertHonorStudent(HonorStudentName, HonorStudentEmail) {
+    var ResultID = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_insertHonorStudent.php",
+        data:{HonorStudentName:HonorStudentName, HonorStudentEmail:HonorStudentEmail},
         async: false,  
         success:function(data) {
             ResultID = JSON.parse(data);
@@ -938,6 +1020,20 @@ function db_updateCopierPrice(CopierPriceID, s_letter, d_letter, s_letter_color,
     return Result;
 }
 
+function db_updateHonorStudent(HonorStudentID, HonorStudentName, HonorStudentEmail) {
+    var Result = false;
+    $.ajax({
+        type:"POST",
+        url:"php/db_updateHonorStudent.php",
+        data:{HonorStudentID:HonorStudentID, HonorStudentName:HonorStudentName, HonorStudentEmail:HonorStudentEmail},
+        async: false,  
+        success:function(data) {
+            Result = JSON.parse(data);
+        }
+    });
+    return Result;
+}
+
 // delete DB ///////////////////////////////////////////////////////////////////
 function db_deleteAttachment(PrintRequestID) {
     var Result = false;
@@ -1001,6 +1097,20 @@ function db_deleteAdmin(AdminID) {
         type:"POST",
         url:"php/db_deleteAdmin.php",
         data:{AdminID:AdminID},
+        async: false,  
+        success:function(data) {
+            Result = JSON.parse(data);
+        }
+    });
+    return Result;
+}
+
+function db_deleteHonorStudent(HonorStudentID) {
+    var Result = false;
+    $.ajax({
+        type:"POST",
+        url:"php/db_deleteHonorStudent.php",
+        data:{HonorStudentID:HonorStudentID},
         async: false,  
         success:function(data) {
             Result = JSON.parse(data);

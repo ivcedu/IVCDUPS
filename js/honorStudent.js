@@ -1,14 +1,14 @@
 var m_table;
+var m_honor_student_id = "";
 
 ////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {
     if (sessionStorage.key(0) !== null) {
         setDefaultOption();
         setAdminOption();
-        setUserProfile();
         
         getLoginInfo();
-        getUserPrintList();
+        getHonorStudentList();
     }
     else {
         window.open('Login.html', '_self');
@@ -30,35 +30,65 @@ $(document).ready(function() {
         return false;
     });
     
-    // table row contract click //////////////////////////////////////////////
-    $('table').on('click', 'a[id^="print_request_id_"]', function(e) {
-        e.preventDefault();
-        var print_request_id = $(this).attr('id').replace("print_request_id_", "");        
-        window.open('viewPrintRequest.html?print_request_id=' + print_request_id, '_self');
+    // new user button click ///////////////////////////////////////////////////
+    $('#btn_new_student').click(function() {
+        m_honor_student_id = "";
+        
+        clearModalSection();
+        $('#mod_new_student_header').html("New Honor Student Setting");
+        $('#mod_new_student').modal('show');
         return false;
     });
     
-    $('table').on('click', 'a[id^="edit_request_"]', function() {
-        var print_request_id = $(this).attr('id').replace("edit_request_id_", "");        
-        if (printRequestLocked(print_request_id)) {
-            swal({title: "Warning", text: "Duplicating center is already working on your request. Please contact Jose Delgado at 949.451.5297", type: "warning"});
-            getUserPrintList();
-            return false;
+    // table row contract click ////////////////////////////////////////////////
+    $('table').on('click', 'a[id^="honor_student_id_"]', function(e) {
+        e.preventDefault();
+        m_honor_student_id = $(this).attr('id').replace("honor_student_id_", "");
+        var result = new Array();
+        result = db_getHonorStudentByID(m_honor_student_id);
+        
+        clearModalSection();
+        $('#mod_btn_delete').show();
+        $('#mod_new_student_header').html("Edit Honor Student Setting");
+        $('#mod_student_mame').val(result[0]['HonorStudentName']);
+        $('#mod_student_email').val(result[0]['HonorStudentEmail']);
+        $('#mod_new_student').modal('show');
+        return false;
+    });
+    
+    // modal save button click /////////////////////////////////////////////////
+    $('#mod_btn_save').click(function() { 
+        var student_name = textReplaceApostrophe($.trim($('#mod_student_mame').val()));
+        var student_email = textReplaceApostrophe($.trim($('#mod_student_email').val()));
+        
+        if (m_honor_student_id === "") {
+            db_insertHonorStudent(student_name, student_email);
         }
         else {
-            window.open('editPrintRequest.html?print_request_id=' + print_request_id, '_self');
-            return false;
+            db_updateHonorStudent(m_honor_student_id, student_name, student_email);
         }
+
+        getHonorStudentList();
+        $('#mod_new_student').modal('hide');
+        return false;
+    });
+    
+    // modal delete button click ///////////////////////////////////////////////
+    $('#mod_btn_delete').click(function() { 
+        db_deleteHonorStudent(m_honor_student_id);
+        
+        getHonorStudentList();
+        $('#mod_new_student').modal('hide');
+        return false;
     });
 
     // jquery datatables initialize ////////////////////////////////////////////
-    m_table = $('#tbl_usr_active_list').DataTable({ paging: false, bInfo: false, searching: false, columnDefs: [{ orderable: false, targets: 5 }] });
+    m_table = $('#tbl_honor_student_list').DataTable({ paging: false, bInfo: false, searching: false });
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function setDefaultOption() {
-    $('#nav_my_profile').hide();
     $('#nav_completed_list').hide();
     $('#nav_copier_report').hide();
     $('#menu_administrator').hide();
@@ -91,12 +121,6 @@ function setAdminOption() {
     }
 }
 
-function setUserProfile() {
-    if (sessionStorage.getItem('ls_dc_loginType') !== "Student") {
-        $('#nav_my_profile').show();
-    }
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 function getLoginInfo() {
     var login_name = sessionStorage.getItem('ls_dc_loginDisplayName');
@@ -104,30 +128,18 @@ function getLoginInfo() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-function printRequestLocked(print_request_id) {
-    var result = new Array();
-    result = db_getPrintRequest(print_request_id);
-    
-    if (result[0]['Locked'] === "1") {
-        return true;
-    }
-    else {
-        return false;
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-function getUserPrintList() {
+function getHonorStudentList() {
     var result = new Array(); 
-    result = db_getUserPrintRequestList(sessionStorage.getItem("ls_dc_loginEmail"));
-    
-    var total_cost = 0.0;
-    for(var i = 0; i < result.length; i++) { 
-        total_cost += Number(result[i]['TotalCost'].replace('$', ''));
-    }
-    
-    $('#total_cost').html(formatDollar(total_cost, 2));
+    result = db_getHonorStudentList();
     
     m_table.clear();
     m_table.rows.add(result).draw();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+function clearModalSection() {
+    $('#mod_new_student_header').html("");
+    $('#mod_student_mame').val("");
+    $('#mod_student_email').val("");
+    $('#mod_btn_delete').hide();
 }

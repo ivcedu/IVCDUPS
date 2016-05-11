@@ -28,15 +28,21 @@ var m_file_attached = false;
 var m_total_page = 0;
 
 var m_str_dup_cost_info = "";
-var m_department_id = "";
+var m_user_depart_id = "";
+var m_billing_depart_id = "";
+
+var m_dup_total_print = 0;
+var m_dup_total_cost = 0.00;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {   
     if (sessionStorage.key(0) !== null) {
         setDefaultOption();
         setAdminOption();
+        setUserProfile();
         getLoginInfo();
         
+        getBillingDepart();
         getDeviceType();
         getPaperType();
         getDuplex();
@@ -105,8 +111,8 @@ $(document).ready(function() {
     });
     
     // duplicating event ///////////////////////////////////////////////////////
-    $('#department').change(function() {
-        m_department_id = $(this).val();
+    $('#billing_depart').change(function() {
+        m_billing_depart_id = $(this).val();
     });
     
     $('#quantity').change(function() {      
@@ -194,6 +200,20 @@ $(document).ready(function() {
     
     // duplicationg submit button click ////////////////////////////////////////
     $('#btn_dup_submit').click(function() {
+        var err_main = formValidation();
+        var err_duplicating = duplicatingValidation();
+        
+        if (err_main !== "") {
+            $.ladda('stopAll');
+            swal("Error", err_main, "error");
+            return false;
+        }
+        if (err_duplicating !== "") {
+            $.ladda('stopAll');
+            swal("Error", err_duplicating, "error");
+            return false;
+        }
+        
         $('#attachment_file').filestyle('disabled', true);
         $('#btn_dup_cancel').prop('disabled', true);
         
@@ -205,7 +225,7 @@ $(document).ready(function() {
             db_insertReceipt(print_request_id, m_str_dup_cost_info);
             sendEmailDuplicatingRequestor(print_request_id);
             sendEmailDuplicatingAdmin(print_request_id);
-            db_insertTransaction(print_request_id, localStorage.getItem('ls_dc_loginDisplayName'), "Request submitted");
+            db_insertTransaction(print_request_id, sessionStorage.getItem('ls_dc_loginDisplayName'), "Request submitted");
             
             $.ladda('stopAll');
             swal({  title: "Success",
@@ -222,6 +242,20 @@ $(document).ready(function() {
     
     // plotting submit button click ////////////////////////////////////////////
     $('#btn_plot_submit').click(function() {
+        var err_main = formValidation();
+        var err_plotter = plotterValidation();
+        
+        if (err_main !== "") {
+            $.ladda('stopAll');
+            swal("Error", err_main, "error");
+            return false;
+        }
+        if (err_plotter !== "") {
+            $.ladda('stopAll');
+            swal("Error", err_plotter, "error");
+            return false;
+        }
+        
         $('#attachment_file').filestyle('disabled', true);
         $('#btn_plot_cancel').prop('disabled', true);
         
@@ -275,6 +309,7 @@ $(document).ready(function() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function setDefaultOption() {
+    $('#nav_my_profile').hide();
     $('#nav_completed_list').hide();
     $('#nav_copier_report').hide();
     $('#nav_copier_price').hide();
@@ -308,6 +343,12 @@ function setAdminOption() {
         else if (result[0]['AdminLevel'] === "Report") {
             $('#nav_copier_report').show();
         }
+    }
+}
+
+function setUserProfile() {
+    if (sessionStorage.getItem('ls_dc_loginType') !== "Student") {
+        $('#nav_my_profile').show();
     }
 }
 
@@ -429,7 +470,7 @@ function getDuplicatingCopierPrice() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function setHonorStudent() {
     var result = new Array();
-    result = db_getHonorStudentByEmail(localStorage.getItem("ls_dc_loginEmail"));
+    result = db_getHonorStudentByEmail(sessionStorage.getItem("ls_dc_loginEmail"));
     
     if (result.length === 1) {
         $('#honor_student').show();
@@ -440,16 +481,20 @@ function setHonorStudent() {
 
 function setDeviceDetail() {
     if (sessionStorage.getItem('ls_dc_loginType') === "Student") {
-        $('#plotter_section').show();
         setHonorStudent();
         
         $('#device_type').val("1");
         $('#device_type').attr('disabled', true);
+        $('#plotter_section').show();
+        $('#attachment_section').show();
+    }
+    else {
+        $('#nav_my_profile').show();
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function getDepartment() {
+function getBillingDepart() {
     var result = new Array();
     result = db_getDepartment();
     
@@ -458,7 +503,7 @@ function getDepartment() {
         html += "<option value='" + result[i]['DepartmentID'] + "'>" + result[i]['Department'] + "</option>";
     }
     
-    $('#department').append(html);
+    $('#billing_depart').append(html);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -472,11 +517,10 @@ function getUserInformation() {
         $('#email').val(result[0]['UserEmail']);
         $('#phone').val(result[0]['UserPhone']);
         $('#login_id').val(result[0]['EmployeeID']);
-        m_department_id = result[0]['DepartmentID'];
-        $('#user_depart').val(db_getDepartmentName(m_department_id));
-
-        getDepartment(); 
-        $('#department').val(m_department_id);
+        m_user_depart_id = result[0]['DepartmentID'];
+        m_billing_depart_id = result[0]['DepartmentID'];
+        $('#user_depart').val(db_getUserDepartName(m_user_depart_id));
+        $('#billing_depart').val(m_billing_depart_id);
     }
     else {
         $('#login_type').html("Student ID:");
@@ -556,6 +600,8 @@ function calculateDupTotalCost() {
     total_cost += front_cover + back_cover + cutCost();
     
     m_str_dup_cost_info += "<b>Print Cost: " + formatDollar(paper_cost, 3) + "</b><br>";
+    m_dup_total_print = quantity * Number(m_total_page);
+    m_dup_total_cost = total_cost;
     
     $('#dup_cost_info').html(m_str_dup_cost_info.trim());
     $('#dup_total_print').html("<b>Total Print: " + (quantity * Number(m_total_page)) + "</b>");
@@ -706,6 +752,135 @@ function cutCost() {
     }
 }
 
+////////////////////////////////////////////////////////////////////////////////
+function formValidation() {
+    var err = "";
+
+    if ($('#phone').val().replace(/\s+/g, '') === "") {
+        err += "Phone number is a required field\n";
+    }
+    if ($('#request_title').val().replace(/\s+/g, '') === "") {
+        err += "Request title is a required field\n";
+    }
+    if ($('#device_type').val() === "Select...") {
+        err += "Divice type is a required field\n";
+    }
+    if (!m_file_attached) {
+        err += "Attachment is a required field\n";
+    }
+    if (m_file_attached && m_total_page === 0) {
+        m_file_attached = false;
+        $('#attachment_file').filestyle('clear');
+        $('#pdf_pages').val("");
+        err += "Your PDF file are not correctly formatted. please verify your pdf file again\n";
+    }
+
+    return err;
+}
+
+function plotterValidation() {
+    var err = "";
+    
+    if ($('#size_height').val().replace(/\s+/g, '') === "") {
+        err += "Size is a required field\n";
+    }
+    if ($('#ckb_terms_condition').is(':checked') === false) {
+        err += "Please check Terms and Condition\n";
+    }
+    
+    return err;
+}
+
+function duplicatingValidation() {
+    var err = "";
+    
+    if ($('#quantity').val().replace(/\s+/g, '') === "") {
+        err += "Quantity is a required field\n";
+    }
+    if ($('#date_needed').val().replace(/\s+/g, '') === "") {
+        err += "Date needed is a required field\n";
+    }
+    if ($('#time_needed').val().replace(/\s+/g, '') === "") {
+        err += "Time needed is a required field\n";
+    }
+    
+    return err;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function uploadPDFAttachment(print_request_id) {
+    var file = $('#attachment_file').get(0).files[0];    
+    var file_data = new FormData();  
+    var f_name = file.name.replace(/#/g, "").replace(/'/g, "");
+    var php_flname = print_request_id + "_fileIndex_" + f_name;
+    file_data.append("files[]", file, php_flname); 
+
+    var attachment_id = uploadAttachFile(file_data);
+    if (attachment_id === "") {
+        return false;
+    }
+    else {   
+        var pages = $('#pdf_pages').val();
+        db_updateAttachmentPages(attachment_id, pages);
+        return true;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function addPrintRequest() {
+    var name = textReplaceApostrophe($('#requestor').val());
+    var email = textReplaceApostrophe($('#email').val());
+    var phone = textReplaceApostrophe($('#phone').val());
+    var login_type = sessionStorage.getItem('ls_dc_loginType');
+    var login_id = textReplaceApostrophe($('#login_id').val());
+    var request_title = textReplaceApostrophe($('#request_title').val());
+    var device_type_id = $('#device_type').val();
+    var delivery_location_id = "3";
+    if (device_type_id === "2") {
+        delivery_location_id = "1";
+    }
+    
+    return db_insertPrintRequest(device_type_id, delivery_location_id, login_type, login_id, name, email, phone, request_title);
+}
+
+function addPlotter(print_request_id) {
+    var paper_type_id = $('#paper_type').val();
+    var job_status_plot_id = "2";
+    var size_height = textReplaceApostrophe($('#size_height').val());
+    var size_width = textReplaceApostrophe($('#size_width').val());
+    var plot_total_cost = revertDollar($('#plot_total_cost').val());
+    var waved_proof = ($('#ckb_waved_proof').is(':checked') ? true : false);
+    var note = textReplaceApostrophe($('#plot_note').val());
+    if (waved_proof) {
+        job_status_plot_id = "1";
+    }
+    
+    return db_insertPlotter(print_request_id, job_status_plot_id, paper_type_id, size_height, size_width, plot_total_cost, waved_proof, m_free, note);
+}
+
+function addDuplicating(print_request_id) {    
+    var quantity = textReplaceApostrophe($('#quantity').val());
+    var date_needed = textReplaceApostrophe($('#date_needed').val());
+    var time_needed = textReplaceApostrophe($('#time_needed').val());
+    var paper_size_id = $('#paper_size').val();
+    var duplex_id = $('#duplex').val();
+    var paper_color_id = $('#paper_color').val();
+    var cover_color_id = $('#cover_color').val();
+    var color_copy = ($('#ckb_color_copy').is(':checked') ? true : false);
+    var front_cover = ($('#ckb_front_cover').is(':checked') ? true : false);
+    var back_cover = ($('#ckb_back_cover').is(':checked') ? true : false);
+    var confidential = ($('#ckb_confidential').is(':checked') ? true : false);
+    var three_hole_punch = ($('#ckb_three_hole_punch').is(':checked') ? true : false);
+    var staple = ($('#ckb_staple').is(':checked') ? true : false);
+    var cut = ($('#ckb_cut').is(':checked') ? true : false);
+    var total_print = m_dup_total_print;
+    var dup_total_cost = m_dup_total_cost;
+    var note = textReplaceApostrophe($('#dup_note').val());
+    
+    return db_insertDuplicating(print_request_id, "1", m_billing_depart_id, quantity, date_needed, time_needed, paper_size_id, duplex_id, paper_color_id, cover_color_id,
+                                color_copy, front_cover, back_cover, confidential, three_hole_punch, staple, cut, total_print, dup_total_cost, note);
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function sendEmailPlotterRequestor(print_request_id) {
     var url_param = "?print_request_id=" + print_request_id;
@@ -724,7 +899,7 @@ function sendEmailPlotterRequestor(print_request_id) {
     message += "Please use the link below to review the status of your submission at any time.<br><br>";
     
     var str_url = location.href;
-    str_url = str_url.replace("newPrintRequest.html", "printRequest.html");
+    str_url = str_url.replace("newPrintRequest.html", "viewPrintRequest.html");
     message += "<a href='" + str_url + url_param + "'>" + $('#request_title').val() + "</a><br><br>";
     
     message += "Should you have any questions or comments, please contact the IVC Duplicating Center.<br/><br/>"; 
@@ -741,6 +916,9 @@ function sendEmailPlotterAdmin(print_request_id) {
     var name = "Copier Center";
     var email = "ivcduplicating@ivc.edu";
     
+    // testing email
+    email = "presidenttest@ivc.edu";
+    
     var subject = "A new plotter request has been created";
     var message = "Dear " + name + ", <br><br>";
     message += "There is a new plotter request.  Request details:<br><br>";
@@ -750,12 +928,12 @@ function sendEmailPlotterAdmin(print_request_id) {
     message += "Paper Type: " + db_getPaperTypeName($('#paper_type').val()) + "<br>";
     message += "Size: " + $('#size_height').val() + " x " + $('#size_width').val() + "<br>";
     message += "Total Cost: " + $('#plot_total_cost').val() + "<br>";
-    message += "Employee Type: " + localStorage.getItem('ls_dc_loginType') + "<br><br>";
+    message += "Employee Type: " + sessionStorage.getItem('ls_dc_loginType') + "<br><br>";
     
     message += "Please use the link below to open request at anytime.<br><br>";
 
     var str_url = location.href;
-    str_url = str_url.replace("newPrintRequest.html", "printRequest.html");
+    str_url = str_url.replace("newPrintRequest.html", "adminPrintRequest.html");
     message += "<a href='" + str_url + url_param + "'>" + $('#request_title').val() + "</a><br><br>";
     message += "Thank you.<br>";
     
@@ -766,9 +944,12 @@ function sendEmailPlotterHonorNotification() {
     var name = "";
     var email = "jrudmann@ivc.edu;kryals@ivc.edu";
     
+    // testing email
+    email = "vptest@ivc.edu;deantest@ivc.edu";
+    
     var subject = "A new plotter request from honor student has been submitted";
     var message = "Dear Jerry Rudmann/Kay Ryals, <br><br>";
-    message += "There is a new plotter request from honor student.  Request details:<br><br>";
+    message += "There is a new plotter request from honor student. Request details:<br><br>";
     message += "Requestor: " + $('#requestor').val() + "<br>";
     message += "Contact Phone: " + $('#phone').val() + "<br>";
     message += "Request Title: " + $('#request_title').val() + "<br>";
@@ -792,12 +973,12 @@ function sendEmailDuplicatingRequestor(print_request_id) {
     message += "Request Title: " + $('#request_title').val() + "<br>";
     message += "Date Needed: " + $('#date_needed').val() + " " + $('#time_needed').val() + "<br>";
     message += "Quantity: " + $('#quantity').val() + "<br>";
-    message += "Department: " + $('#department').html() + "<br><br>";
+    message += "Department: " + $('#billing_depart').html() + "<br><br>";
     
     message += "Please use the link below to review the status of your submission at any time.<br><br>";
 
     var str_url = location.href;
-    str_url = str_url.replace("newPrintRequest.html", "printRequest.html");
+    str_url = str_url.replace("newPrintRequest.html", "viewPrintRequest.html");
     message += "<a href='" + str_url + url_param + "'>" + $('#request_title').val() + "</a><br><br>";
     
     message += "Should you have any questions or comments, please contact the IVC Duplicating Center.<br/><br/>"; 
@@ -814,6 +995,9 @@ function sendEmailDuplicatingAdmin(print_request_id) {
     var name = "Copier Center";
     var email = "ivcduplicating@ivc.edu";
     
+    // testing email
+    email = "presidenttest@ivc.edu";
+    
     var subject = "A new duplicating request has been created";
     var message = "Dear " + name + ", <br><br>";
     message += "There is a new duplicating request.  Request details:<br><br>";
@@ -827,7 +1011,7 @@ function sendEmailDuplicatingAdmin(print_request_id) {
     message += "Please use the link below to open request at anytime.<br><br>";
 
     var str_url = location.href;
-    str_url = str_url.replace("newPrintRequest.html", "printRequest.html");
+    str_url = str_url.replace("newPrintRequest.html", "adminPrintRequest.html");
     message += "<a href='" + str_url + url_param + "'>" + $('#request_title').val() + "</a><br><br>";
     message += "Thank you.<br>";
     

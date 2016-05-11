@@ -1,9 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-function localData_login(loginDisplayName, loginEmail, loginPhone, loginID, loginDepart, loginType) {
-//    var cur_date_time = new Date();
-//    cur_date_time.setHours(cur_date_time.getHours() + 2);
-//    localStorage.setItem('ls_dc_expiration_date_time', cur_date_time);
-    
+function localData_login(loginDisplayName, loginEmail, loginPhone, loginID, loginDepart, loginType) {   
     sessionStorage.setItem('ls_dc_loginDisplayName', objToString(loginDisplayName));
     sessionStorage.setItem('ls_dc_loginEmail', objToString(loginEmail));
     sessionStorage.setItem('ls_dc_loginPhone', objToString(loginPhone));
@@ -11,18 +7,6 @@ function localData_login(loginDisplayName, loginEmail, loginPhone, loginID, logi
     sessionStorage.setItem('ls_dc_loginDepart', objToString(loginDepart));
     sessionStorage.setItem('ls_dc_loginType', objToString(loginType));
 }
-
-//function IsLoginExpired() {
-//    var exp_date_time = new Date(localStorage.getItem('ls_dc_expiration_date_time'));
-//    var cur_date_time = new Date();
-//    if (cur_date_time > exp_date_time) {
-//        localStorage.clear();
-//        return true;
-//    }
-//    else {
-//        return false;
-//    }
-//}
 
 function objToString(obj) {
     if (obj === null) {

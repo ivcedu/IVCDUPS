@@ -47,8 +47,17 @@ $(document).ready(function() {
                 }
             }
             else {
-                window.open('userHome.html', '_self');
-                return false;
+                var result2 = new Array();
+                result2 = db_getHonorStudentByEmail(sessionStorage.getItem('ls_dc_loginEmail'));
+                
+                if (result2.length === 0) {
+                    swal("Error", "You don't have asscee to IVC Duplication Services", "error");
+                    return false;
+                }
+                else {
+                    window.open('userHome.html', '_self');
+                    return false;
+                }
             }
         }
         else {
