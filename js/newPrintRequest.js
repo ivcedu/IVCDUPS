@@ -269,6 +269,7 @@ $(document).ready(function() {
             if (m_free) {
                 sendEmailPlotterHonorNotification();
             }
+            db_insertTransaction(print_request_id, sessionStorage.getItem('ls_dc_loginDisplayName'), "Request submitted");
             
             $.ladda('stopAll');
             swal({  title: "Success",
@@ -887,6 +888,9 @@ function sendEmailPlotterRequestor(print_request_id) {
     var name = $('#requestor').val();
     var email = $('#email').val();
     
+    // testing email
+    email = "stafftest@ivc.edu";
+    
     var subject = "Your new plotter request has been submitted";
     var message = "Dear " + name + ", <br><br>";
     message += "Thank you for your plotter request.  Request details:<br><br>";
@@ -973,7 +977,7 @@ function sendEmailDuplicatingRequestor(print_request_id) {
     message += "Request Title: " + $('#request_title').val() + "<br>";
     message += "Date Needed: " + $('#date_needed').val() + " " + $('#time_needed').val() + "<br>";
     message += "Quantity: " + $('#quantity').val() + "<br>";
-    message += "Department: " + $('#billing_depart').html() + "<br><br>";
+    message += "Billing Department: " + $('#billing_depart').val() + "<br><br>";
     
     message += "Please use the link below to review the status of your submission at any time.<br><br>";
 

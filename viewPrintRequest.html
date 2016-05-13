@@ -65,22 +65,13 @@
                                 <li class="iconic-color-default" id="nav_user_access"><a href="userAccess.html">User Access</a></li>
                             </ul>
                         </li>
-                        <!--
-                        <li class="collapse" id="menu_dup_cost_info">
-                            <div class="alert alert-success m-b-sm">
-                                <p id="dup_cost_info"></p>
-                                <p class="font-bold" id="dup_total_print"></p>
-                                <p class="font-bold" id="dup_total_cost"></p>
-                            </div>
-                        </li>
-                        -->
                     </ul>
                 </div>
             </nav>
             <!-- main section -->
             <div id="page-wrapper" class="gray-bg-2">
                 <!-- top bar menu items -->
-                <div class="row border-bottom">
+                <div class="row border-bottom hidden-print">
                     <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
                         <div class="navbar-header iconic-color-default">
                             <a class="navbar-minimalize minimalize-styl-2 btn btn-primary" href="#"><i class="fa fa-bars"></i> </a>
@@ -93,58 +84,66 @@
                     </nav>
                 </div>
                 <!-- user active print request header-->
-                <div class="row wrapper border-bottom white-bg page-heading">
-                    <div class="col-lg-12">
+                <div class="row wrapper border-bottom white-bg page-heading hidden-print">
+                    <div class="col-sm-1" style="padding-top: 20px;">
+                        <a href=# id="ico_btn_close"><i class="pe-7s-close-circle pe-2x pe-va iconic-color-default"></i></a>
+                        <a href=# class="pull-right" id="ico_btn_print"><i class="pe-7s-print pe-2x pe-va iconic-color-default"></i></a>
+                    </div>
+                    <div class="col-sm-10">
                         <h2 class="text-center">View Duplication Request</h2>
                     </div>
                 </div>
                 <!-- user active print request list-->
                 <div class="wrapper wrapper-content animated fadeInRight">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-content" style="font-size: 14px;">
+                                    <div class="panel-body alert alert-success m-b-sm">
+                                        <div class="col-sm-2"><b>Job Status:</b></div> 
+                                        <div class="col-sm-4"><b id="job_status"></b></div>
+                                        <div class="col-sm-2"><b>Date Time:</b></div> 
+                                        <div class="col-sm-4"><b id="modified"></b></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <!-- login user info -->
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-sm-12">
                             <div class="ibox float-e-margins">
-                                <div class="ibox-content">
-                                    <form class="form-horizontal">
-                                        <div class="alert alert-success m-b-sm">
-                                            <div class="form-group">
-                                                <label class="col-md-2 control-label">Job Status:</label> 
-                                                <div class="col-md-4"><input type="text" class="form-control" readonly id="job_status"></div>
-                                                <label class="col-md-2 control-label">Date Time:</label> 
-                                                <div class="col-md-4"><input type="text" class="form-control" readonly id="modified"></div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-2 control-label">Name:</label> 
-                                            <div class="col-md-4"><input type="text" class="form-control" readonly id="requestor"></div>
-                                            <label class="col-md-2 control-label">Email:</label> 
-                                            <div class="col-md-4"><input type="text" class="form-control" readonly id="email"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-2 control-label">Phone:</label> 
-                                            <div class="col-md-4"><input type="text" class="form-control" readonly id="phone"></div>
-                                            <label class="col-md-2 control-label" id="login_type"></label> 
-                                            <div class="col-md-4"><input type="text" class="form-control" readonly id="login_id"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-2 control-label">Department:</label> 
-                                            <div class="col-md-10"><input type="text" class="form-control" readonly id="user_depart"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-2 control-label">Request Title:</label> 
-                                            <div class="col-md-10"><input type="text" class="form-control" readonly id="request_title"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-2 control-label">Device Type:</label> 
-                                            <div class="col-md-4"><input type="text" class="form-control" readonly id="device_type"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-2 control-label">Attachment (PDF):</label>
-                                            <div class="col-md-4" style="padding-top: 7px;"><a href="#" id="attachment_file"></a></div>
-                                            <label class="col-md-2 control-label">Pages:</label>
-                                            <div class="col-md-1"><input type="text" class="form-control text-center font-bold" readonly id="pdf_pages"></div> 
-                                        </div>
-                                    </form>
+                                <div class="ibox-content" style="font-size: 14px; color: black;">
+                                    <div class="panel-body">
+                                        <div class="col-sm-2">Name:</div> 
+                                        <div class="col-sm-4" id="requestor"></div>
+                                        <div class="col-sm-2">Email:</div> 
+                                        <div class="col-sm-4" id="email"></div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="col-sm-2">Phone:</div> 
+                                        <div class="col-sm-4" id="phone"></div>
+                                        <div class="col-sm-2" id="login_type"></div> 
+                                        <div class="col-sm-4" id="login_id"></div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="col-sm-2">Department:</div> 
+                                        <div class="col-sm-10" id="user_depart"></div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="col-sm-2">Request Title:</div> 
+                                        <div class="col-sm-10" id="request_title"></div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="col-sm-2">Device Type:</div> 
+                                        <div class="col-sm-10" id="device_type"></div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="col-sm-2">Attachment (PDF):</div> 
+                                        <div class="col-md-8" style="padding-top: 7px;"><a href="#" id="attachment_file"></a></div>
+                                        <div class="col-sm-1">Pages:</div>
+                                        <div class="col-sm-1" id="pdf_pages"></div> 
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -153,56 +152,50 @@
                     <div hidden class="row" id="duplicating_section">
                         <div class="col-md-12">
                             <div class="ibox float-e-margins">
-                                <div class="ibox-content">
-                                    <form class="form-horizontal">
-                                        <br>
-                                        <div class="form-group">
-                                            <label class="col-md-2 control-label">Billing Depart:</label> 
-                                            <div class="col-md-4"><input type="text" class="form-control" readonly id="billing_depart"></div>
-                                        </div>  
-                                        <div class="form-group">
-                                            <label class="col-md-2 control-label">Quantity:</label>
-                                            <div class="col-md-2"><input type="text" class="form-control" readonly id="quantity"></div>
-                                            <label class="col-md-2 col-md-offset-2 control-label">Date/Time Needed:</label>
-                                            <div class="col-md-2"><input type="text" class="form-control" readonly id="date_needed"></div>
-                                            <div class="col-md-2"><input type="text" class="form-control" readonly id="time_needed"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-2 control-label">Paper Size:</label> 
-                                            <div class="col-md-4"><input type="text" class="form-control" readonly id="paper_size"></div>
-                                            <label class="col-md-2 control-label">Duplex:</label> 
-                                            <div class="col-md-4"><input type="text" class="form-control" readonly id="duplex"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-2 control-label">Paper Color:</label> 
-                                            <div class="col-md-4"><input type="text" class="form-control" readonly id="paper_color"></div>
-                                            <label class="col-md-2 control-label">Cover Color:</label> 
-                                            <div class="col-md-4"><input type="text" class="form-control" readonly id="cover_color"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" disabled id="ckb_color_copy">&nbsp;&nbsp;&nbsp;Color Copy</label></div></div>
-                                            <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" disabled id="ckb_front_cover">&nbsp;&nbsp;&nbsp;Front Cover</label></div></div>
-                                            <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" disabled id="ckb_back_cover">&nbsp;&nbsp;&nbsp;Back Cover</label></div></div>
-                                            <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" disabled id="ckb_confidential">&nbsp;&nbsp;&nbsp;Confidential</label></div></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" disabled id="ckb_three_hole_punch">&nbsp;&nbsp;&nbsp;Three Hole Punch</label></div></div>
-                                            <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" disabled id="ckb_staple">&nbsp;&nbsp;&nbsp;Staple</label></div></div>
-                                            <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" disabled id="ckb_cut">&nbsp;&nbsp;&nbsp;Cut</label></div></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-2 control-label">Note:</label>
-                                            <div class="col-md-10" id="dup_note"></div>
-                                        </div>
-                                    </form>
+                                <div class="ibox-content" style="font-size: 14px; color: black;">
                                     <div class="panel-body">
-                                        <div class="row alert alert-success m-b-sm">
-                                            <div class="col-md-3 font-bold">Total Print: <b id="dup_total_print"></b></div>
-                                            <div class="col-md-3 font-bold">Total Cost: <b id="dup_total_cost"></b></div>
-                                        </div>
-                                        <div class="row col-md-2">
-                                            <button class="btn btn-warning col-md-12" id="btn_dup_close"><i class="fa fa-times-circle"></i> Close</button>
-                                        </div>
+                                        <div class="col-sm-2">Billing Depart:</div> 
+                                        <div class="col-sm-10" id="billing_depart"></div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="col-sm-2">Quantity:</div> 
+                                        <div class="col-sm-2" id="quantity"></div>
+                                        <div class="col-sm-2">Date/Time Needed:</div> 
+                                        <div class="col-sm-2" id="date_needed"></div>
+                                        <div class="col-sm-2" id="time_needed"></div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="col-sm-2">Paper Size:</div> 
+                                        <div class="col-sm-4" id="paper_size"></div>
+                                        <div class="col-sm-2">Duplex:</div> 
+                                        <div class="col-sm-4" id="duplex"></div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="col-sm-2">Paper Color:</div> 
+                                        <div class="col-sm-4" id="paper_color"></div>
+                                        <div class="col-sm-2">Cover Color:</div> 
+                                        <div class="col-sm-4" id="cover_color"></div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="col-sm-3"><span id="ckb_color_copy"></span>&nbsp;&nbsp;&nbsp;Color Copy</div>
+                                        <div class="col-sm-3"><span id="ckb_front_cover"></span>&nbsp;&nbsp;&nbsp;Front Cover</div>
+                                        <div class="col-sm-3"><span id="ckb_back_cover"></span>&nbsp;&nbsp;&nbsp;Back Cover</div>
+                                        <div class="col-sm-3"><span id="ckb_confidential"></span>&nbsp;&nbsp;&nbsp;Confidential</div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="col-sm-3"><span id="ckb_three_hole_punch"></span>&nbsp;&nbsp;&nbsp;Three Hole Punch</div>
+                                        <div class="col-sm-3"><span id="ckb_staple"></span>&nbsp;&nbsp;&nbsp;Staple</div>
+                                        <div class="col-sm-3"><span id="ckb_cut"></span>&nbsp;&nbsp;&nbsp;Cut</div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="col-sm-2">Note:</div> 
+                                        <div class="col-sm-10" id="dup_note"></div>
+                                    </div>
+                                    <div class="panel-body alert alert-success m-b-sm">
+                                        <div class="col-sm-2"><b>Total Print:</b></div> 
+                                        <div class="col-sm-4"><b id="dup_total_print"></b></div>
+                                        <div class="col-sm-2"><b>Total Cost:</b></div> 
+                                        <div class="col-sm-4"><b id="dup_total_cost"></b></div>
                                     </div>
                                 </div>
                             </div>
@@ -212,33 +205,28 @@
                     <div hidden class="row" id="plotter_section">
                         <div class="col-md-12">
                             <div class="ibox float-e-margins">
-                                <div class="ibox-content">
-                                    <form class="form-horizontal">
-                                        <br>
-                                        <div class="form-group">
-                                            <label class="col-md-2 control-label">Paper Type:</label> 
-                                            <div class="col-md-4"><input type="text" class="form-control" readonly id="paper_type"></div>
-                                            <label class="col-md-2 control-label">Size in Inches:</label>
-                                            <div class="col-md-1"><input type="text" class="form-control text-center" readonly id="size_height"></div>
-                                            <div class="col-md-1 text-center" style="padding-top: 7px; font-weight: bold;">X</div>
-                                            <div class="col-md-1"><input type="text" class="form-control text-center" readonly value="36" id="size_width"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-2 control-label">Total Cost:</label>
-                                            <div class="col-md-2"><input type="text" class="form-control" readonly id="plot_total_cost"></div>
-                                            <div class="col-md-6 pull-right" id="honor_student"><p class="text-danger"><b>Honor Student: Free of Charge</b></p></div>
-                                        </div>  
-                                        <div class="form-group">
-                                            <label class="col-md-2 control-label">Note:</label>
-                                            <div class="col-md-10" id="plot_note"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-md-12">
-                                                <div class="i-checks"><label><input type="checkbox" disabled checked id="ckb_waved_proof">&nbsp;&nbsp;&nbsp;Provide a sample of the document before processing my order.</label></div>  
-                                            </div>
-                                        </div>   
-                                    </form>
-                                    <div class="alert alert-success m-b-sm">
+                                <div class="ibox-content" style="font-size: 14px; color: black;">
+                                    <div class="panel-body">
+                                        <div class="col-sm-2">Paper Type:</div> 
+                                        <div class="col-sm-4" id="paper_type"></div>
+                                        <div class="col-sm-2">Size in Inches:</div> 
+                                        <div class="col-sm-1" id="size_height"></div>
+                                        <div class="col-sm-1">X</div>
+                                        <div class="col-sm-1">36</div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="col-sm-2"><b>Total Cost:</b></div> 
+                                        <div class="col-sm-2"><b id="plot_total_cost"></b></div>
+                                        <div class="col-sm-4 col-sm-offset-4" id="honor_student"><b style="color: red;">Honor Student: Free of Charge</b></div> 
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="col-sm-2">Note:</div> 
+                                        <div class="col-sm-10" id="plot_note"></div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="col-sm-12"><span id="ckb_waved_proof"></span>&nbsp;&nbsp;&nbsp;Provide a sample of the document before processing my order.</div>
+                                    </div>
+                                    <div class="panel-body alert alert-success m-b-sm">
                                         <h3>Terms and Conditions</h3>
                                         <p>A photo ID must be presented at the time of pick-up. The requestor is the only person that can pick up the order.</p>
                                         <p>All files should be at least 150 pixels per inch for acceptable quality. Files to be printed must be a single .pdf file sized to the actual size you want printed. 
@@ -248,14 +236,8 @@
                                             consist of data codes that the computer and printer interprets and constructs your file with. 
                                             Sometimes, these files are interpreted differently between various computers, software programs, versions of software, and printers.</p>
                                     </div>
-                                    <div>
-                                        <div class="i-checks"><label><input type="checkbox" disabled checked id="ckb_terms_condition">&nbsp;&nbsp;&nbsp;I agree with Terms and Condition</label></div>  
-                                    </div>
-                                    <br>
                                     <div class="panel-body">
-                                        <div class="col-md-2">
-                                            <button class="btn btn-warning col-sm-12" id="btn_plot_close"><i class="fa fa-times-circle"></i> Close</button>
-                                        </div>
+                                        <div class="col-sm-12"><span><i class='fa fa-check-square-o fa-lg'></i></span>&nbsp;&nbsp;&nbsp;I agree with Terms and Condition</div>
                                     </div>
                                 </div>
                             </div>
@@ -265,7 +247,7 @@
                     <div class="row" id="transaction_section">
                         <div class="col-md-12">
                             <div class="ibox float-e-margins">
-                                <div class="ibox-content">
+                                <div class="ibox-content" style="font-size: 14px; color: black;">
                                     <div class="panel-body">
                                         <div class="col-md-12" id="transaction_history"></div>
                                     </div>
@@ -275,7 +257,7 @@
                     </div>
                 </div>    
                 <!-- Footer-->
-                <footer class="footer">
+                <footer class="footer hidden-print">
                     <span class="pull-right">
                         COPYRIGHT &copy; 2016 IRVINE VALLEY COLLEGE
                     </span>
@@ -307,6 +289,5 @@
         <script src="js/viewPrintRequest.js"></script>
         <script src="js/session_data.js"></script>
         <script src="js/db_access.js"></script>
-        <script src="js/sendEmail.js"></script>
     </body>
 </html>

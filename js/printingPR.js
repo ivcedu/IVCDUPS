@@ -2,15 +2,11 @@ var print_request_id = "";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {   
-    if (sessionStorage.key(0) !== null) {
-        setDefaultOption();
-        setAdminOption();
-        setUserProfile();
-        getLoginInfo();
-        
+    if (sessionStorage.key(0) !== null) {        
         getURLParameters();
         getPrintRequest();
         getTransactionHistory();
+        window.print();
 }
     else {
         window.open('Login.html', '_self');
@@ -50,100 +46,7 @@ function getURLParameters() {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-$(document).ready(function() {  
-    $('.i-checks').iCheck({
-        checkboxClass: 'icheckbox_square-green',
-        radioClass: 'iradio_square-green'
-    });
 
-    ////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////
-    $('#nav_logout').click(function() {
-        sessionStorage.clear();
-        window.open('Login.html', '_self');
-        return false;
-    });
-    
-    // icon close button click /////////////////////////////////////////////////
-    $('#ico_btn_close').click(function() {
-        window.open('userHome.html', '_self');
-        return false;
-    });
-    
-    // icon print button click /////////////////////////////////////////////////
-    $('#ico_btn_print').click(function() {
-        window.open('printingPR.html?print_request_id=' + print_request_id, '_blank');
-        return false;
-    });
-    
-    ////////////////////////////////////////////////////////////////////////////
-    $('#attachment_file').click(function() {  
-        var result = new Array();
-        result = db_getAttachment(print_request_id);
-        
-        if (result.length === 1) {
-            var url_pdf = "attach_files/" + result[0]['FileLinkName'];
-            var login_from = sessionStorage.getItem("ls_dc_loginFrom");
-            url_pdf = login_from.replace("IVCDUPS", "DCenter").replace("Login.html", "") + url_pdf;
-            window.open(url_pdf, '_blank');
-            return false;
-        }
-    });
-});
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-function setDefaultOption() {
-    $('#nav_my_profile').hide();
-    $('#nav_completed_list').hide();
-    $('#nav_copier_report').hide();
-    $('#nav_copier_price').hide();
-    $('#nav_user_access').hide();
-    
-    $('#menu_administrator').hide();
-    $('#menu_dup_cost_info').hide();
-    
-    $('#honor_student').hide();
-}
-
-function setAdminOption() {        
-    var login_email = sessionStorage.getItem("ls_dc_loginEmail");
-    var result = new Array();
-    result = db_getAdminByEmail(login_email);
-    
-    if (result.length === 1) {
-        if (result[0]['AdminLevel'] === "Master") {
-            $('#nav_completed_list').show();
-            $('#nav_copier_report').show();
-            $('#menu_administrator').show();
-            $('#nav_copier_price').show();
-            $('#nav_user_access').show();
-        }
-        else if (result[0]['AdminLevel'] === "Admin") {
-            $('#nav_completed_list').show();
-            $('#nav_copier_report').show();
-            $('#menu_administrator').show();
-            $('#nav_copier_price').show();
-        }
-        else if (result[0]['AdminLevel'] === "Report") {
-            $('#nav_copier_report').show();
-        }
-    }
-}
-
-function setUserProfile() {
-    if (sessionStorage.getItem('ls_dc_loginType') !== "Student") {
-        $('#nav_my_profile').show();
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function getLoginInfo() {
-    var login_name = sessionStorage.getItem('ls_dc_loginDisplayName');
-    $('#login_user').html(login_name);
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function getPrintRequest() {
     var result = new Array();
     result = db_getPrintRequest(print_request_id);
@@ -191,6 +94,7 @@ function setRequestorInformation(device_type_id, login_type, login_id, requestor
     }
     
     $('#login_id').html(login_id);
+    
     $('#request_title').html(request_title);
     $('#device_type').html(db_getDeviceTypeName(device_type_id));
 }
@@ -205,7 +109,7 @@ function setAttachment() {
     }
 }
 
-function setPlotter(device_type_id, dtstamp, modified) {    
+function setPlotter(device_type_id, dtstamp, modified) {
     var result = new Array();
     result = db_getPlotter(print_request_id);
     if (result.length === 1) {        
@@ -226,6 +130,7 @@ function setPlotter(device_type_id, dtstamp, modified) {
         else {
             $("#ckb_waved_proof").append("<i class='fa fa-square-o fa-lg'></i>");
         }
+        
         if (result[0]['Free'] === "0") {
             $('#honor_student').hide();
         }

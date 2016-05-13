@@ -1,0 +1,185 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+        <meta http-equiv="Cache-Control" content="no-cache"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Duplication Request Print View</title>
+        <!-- inspinia-2.5 css -->
+        <link rel="stylesheet" href="../inspinia-2.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../inspinia-2.5/font-awesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../inspinia-2.5/css/animate.css">
+        <link rel="stylesheet" href="../inspinia-2.5/css/style.css">
+        <!-- homer-1.9 App css -->
+        <!-- include css -->
+        <!-- application css -->
+        <link rel="stylesheet" href="css/print-style.css"/>
+    </head>
+    <body class="white-bg">
+        <div class="wrapper wrapper-content p-xl">
+            <div class="ibox-content p-xl">
+                <div class="row well">
+                    <div class="col-sm-2"><b>Job Status:</b></div> 
+                    <div class="col-sm-4"><b id="job_status"></b></div>
+                    <div class="col-sm-2"><b>Date Time:</b></div>
+                    <div class="col-sm-4"><b id="modified"></b></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">Name:</div>
+                    <div class="col-sm-4" id="requestor"></div>
+                    <div class="col-sm-2">Email:</div>
+                    <div class="col-sm-4" id="email"></div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-2">Phone:</div>
+                    <div class="col-sm-4" id="phone"></div>
+                    <div class="col-sm-2" id="login_type"></div>
+                    <div class="col-sm-4" id="login_id"></div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-2">Department:</div>
+                    <div class="col-sm-10" id="user_depart"></div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-2">Request Title:</div>
+                    <div class="col-sm-10" id="request_title"></div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-2">Device Type:</div>
+                    <div class="col-sm-10" id="device_type"></div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-2">Attachment:</div>
+                    <div class="col-sm-8" id="attachment_file"></div>
+                    <div class="col-sm-1">Pages:</div>
+                    <div class="col-sm-1" id="pdf_pages"></div>
+                </div>
+                <div class="row"><div class="col-sm-12"><hr></div></div>
+                <!-- duplicating section -->
+                <div hidden id="duplicating_section">
+                    <div class="row">
+                        <div class="col-sm-2">Billing Depart:</div>
+                        <div class="col-sm-10" id="billing_depart"></div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-2">Quantity:</div>
+                        <div class="col-sm-2" id="quantity"></div>
+                        <div class="col-sm-4">Date/Time Needed:</div>
+                        <div class="col-sm-2" id="date_needed"></div>
+                        <div class="col-sm-2" id="time_needed"></div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-2">Paper Size:</div>
+                        <div class="col-sm-4" id="paper_size"></div>
+                        <div class="col-sm-2">Duplex:</div>
+                        <div class="col-sm-4" id="duplex"></div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-2">Paper Color:</div>
+                        <div class="col-sm-4" id="paper_color"></div>
+                        <div class="col-sm-2">Cover Color:</div>
+                        <div class="col-sm-4" id="cover_color"></div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-3"><span id="ckb_color_copy"></span>&nbsp;&nbsp;&nbsp;Color Copy</div>
+                        <div class="col-sm-3"><span id="ckb_front_cover"></span>&nbsp;&nbsp;&nbsp;Front Cover</div>
+                        <div class="col-sm-3"><span id="ckb_back_cover"></span>&nbsp;&nbsp;&nbsp;Back Cover</div>
+                        <div class="col-sm-3"><span id="ckb_confidential"></span>&nbsp;&nbsp;&nbsp;Confidential</div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-3"><span id="ckb_three_hole_punch"></span>&nbsp;&nbsp;&nbsp;Three Hole Punch</div>
+                        <div class="col-sm-3"><span id="ckb_staple"></span>&nbsp;&nbsp;&nbsp;Staple</div>
+                        <div class="col-sm-3"><span id="ckb_cut"></span>&nbsp;&nbsp;&nbsp;Cut</div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-2">Note:</div>
+                        <div class="col-sm-10" id="dup_note"></div>
+                    </div>
+                    <br>
+                    <div class="row well">
+                        <div class="col-sm-2"><b>Total Print:</b></div>
+                        <div class="col-sm-4"><b id="dup_total_print"></b></div>
+                        <div class="col-sm-2"><b>Total Cost:</b></div>
+                        <div class="col-sm-4"><b id="dup_total_cost"></b></div>
+                    </div>
+                </div>
+                <!-- plotter section -->
+                <div hidden id="plotter_section">
+                    <div class="row">
+                        <div class="col-sm-2">Paper Type:</div>
+                        <div class="col-sm-4" id="paper_type"></div>
+                        <div class="col-sm-2">Size in Inches:</div>
+                        <div class="col-sm-1" id="size_height"></div>
+                        <div class="col-sm-1">X</div>
+                        <div class="col-sm-1">36</div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-2"><b>Total Cost:</b></div>
+                        <div class="col-sm-4"><b id="plot_total_cost"></b></div>
+                        <div class="col-sm-6" id="honor_student">Honor Student: Free of Charge</div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-2">Note:</div>
+                        <div class="col-sm-10" id="plot_note"></div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <span id="ckb_waved_proof"></span>&nbsp;&nbsp;&nbsp;Provide a sample of the document before processing my order.
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h3>Terms and Conditions</h3>
+                            <p>A photo ID must be presented at the time of pick-up. The requestor is the only person that can pick up the order.</p>
+                            <p>All files should be at least 150 pixels per inch for acceptable quality. Files to be printed must be a single .pdf file sized to the actual size you want printed. 
+                                The Duplication Center will not resize or modify files. They will be printed as is.</p>
+                            <p><b>NOTE:</b> What you see on your computer monitor is not always what will print. A computer monitor is in a color scheme called RGB, printer us CMYK. 
+                                Your color will not be identical to what you see on screen, but they will close. The printer only prints the files according to how it "reads" them; i.e. your poster file
+                                consist of data codes that the computer and printer interprets and constructs your file with. 
+                                Sometimes, these files are interpreted differently between various computers, software programs, versions of software, and printers.</p>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <span><i class='fa fa-check-square-o fa-lg'></i></span>&nbsp;&nbsp;&nbsp;I agree with Terms and Condition
+                        </div>
+                    </div>
+                </div>
+                <!-- transaction history -->
+                <div class="row"><div class="col-sm-12"><hr></div></div>
+                <div class="row">
+                    <div class="col-sm-12" id="transaction_history"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- inspinia-2.5 javascript -->
+        <script src="../inspinia-2.5/js/jquery-2.1.1.js"></script>
+        <script src="../inspinia-2.5/js/bootstrap.min.js"></script>
+        <!-- inspinia-2.5 custom javascript -->
+        <script src="../inspinia-2.5/js/inspinia.min.js"></script>
+        <script src="../inspinia-2.5/js/plugins/pace/pace.min.js"></script>
+        <!-- include javascript -->
+        <!-- application javascript -->
+        <script src="js/printingPR.js"></script>
+        <script src="js/session_data.js"></script>
+        <script src="js/db_access.js"></script>
+    </body>
+</html>
