@@ -29,7 +29,11 @@ var m_edit_attachment = false;
 var m_total_page = 0;
 
 var m_str_dup_cost_info = "";
-var m_department_id = "";
+var m_user_depart_id = "";
+var m_billing_depart_id = "";
+
+var m_dup_total_print = 0;
+var m_dup_total_cost = 0.00;
 
 var print_request_id = "";
 var m_device = "";
@@ -45,17 +49,14 @@ window.onload = function() {
         getURLParameters();
         db_updatePrintRequestLocked(print_request_id, true);
         
-        getDeviceType();
+        getBillingDepart();
         getPaperType();
         getDuplex();
         getPaperColor();
         getCoverColor();
         getPaperSize();
-        getDepartment();
         getDuplicatingCopierPrice();
         
-        setDeviceDetail();
-//        getUserInformation();
         getPrintRequest();
 }
     else {
@@ -117,27 +118,34 @@ $(document).ready(function() {
         return false;
     });
     
-    // device type change event ////////////////////////////////////////////////
-    $('#device_type').change(function() { 
-        var device_type_id = $(this).val();
-        if (device_type_id === "1") {
-            $('#attachment_section').show();
-            $('#duplicating_section').hide();
-            $('#menu_dup_cost_info').hide();
-            $('#plotter_section').show();
+    // attachement file click event/////////////////////////////////////////////
+    $('#view_attachment_file').click(function() {  
+        var result = new Array();
+        result = db_getAttachment(print_request_id);
+        
+        if (result.length === 1) {
+            var url_pdf = "attach_files/" + result[0]['FileLinkName'];
+            var login_from = sessionStorage.getItem("ls_dc_loginFrom");
+            url_pdf = login_from.replace("IVCDUPS", "DCenter").replace("Login.html", "") + url_pdf;
+            window.open(url_pdf, '_blank');
+            return false;
         }
-        else if (device_type_id === "2") {
-            $('#attachment_section').show();
-            $('#duplicating_section').show();
-            $('#menu_dup_cost_info').show();
-            $('#plotter_section').hide();
-        }
-        else {
-            $('#attachment_section').hide();
-            $('#duplicating_section').hide();
-            $('#menu_dup_cost_info').hide();
-            $('#plotter_section').hide();
-        }
+    });
+    
+    // edit file button click //////////////////////////////////////////////////
+    $('#btn_edit_attachment').click(function() {
+        m_edit_attachment = true;
+        $('#file_view_section').hide();
+        $('#file_edit_section').show();
+        return false;
+    });
+    
+    // go back file button click ///////////////////////////////////////////////
+    $('#btn_go_back_attachment').click(function() {
+        m_edit_attachment = false;
+        $('#file_view_section').show();
+        $('#file_edit_section').hide();
+        return false;
     });
     
     // file change event ///////////////////////////////////////////////////////
@@ -150,8 +158,8 @@ $(document).ready(function() {
     });
     
     // duplicating event ///////////////////////////////////////////////////////
-    $('#department').change(function() {
-        m_department_id = $(this).val();
+    $('#billing_depart').change(function() {
+        m_billing_depart_id = $(this).val();
     });
     
     $('#quantity').change(function() {      
@@ -238,23 +246,48 @@ $(document).ready(function() {
     });
     
     // duplicationg submit button click ////////////////////////////////////////
-    $('#btn_dup_submit').click(function() {
+    $('#btn_dup_update').click(function() {     
+        var err_main = formValidation();
+        var err_duplicating = duplicatingValidation();
+        
+        if (err_main !== "") {
+            $.ladda('stopAll');
+            swal("Error", err_main, "error");
+            return false;
+        }
+        if (err_duplicating !== "") {
+            $.ladda('stopAll');
+            swal("Error", err_duplicating, "error");
+            return false;
+        }
+        
         $('#attachment_file').filestyle('disabled', true);
+        $('#btn_edit_attachment').prop('disabled', true);
+        $('#btn_go_back_attachment').prop('disabled', true);
+        $('#btn_dup_delete').prop('disabled', true);
         $('#btn_dup_cancel').prop('disabled', true);
         
-        setTimeout(function() {
-            var print_request_id = addPrintRequest();
-            uploadPDFAttachment(print_request_id);
+        setTimeout(function() {            
+            if (m_edit_attachment) {
+                var result = new Array();
+                result = db_getAttachment(print_request_id);
+                if (result.length === 1) {
+                    deleteAttachFile(result[0]['FileLinkName']);
+                }
+                db_deleteAttachment(print_request_id);
+                uploadPDFAttachment(print_request_id);
+            }
             
-            addDuplicating(print_request_id);
-            db_insertReceipt(print_request_id, m_str_dup_cost_info);
-            sendEmailDuplicatingRequestor(print_request_id);
-            sendEmailDuplicatingAdmin(print_request_id);
-            db_insertTransaction(print_request_id, sessionStorage.getItem('ls_dc_loginDisplayName'), "Request submitted");
+            updateDuplicating(print_request_id);
+            db_updateReceipt(print_request_id, m_str_dup_cost_info);
+            db_insertTransaction(print_request_id, sessionStorage.getItem('ls_dc_loginDisplayName'), "Duplicating request has been changed");
+            sendEmailUpdateAdmin(print_request_id, "Duplicating");
             
             $.ladda('stopAll');
-            swal({  title: "Success",
-                text: "Your duplication request has been submitted successfully",
+            db_updatePrintRequestLocked(print_request_id, false);
+            
+            swal({  title: "Updated",
+                text: "Your duplication request has been updated successfully",
                 type: "success",
                 confirmButtonText: "OK" },
                 function() {
@@ -266,24 +299,53 @@ $(document).ready(function() {
     });
     
     // plotting submit button click ////////////////////////////////////////////
-    $('#btn_plot_submit').click(function() {
+    $('#btn_plot_update').click(function() {
+        var err_main = formValidation();
+        var err_plotter = plotterValidation();
+        
+        if (err_main !== "") {
+            $.ladda('stopAll');
+            swal("Error", err_main, "error");
+            return false;
+        }
+        if (err_plotter !== "") {
+            $.ladda('stopAll');
+            swal("Error", err_plotter, "error");
+            return false;
+        }
+        
         $('#attachment_file').filestyle('disabled', true);
+        $('#btn_edit_attachment').prop('disabled', true);
+        $('#btn_go_back_attachment').prop('disabled', true);
+        $('#btn_plot_delete').prop('disabled', true);
         $('#btn_plot_cancel').prop('disabled', true);
         
         setTimeout(function() {
-            var print_request_id = addPrintRequest();
-            uploadPDFAttachment(print_request_id);
-            
-            addPlotter(print_request_id);
-            sendEmailPlotterRequestor(print_request_id);
-            sendEmailPlotterAdmin(print_request_id);
-            if (m_free) {
-                sendEmailPlotterHonorNotification();
+            if (m_edit_attachment) {
+                var result = new Array();
+                result = db_getAttachment(print_request_id);
+                if (result.length === 1) {
+                    deleteAttachFile(result[0]['FileLinkName']);
+                }
+                db_deleteAttachment(print_request_id);
+                uploadPDFAttachment(print_request_id);
             }
             
+            updatePlotter(print_request_id);
+            db_insertTransaction(print_request_id, sessionStorage.getItem('ls_dc_loginDisplayName'), "Plotter request has been changed");
+            sendEmailUpdateAdmin(print_request_id, "Plotter");
+            // testing email
+            sendEmailPlotterHonorUpdateNotification("Jerry Rudmann", "vptest@ivc.edu");
+            sendEmailPlotterHonorUpdateNotification("Kay Ryals", "deantest@ivc.edu");
+//            sendEmailPlotterHonorUpdateNotification("Jerry Rudmann", "jrudmann@ivc.edu");
+//            sendEmailPlotterHonorUpdateNotification("Kay Ryals", "kryals@ivc.edu");
+            
+            
             $.ladda('stopAll');
-            swal({  title: "Success",
-                text: "Your plotting request has been submitted successfully",
+            db_updatePrintRequestLocked(print_request_id, false);
+            
+            swal({  title: "Updated",
+                text: "Your plotting request has been updated successfully",
                 type: "success",
                 confirmButtonText: "OK" },
                 function() {
@@ -294,13 +356,61 @@ $(document).ready(function() {
         }, 1000);
     });
     
+    // duplicationg delete button click ////////////////////////////////////////
+    $('#btn_dup_delete').click(function() {
+        swal({ title: "Are you sure?", 
+               text: "You will not be able to recover this print request",
+               type: "warning", 
+               showCancelButton: true, 
+               confirmButtonColor: "#DD6B55", 
+               confirmButtonText: "Yes, delete it",
+               cancelButtonText: "No, close",
+               closeOnConfirm: false }, 
+               function() {                    
+                    db_updateDuplicating(print_request_id, 6);
+                    db_insertTransaction(print_request_id, localStorage.getItem('ls_dc_loginDisplayName'), "Duplicating print request has been deleted");
+                    sendEmailAdminPrintRequestDeleted("Duplicating");
+            
+                    db_updatePrintRequestLocked(print_request_id, false);
+                    swal("Deleted!", "Duplicating print request has been deleted", "success");
+               }
+            );
+
+        window.open('userHome.html', '_self');
+        return false;
+    });
+    
+    // plotting delete button click ////////////////////////////////////////////
+    $('#btn_plot_delete').click(function() {
+        swal({ title: "Are you sure?", 
+               text: "You will not be able to recover this print request",
+               type: "warning", 
+               showCancelButton: true, 
+               confirmButtonColor: "#DD6B55", 
+               confirmButtonText: "Yes, delete it",
+               cancelButtonText: "No, close",
+               closeOnConfirm: false }, 
+               function() {                    
+                    db_updatePlotter(print_request_id, 9);
+                    db_insertTransaction(print_request_id, localStorage.getItem('ls_dc_loginDisplayName'), "Plotter print request has been deleted");
+                    sendEmailAdminPrintRequestDeleted("Plotter");
+                    
+                    db_updatePrintRequestLocked(print_request_id, false);
+                    swal("Deleted!", "Plotter print request has been deleted", "success");
+               }
+            );
+
+        window.open('userHome.html', '_self');
+        return false;
+    });
+    
     // duplicationg cancel button click ////////////////////////////////////////
     $('#btn_dup_cancel').click(function() {
         window.open('userHome.html', '_self');
         return false;
     });
     
-    // duplicationg cancel button click ////////////////////////////////////////
+    // plotting cancel button click ////////////////////////////////////////////
     $('#btn_plot_cancel').click(function() {
         window.open('userHome.html', '_self');
         return false;
@@ -319,6 +429,58 @@ $(document).ready(function() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+function formValidation() {
+    var err = "";
+
+    if ($('#phone').val().replace(/\s+/g, '') === "") {
+        err += "Phone number is a required field\n";
+    }
+    if ($('#request_title').val().replace(/\s+/g, '') === "") {
+        err += "Request title is a required field\n";
+    }
+    if (m_edit_attachment && !m_file_attached) {
+        err += "Attachment is a required field\n";
+    }
+    if (m_edit_attachment && m_file_attached && m_total_page === 0) {
+        m_file_attached = false;
+        $('#attachment_file').filestyle('clear');
+        $('#pdf_pages').val("");
+        err += "Your PDF file are not correctly formatted. please verify your pdf file again\n";
+    }
+    
+    return err;
+}
+
+function plotterValidation() {
+    var err = "";
+    
+    if ($('#size_height').val().replace(/\s+/g, '') === "") {
+        err += "Size is a required field\n";
+    }
+    if ($('#ckb_terms_condition').is(':checked') === false) {
+        err += "Please check Terms and Condition\n";
+    }
+    
+    return err;
+}
+
+function duplicatingValidation() {
+    var err = "";
+    
+    if ($('#quantity').val().replace(/\s+/g, '') === "") {
+        err += "Quantity is a required field\n";
+    }
+    if ($('#date_needed').val().replace(/\s+/g, '') === "") {
+        err += "Date needed is a required field\n";
+    }
+    if ($('#time_needed').val().replace(/\s+/g, '') === "") {
+        err += "Time needed is a required field\n";
+    }
+    
+    return err;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function setDefaultOption() {
     $('#nav_my_profile').hide();
     $('#nav_completed_list').hide();
@@ -370,18 +532,6 @@ function getLoginInfo() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function getDeviceType() {
-    var result = new Array();
-    result = db_getDeviceType();
-    
-    var html = "<option value='0'>Select...</option>";
-    for (var i = 0; i < result.length; i++) {
-        html += "<option value='" + result[i]['DeviceTypeID'] + "'>" + result[i]['DeviceType'] + "</option>";
-    }
-    
-    $('#device_type').append(html);
-}
-
 function getPaperType() {
     var result = new Array();
     result = db_getPaperType();
@@ -490,21 +640,8 @@ function setHonorStudent() {
     }
 }
 
-function setDeviceDetail() {
-    if (sessionStorage.getItem('ls_dc_loginType') === "Student") {
-        $('#plotter_section').show();
-        setHonorStudent();
-        
-        $('#device_type').val("1");
-        $('#device_type').attr('disabled', true);
-    }
-    else {
-        $('#nav_my_profile').show();
-    }
-}
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function getDepartment() {
+function getBillingDepart() {
     var result = new Array();
     result = db_getDepartment();
     
@@ -513,7 +650,7 @@ function getDepartment() {
         html += "<option value='" + result[i]['DepartmentID'] + "'>" + result[i]['Department'] + "</option>";
     }
     
-    $('#department').append(html);
+    $('#billing_depart').append(html);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -524,7 +661,7 @@ function getPrintRequest() {
     if (result.length === 1) {
         var device_type_id = result[0]['DeviceTypeID'];
         setRequestorInformation(result[0]['LoginType'], result[0]['LoginID'], result[0]['Requestor'], result[0]['Email'], result[0]['Phone'], result[0]['RequestTitle']);
-        $('#device_type').val(device_type_id);
+        $('#device_type').val(db_getDeviceTypeName(device_type_id));
         setAttachment();
         
         if (device_type_id === "1") {
@@ -534,9 +671,8 @@ function getPrintRequest() {
         }
         else {
             m_device = "Duplicating";
-            $('#dept_section_1').show();
-            $('#dept_section_2').show();
             $('#duplicating_section').show();
+            $('#menu_dup_cost_info').show();
             setDuplicating();
         }
     }
@@ -549,6 +685,10 @@ function setRequestorInformation(login_type, login_id, requestor, email, phone, 
     
     if (login_type === "Staff") {
         $('#login_type').html("Employee ID:");
+        var result = new Array();
+        result = db_getUserProfile(sessionStorage.getItem('ls_dc_loginEmail'));
+        m_user_depart_id = result[0]['DepartmentID'];
+        $('#user_depart').val(db_getUserDepartName(m_user_depart_id));
     }
     else {
         $('#login_type').html("Student ID:");
@@ -563,9 +703,9 @@ function setAttachment() {
     result = db_getAttachment(print_request_id);
     
     if (result.length === 1) {        
-        $('#pdf_file_name').html(result[0]['FileName']);
-        m_total_page = result[0]['Pages'];
-        $('#previous_pdf_pages').html(m_total_page);
+        $('#view_attachment_file').html(result[0]['FileName']);
+        $('#pdf_pages').html(result[0]['Pages']);
+        m_total_page = Number(result[0]['Pages']);
     }
 }
 
@@ -575,7 +715,6 @@ function setPlotter() {
     
     if (result.length === 1) {        
         $('#paper_type').val(result[0]['PaperTypeID']);
-        $('#paper_type').selectpicker('refresh');
         
         $('#size_height').val(result[0]['SizeHeight']);
         $('#plot_total_cost').val(formatDollar(Number(result[0]['TotalCost']), 2));
@@ -586,7 +725,7 @@ function setPlotter() {
             $('#honor_student').hide();
         }
         
-        $('#plot_note').html(result[0]['Note'].replace(/\n/g, "<br>"));
+        $('#plot_note').val(result[0]['Note']);
     }
 }
 
@@ -595,78 +734,45 @@ function setDuplicating() {
     result = db_getDuplicating(print_request_id);
     
     if (result.length === 1) {        
-        m_department_id = result[0]['DepartmentID'];
-        if (m_department_id !== "0") {
-            $('#department').val(m_department_id);
-            $('#department').selectpicker('refresh');
-        }
-        
+        m_billing_depart_id = result[0]['DepartmentID'];        
+        $('#billing_depart').val(m_billing_depart_id);
         $('#quantity').val(result[0]['Quantity']);
         $('#date_needed').val(result[0]['DateNeeded']);
-        $('#date_needed').selectpicker('refresh');
         $('#time_needed').val(result[0]['TimeNeeded']);
         $('#paper_size').val(result[0]['PaperSizeID']);
-        $('#paper_size').selectpicker('refresh');
         $('#duplex').val(result[0]['DuplexID']);
-        $('#duplex').selectpicker('refresh');
         $('#paper_color').val(result[0]['PaperColorID']);
-        $('#paper_color').selectpicker('refresh');
         $('#cover_color').val(result[0]['CoverColorID']);
-        $('#cover_color').selectpicker('refresh');
         
         if (result[0]['ColorCopy'] === "1") {
-            $("#ckb_color_copy").prop('checked', true);
+            $("#ckb_color_copy").iCheck('check');
         }
         if (result[0]['FrontCover'] === "1") {
-            $("#ckb_front_cover").prop('checked', true);
+            $("#ckb_front_cover").iCheck('check');
         }
         if (result[0]['BackCover'] === "1") {
-            $("#ckb_back_cover").prop('checked', true);
+            $("#ckb_back_cover").iCheck('check');
         }
         if (result[0]['Confidential'] === "1") {
-            $("#ckb_confidential").prop('checked', true);
+            $("#ckb_confidential").iCheck('check');
         }
         if (result[0]['ThreeHolePunch'] === "1") {
-            $("#ckb_three_hole_punch").prop('checked', true);
+            $("#ckb_three_hole_punch").iCheck('check');
         }
         if (result[0]['Staple'] === "1") {
-            $("#ckb_staple").prop('checked', true);
+            $("#ckb_staple").iCheck('check');
         }
         if (result[0]['Cut'] === "1") {
-            $("#ckb_cut").prop('checked', true);
+            $("#ckb_cut").iCheck('check');
         }
+        $('#dup_note').val(result[0]['Note']);
+        
         $('#dup_total_print').html(result[0]['TotalPrint']);
         $('#dup_total_cost').html(formatDollar(Number(result[0]['TotalCost']), 2));
-        $('#dup_note').val(result[0]['Note']);
         
         calculateDupTotalCost();
     }
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//function getUserInformation() {
-//    if (sessionStorage.getItem('ls_dc_loginType') === "Staff") {
-//        $('#login_type').html("Employee ID:");
-//        
-//        var result = new Array();
-//        result = db_getUserProfile(sessionStorage.getItem('ls_dc_loginEmail'));
-//        $('#requestor').val(result[0]['UserName']);
-//        $('#email').val(result[0]['UserEmail']);
-//        $('#phone').val(result[0]['UserPhone']);
-//        $('#login_id').val(result[0]['EmployeeID']);
-//        m_department_id = result[0]['DepartmentID'];
-//        $('#user_depart').val(db_getDepartmentName(m_department_id));
-//        $('#department').val(m_department_id);
-//    }
-//    else {
-//        $('#login_type').html("Student ID:");
-//        $('#requestor').val(sessionStorage.getItem('ls_dc_loginDisplayName'));
-//        $('#email').val(sessionStorage.getItem('ls_dc_loginEmail'));
-//        $('#phone').val(sessionStorage.getItem('ls_dc_loginPhone'));
-//        $('#phone').attr("readonly", false);
-//        $('#login_id').val(sessionStorage.getItem('ls_dc_loginID'));
-//    }
-//}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function getPDFAttachmentInfo() {
@@ -736,6 +842,8 @@ function calculateDupTotalCost() {
     total_cost += front_cover + back_cover + cutCost();
     
     m_str_dup_cost_info += "<b>Print Cost: " + formatDollar(paper_cost, 3) + "</b><br>";
+    m_dup_total_print = quantity * Number(m_total_page);
+    m_dup_total_cost = total_cost;
     
     $('#dup_cost_info').html(m_str_dup_cost_info.trim());
     $('#dup_total_print').html("<b>Total Print: " + (quantity * Number(m_total_page)) + "</b>");
@@ -887,68 +995,46 @@ function cutCost() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function sendEmailPlotterRequestor(print_request_id) {
-    var url_param = "?print_request_id=" + print_request_id;
-    var name = $('#requestor').val();
-    var email = $('#email').val();
+function updatePlotter(print_request_id) {
+    var paper_type_id = $('#paper_type').val();
+    var size_height = textReplaceApostrophe($('#size_height').val());
+    var size_width = textReplaceApostrophe($('#size_width').val());
+    var plot_total_cost = revertDollar($('#plot_total_cost').val());
+    var waved_proof = ($('#ckb_waved_proof').is(':checked') ? true : false);
+    var note = textReplaceApostrophe($('#plot_note').val());
     
-    var subject = "Your new plotter request has been submitted";
-    var message = "Dear " + name + ", <br><br>";
-    message += "Thank you for your plotter request.  Request details:<br><br>";
-    message += "Contact Phone: " + $('#phone').val() + "<br>";
-    message += "Request Title: " + $('#request_title').val() + "<br>";
-    message += "Paper Type: " + db_getPaperTypeName($('#paper_type').val()) + "<br>";
-    message += "Size: " + $('#size_height').val() + " x " + $('#size_width').val() + "<br>";
-    message += "Total Cost: " + $('#plot_total_cost').val() + "<br><br>";
-    
-    message += "Please use the link below to review the status of your submission at any time.<br><br>";
-    
-    var str_url = location.href;
-    str_url = str_url.replace("newPrintRequest.html", "printRequest.html");
-    message += "<a href='" + str_url + url_param + "'>" + $('#request_title').val() + "</a><br><br>";
-    
-    message += "Should you have any questions or comments, please contact the IVC Duplicating Center.<br/><br/>"; 
-    message += "Thank you.<br>";
-    message += "IVC Duplicating Center<br>";
-    message += "ivcduplicating@ivc.edu<br>";
-    message += "phone: 949.451.5297";
-    
-    proc_sendEmail(email, name, subject, message);
+    return db_updatePlotterRequest(print_request_id, paper_type_id, size_height, size_width, plot_total_cost, waved_proof, note);
 }
 
-function sendEmailPlotterAdmin(print_request_id) {
-    var url_param = "?print_request_id=" + print_request_id;
-    var name = "Copier Center";
-    var email = "ivcduplicating@ivc.edu";
+function updateDuplicating(print_request_id) {        
+    var quantity = textReplaceApostrophe($('#quantity').val());
+    var date_needed = textReplaceApostrophe($('#date_needed').val());
+    var time_needed = textReplaceApostrophe($('#time_needed').val());
+    var paper_size_id = $('#paper_size').val();
+    var duplex_id = $('#duplex').val();
+    var paper_color_id = $('#paper_color').val();
+    var cover_color_id = $('#cover_color').val();
+    var color_copy = ($('#ckb_color_copy').is(':checked') ? true : false);
+    var front_cover = ($('#ckb_front_cover').is(':checked') ? true : false);
+    var back_cover = ($('#ckb_back_cover').is(':checked') ? true : false);
+    var confidential = ($('#ckb_confidential').is(':checked') ? true : false);
+    var three_hole_punch = ($('#ckb_three_hole_punch').is(':checked') ? true : false);
+    var staple = ($('#ckb_staple').is(':checked') ? true : false);
+    var cut = ($('#ckb_cut').is(':checked') ? true : false);
+    var total_print = m_dup_total_print;
+    var dup_total_cost = m_dup_total_cost;
+    var note = textReplaceApostrophe($('#dup_note').val());
     
-    var subject = "A new plotter request has been created";
-    var message = "Dear " + name + ", <br><br>";
-    message += "There is a new plotter request.  Request details:<br><br>";
-    message += "Requestor: " + $('#requestor').val() + "<br>";
-    message += "Contact Phone: " + $('#phone').val() + "<br>";
-    message += "Request Title: " + $('#request_title').val() + "<br>";
-    message += "Paper Type: " + db_getPaperTypeName($('#paper_type').val()) + "<br>";
-    message += "Size: " + $('#size_height').val() + " x " + $('#size_width').val() + "<br>";
-    message += "Total Cost: " + $('#plot_total_cost').val() + "<br>";
-    message += "Employee Type: " + sessionStorage.getItem('ls_dc_loginType') + "<br><br>";
-    
-    message += "Please use the link below to open request at anytime.<br><br>";
-
-    var str_url = location.href;
-    str_url = str_url.replace("newPrintRequest.html", "printRequest.html");
-    message += "<a href='" + str_url + url_param + "'>" + $('#request_title').val() + "</a><br><br>";
-    message += "Thank you.<br>";
-    
-    proc_sendEmail(email, name, subject, message);
+    return db_updateDuplicatingRequest(print_request_id, m_billing_depart_id, quantity, date_needed, time_needed, paper_size_id, duplex_id, paper_color_id, cover_color_id,
+                                        color_copy, front_cover, back_cover, confidential, three_hole_punch, staple, cut, total_print, dup_total_cost, note);
 }
 
-function sendEmailPlotterHonorNotification() {
-    var name = "";
-    var email = "jrudmann@ivc.edu;kryals@ivc.edu";
-    
-    var subject = "A new plotter request from honor student has been submitted";
-    var message = "Dear Jerry Rudmann/Kay Ryals, <br><br>";
-    message += "There is a new plotter request from honor student.  Request details:<br><br>";
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function sendEmailPlotterHonorUpdateNotification(name, email) {    
+    var subject = "A plotter request from honor student has been updated";
+    var message = "Dear " + name + ", <br><br>";
+    message += "There is a updated plotter request from honor student. Request details:<br><br>";
     message += "Requestor: " + $('#requestor').val() + "<br>";
     message += "Contact Phone: " + $('#phone').val() + "<br>";
     message += "Request Title: " + $('#request_title').val() + "<br>";
@@ -960,55 +1046,41 @@ function sendEmailPlotterHonorNotification() {
     proc_sendEmail(email, name, subject, message);
 }
 
-function sendEmailDuplicatingRequestor(print_request_id) {
-    var url_param = "?print_request_id=" + print_request_id;
-    var name = $('#requestor').val();
-    var email = $('#email').val();
+function sendEmailAdminPrintRequestDeleted(device_type) {
+    var name = "Jose Delgado";
+    var email = "ivcduplicating@ivc.edu";
     
-    var subject = "Your new duplicating request has been submitted";
+    // testing email
+    email = "presidenttest@ivc.edu";
+    
+    var subject = device_type + " print request has been canceled";
     var message = "Dear " + name + ", <br><br>";
-    message += "Thank you for your duplicating request.  Request details:<br><br>";
-    message += "Contact Phone: " + $('#phone').val() + "<br>";
-    message += "Request Title: " + $('#request_title').val() + "<br>";
-    message += "Date Needed: " + $('#date_needed').val() + " " + $('#time_needed').val() + "<br>";
-    message += "Quantity: " + $('#quantity').val() + "<br>";
-    message += "Department: " + $('#department').html() + "<br><br>";
-    
-    message += "Please use the link below to review the status of your submission at any time.<br><br>";
+    message += device_type + " print request, title <strong>" + $('#request_title').val() + "</strong> has been canceled from requestor<br>";    
+    message += "Please refresh your admin page.<br><br>";
 
-    var str_url = location.href;
-    str_url = str_url.replace("newPrintRequest.html", "printRequest.html");
-    message += "<a href='" + str_url + url_param + "'>" + $('#request_title').val() + "</a><br><br>";
-    
-    message += "Should you have any questions or comments, please contact the IVC Duplicating Center.<br/><br/>"; 
     message += "Thank you.<br>";
-    message += "IVC Duplicating Center<br>";
-    message += "ivcduplicating@ivc.edu<br>";
-    message += "phone: 949.451.5297";
     
     proc_sendEmail(email, name, subject, message);
 }
 
-function sendEmailDuplicatingAdmin(print_request_id) {
-    var url_param = "?print_request_id=" + print_request_id;
-    var name = "Copier Center";
+function sendEmailUpdateAdmin(print_request_id, device_type) {
+    var url_param = "adminPrintRequest.html?print_request_id=" + print_request_id;
+
+    var name = "Jose Delgado";
     var email = "ivcduplicating@ivc.edu";
     
-    var subject = "A new duplicating request has been created";
-    var message = "Dear " + name + ", <br><br>";
-    message += "There is a new duplicating request.  Request details:<br><br>";
-    message += "Requestor: " + $('#requestor').val() + "<br>";
-    message += "Contact Phone: " + $('#phone').val() + "<br>";
-    message += "Email: " + $('#email').val() + "<br>";
-    message += "Request Title: " + $('#request_title').val() + "<br>";
-    message += "Date Needed: " + $('#date_needed').val() + " " + $('#time_needed').val() + "<br>";
-    message += "Quantity: " + $('#quantity').val() + "<br><br>";
+    // testing email
+    email = "presidenttest@ivc.edu";
     
-    message += "Please use the link below to open request at anytime.<br><br>";
+    var subject = device_type + " print request has been changed";
+    var message = "Dear " + name + ", <br><br>";
+    message += device_type + " print request, title <strong>" + $('#request_title').val() + "</strong> has been changed<br>";    
+    message += "Please refresh your admin page and use the link below to open request at anytime.<br><br>";
+    
+    var login_from = sessionStorage.getItem("ls_dc_loginFrom");
+    var str_url = login_from.replace("Login.html", url_param);
 
-    var str_url = location.href;
-    str_url = str_url.replace("newPrintRequest.html", "printRequest.html");
-    message += "<a href='" + str_url + url_param + "'>" + $('#request_title').val() + "</a><br><br>";
+    message += "<a href='" + str_url + "'>" + $('#request_title').val() + "</a><br><br>";
     message += "Thank you.<br>";
     
     proc_sendEmail(email, name, subject, message);

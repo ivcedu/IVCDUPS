@@ -39,13 +39,13 @@
                                 IN+
                             </div>
                         </li>
-                        <li class="active iconic-color-default">
+                        <li class="iconic-color-default">
                             <a href="userHome.html"><i class="fa fa-home"></i> <span class="nav-label">My Home</span></a>
                         </li>
                         <li class="collapse iconic-color-default" id="nav_my_profile">
                             <a href="userProfile.html"><i class="fa fa-user"></i> <span class="nav-label">My Profile</span></a>
                         </li>
-                        <li class="iconic-color-default">
+                        <li class="active iconic-color-default">
                             <a href="newPrintRequest.html"><i class="fa fa-print"></i> <span class="nav-label">New Request</span></a>
                         </li>
                         <li>
@@ -58,7 +58,7 @@
                         </li>
                         <li class="collapse" id="menu_administrator">
                             <a href=#><i class="fa fa-lock"></i> <span class="nav-label">Administrator</span><span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level collapse">
+                            <ul class="nav nav-second-level">
                                 <li class="iconic-color-default"><a href="administrator.html">Admin List</a></li>
                                 <li class="iconic-color-default" id="nav_copier_price"><a href="copierPrice.html">Cpoier Price</a></li>
                                 <li class="iconic-color-default"><a href="honorStudent.html">Honor Student</a></li>
@@ -103,6 +103,7 @@
                         <div class="col-md-12">
                             <div class="ibox float-e-margins">
                                 <div class="ibox-content">
+                                    <br>
                                     <form class="form-horizontal">
                                         <div class="form-group">
                                             <label class="col-md-2 control-label">Name:</label> 
@@ -113,7 +114,7 @@
                                         <div class="form-group">
                                             <label class="col-md-2 control-label">Phone:</label> 
                                             <div class="col-md-4"><input type="text" class="form-control" readonly id="phone"></div>
-                                            <label class="col-md-2 control-label">Employee ID:</label> 
+                                            <label class="col-md-2 control-label" id="login_type"></label> 
                                             <div class="col-md-4"><input type="text" class="form-control" readonly id="login_id"></div>
                                         </div>
                                         <div class="form-group">
@@ -126,9 +127,7 @@
                                         </div>
                                         <div class="form-group has-success">
                                             <label class="col-md-2 control-label">Device Type:</label> 
-                                            <div class="col-md-4">
-                                                <select class="form-control m-b" data-container="body" id="device_type"></select>
-                                            </div>
+                                            <div class="col-md-4"><input type="text" class="form-control" readonly id="device_type"></div>
                                         </div> 
                                     </form>
                                 </div>
@@ -136,22 +135,39 @@
                         </div>
                     </div>                
                     <!-- attachment section -->
-                    <div hidden class="row" id="attachment_section">
+                    <div class="row" id="attachment_section">
                         <div class="col-md-12">
                             <div class="ibox float-e-margins">
                                 <div class="ibox-content">
-                                    <form class="form-horizontal">
-                                        <p class="text-danger" style="font-style: italic;">Note: The Duplication Center Only uses <b>PDF</b> files. Please save your file as a <b>PDF</b> before attaching to your request</p>
+                                    <br>
+                                    <form class="form-horizontal" id="file_view_section">
+                                        <div class="form-group has-success">
+                                            <label class="col-md-2 control-label">Attachment (PDF):</label>
+                                            <div class="col-md-4" style="padding-top: 7px; font-size: 14px;"><a href="#" id="view_attachment_file"></a></div>
+                                            <label class="col-md-1 col-md-offset-1 control-label">Pages:</label>
+                                            <div class="col-sm-1" style="padding-top: 7px; font-size: 14px;" id="pdf_pages"></div>
+                                            <div class="col-sm-2">
+                                                <button class="btn btn-primary col-md-12 iconic-color-default" id="btn_edit_attachment"><i class="fa fa-file-pdf-o"></i> Edit</button>
+                                            </div>
+                                        </div>  
+                                    </form>
+                                    <form hidden class="form-horizontal" id="file_edit_section">
+                                        <div class="form-group" style="font-size: 14px;">
+                                            <div class="col-md-10 col-md-offset-2">
+                                                <p class="text-danger" style="font-style: italic;">Note: The Duplication Center Only uses <b>PDF</b> files. Please save your file as a <b>PDF</b> before attaching to your request
+                                                &nbsp;&nbsp;&nbsp;<a href="http://www.adobe.com/products/acrobat/word-to-pdf-converter.html" target="_blank"><b>(How to convert word to PDF)</b></a></p>
+                                            </div>
+                                        </div>
                                         <div class="form-group has-success">
                                             <label class="col-md-2 control-label">Attachment (PDF):</label>
                                             <div class="col-md-4">
                                                 <input type="file" class="filestyle" accept="application/pdf" data-buttonName="btn-primary" id="attachment_file">
                                             </div>
-                                            <label class="col-md-1 control-label">Pages:</label>
+                                            <label class="col-md-1 col-md-offset-1 control-label">Pages:</label>
                                             <div class="col-md-1"><input type="text" class="form-control text-center font-bold" readonly id="pdf_pages"></div>
-                                            <div class="col-md-2 pull-right">
-                                                <a href="http://www.adobe.com/products/acrobat/word-to-pdf-converter.html" target="_blank">How to convert word to PDF</a>
-                                            </div>   
+                                            <div class="col-sm-2">
+                                                <button class="btn btn-outline btn-info col-md-12 iconic-color-default" id="btn_go_back_attachment"><i class="fa fa-reply"></i> Go Back</button>
+                                            </div>
                                         </div>  
                                     </form>
                                     <div hidden class="sk-spinner sk-spinner-fading-circle" id="spinner_attachment">
@@ -177,10 +193,11 @@
                         <div class="col-md-12">
                             <div class="ibox float-e-margins">
                                 <div class="ibox-content">
+                                    <br>
                                     <form class="form-horizontal">
                                         <div class="form-group has-success">
                                             <label class="col-md-2 control-label">Billing Depart:</label> 
-                                            <div class="col-md-4"><select class="form-control m-b" data-container="body" id="department"></select></div>
+                                            <div class="col-md-4"><select class="form-control m-b" data-container="body" id="billing_depart"></select></div>
                                         </div>  
                                         <div class="form-group has-success">
                                             <label class="col-md-2 control-label">Quantity:</label>
@@ -220,16 +237,19 @@
                                         <div class="form-group">
                                             <label class="col-md-2 control-label">Note:</label>
                                             <div class="col-md-10">
-                                                <textarea class="form-control" style="resize: vertical;" rows="2" id="dup_note"></textarea>
+                                                <textarea class="form-control" style="resize: vertical; height: 55px;" id="dup_note"></textarea>
                                             </div>
                                         </div>
                                     </form>
                                     <div class="panel-body">
                                         <div class="col-md-2">
-                                            <button class="ladda-button btn btn-success col-md-12 iconic-color-default" data-style="zoom-in" id="btn_dup_submit"><i class="fa fa-arrow-circle-up"></i> Submit</button>
+                                            <button class="ladda-button btn btn-success col-md-12 iconic-color-default" data-style="zoom-in" id="btn_dup_update"><i class="fa fa-arrow-circle-up"></i> Update</button>
                                         </div>
                                         <div class="col-md-2">
-                                            <button class="btn btn-warning col-md-12" id="btn_dup_cancel"><i class="fa fa-times-circle"></i> Cancel</button>
+                                            <button class="btn btn-danger col-md-12 iconic-color-default" id="btn_dup_delete"><i class="fa fa-trash"></i> Delete</button>
+                                        </div>
+                                        <div class="col-md-2 col-md-offset-6">
+                                            <button class="btn btn-outline btn-info col-md-12 iconic-color-default" id="btn_dup_cancel"><i class="fa fa-times-circle"></i> Cancel</button>
                                         </div>
                                     </div>
                                 </div>
@@ -241,6 +261,7 @@
                         <div class="col-md-12">
                             <div class="ibox float-e-margins">
                                 <div class="ibox-content">
+                                    <br>
                                     <form class="form-horizontal">
                                         <div class="form-group has-success">
                                             <label class="col-md-2 control-label">Paper Type:</label> 
@@ -258,7 +279,7 @@
                                         <div class="form-group">
                                             <label class="col-md-2 control-label">Note:</label>
                                             <div class="col-md-10">
-                                                <textarea class="form-control" style="resize: vertical;" rows="2" id="plot_note"></textarea>
+                                                <textarea class="form-control" style="resize: vertical; height: 55px;" id="plot_note"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -283,10 +304,13 @@
                                     <br>
                                     <div class="panel-body">
                                         <div class="col-md-2">
-                                            <button class="ladda-button btn btn-success col-sm-12 iconic-color-default" data-style="zoom-in" id="btn_plot_submit"><i class="fa fa-arrow-circle-up"></i> Submit</button>
+                                            <button class="ladda-button btn btn-success col-sm-12 iconic-color-default" data-style="zoom-in" id="btn_plot_update"><i class="fa fa-arrow-circle-up"></i> Update</button>
                                         </div>
                                         <div class="col-md-2">
-                                            <button class="btn btn-warning col-sm-12" id="btn_plot_cancel"><i class="fa fa-times-circle"></i> Cancel</button>
+                                            <button class="btn btn-danger col-sm-12 iconic-color-default" id="btn_plot_delete"><i class="fa fa-trash"></i> Delete</button>
+                                        </div>
+                                        <div class="col-md-2 col-md-offset-6">
+                                            <button class="btn btn-outline btn-info col-sm-12 iconic-color-default" id="btn_plot_cancel"><i class="fa fa-times-circle"></i> Cancel</button>
                                         </div>
                                     </div>
                                 </div>

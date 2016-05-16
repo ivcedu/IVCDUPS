@@ -267,7 +267,11 @@ $(document).ready(function() {
             sendEmailPlotterRequestor(print_request_id);
             sendEmailPlotterAdmin(print_request_id);
             if (m_free) {
-                sendEmailPlotterHonorNotification();
+                // testing email
+                sendEmailPlotterHonorNotification("Jerry Rudmann", "vptest@ivc.edu");
+                sendEmailPlotterHonorNotification("Kay Ryals", "deantest@ivc.edu");
+//                sendEmailPlotterHonorNotification("Jerry Rudmann", "jrudmann@ivc.edu");
+//                sendEmailPlotterHonorNotification("Kay Ryals", "kryals@ivc.edu");
             }
             db_insertTransaction(print_request_id, sessionStorage.getItem('ls_dc_loginDisplayName'), "Request submitted");
             
@@ -290,7 +294,7 @@ $(document).ready(function() {
         return false;
     });
     
-    // duplicationg cancel button click ////////////////////////////////////////
+    // plotting cancel button click ////////////////////////////////////////////
     $('#btn_plot_cancel').click(function() {
         window.open('userHome.html', '_self');
         return false;
@@ -372,6 +376,7 @@ function getDeviceType() {
     $('#device_type').append(html);
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function getPaperType() {
     var result = new Array();
     result = db_getPaperType();
@@ -487,7 +492,6 @@ function setDeviceDetail() {
         $('#device_type').val("1");
         $('#device_type').attr('disabled', true);
         $('#plotter_section').show();
-        $('#attachment_section').show();
     }
     else {
         $('#nav_my_profile').show();
@@ -944,15 +948,9 @@ function sendEmailPlotterAdmin(print_request_id) {
     proc_sendEmail(email, name, subject, message);
 }
 
-function sendEmailPlotterHonorNotification() {
-    var name = "";
-    var email = "jrudmann@ivc.edu;kryals@ivc.edu";
-    
-    // testing email
-    email = "vptest@ivc.edu;deantest@ivc.edu";
-    
+function sendEmailPlotterHonorNotification(name, email) {    
     var subject = "A new plotter request from honor student has been submitted";
-    var message = "Dear Jerry Rudmann/Kay Ryals, <br><br>";
+    var message = "Dear " + name + ", <br><br>";
     message += "There is a new plotter request from honor student. Request details:<br><br>";
     message += "Requestor: " + $('#requestor').val() + "<br>";
     message += "Contact Phone: " + $('#phone').val() + "<br>";
