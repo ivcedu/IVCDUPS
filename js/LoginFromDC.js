@@ -1,14 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {
-    if (user_ip !== "137.164.79.11") {
+    // verify copier front desk computer (ip address and Net BIOS Name)
+    var net_bios_name = getClientComputerName();
+    // testing ...
+    net_bios_name = "IMAC-0D3D76";
+    if (user_ip !== "137.164.79.11" || net_bios_name !== "IMAC-0D3D76") {
         window.open('Login.html', '_self');
         return false;
-    }
-    else {
-//        if (getClientComputerName() !== "") {
-//            window.open('Login.html', '_self');
-//            return false;
-//        }
     }
     $('#logn_error').hide();
 };
@@ -34,8 +32,17 @@ $(document).ready(function() {
                 }
             }
             else {
-                window.open('dropOffPrintRequest.html', '_self');
-                return false;
+                var result2 = new Array();
+                result2 = db_getHonorStudentByEmail(sessionStorage.getItem('ls_dc_loginEmail'));
+                
+                if (result2.length === 0) {
+                    swal("Error", "You don't have asscee to IVC Duplication Services", "error");
+                    return false;
+                }
+                else {
+                    window.open('dropOffPrintRequest.html', '_self');
+                    return false;
+                }
             }
         }
         else {

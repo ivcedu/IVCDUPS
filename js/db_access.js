@@ -532,6 +532,20 @@ function db_getDuplicating(PrintRequestID) {
     return result;
 }
 
+function db_getDropOff(PrintRequestID) {
+    var result = new Array();
+    $.ajax({
+        type:"POST",
+        url:"php/db_getDropOff.php",
+        data:{PrintRequestID:PrintRequestID},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
 function db_getTransaction(PrintRequestID) {
     var result = new Array();
     $.ajax({
@@ -716,6 +730,23 @@ function db_insertDuplicating(PrintRequestID, JobStatusDupID, DepartmentID, Quan
     return ResultID;
 }
 
+function db_insertDropOff(PrintRequestID, JobStatusDupID, DepartmentID, Pages, Quantity, DateNeeded, TimeNeeded, PaperSizeID, DuplexID, PaperColorID, CoverColorID,
+                                ColorCopy, FrontCover, BackCover, Confidential, ThreeHolePunch, Staple, Cut, TotalPrint, TotalCost, Note) {
+    var ResultID = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_insertDropOff.php",
+        data:{PrintRequestID:PrintRequestID, JobStatusDupID:JobStatusDupID, DepartmentID:DepartmentID, Pages:Pages, Quantity:Quantity, DateNeeded:DateNeeded, TimeNeeded:TimeNeeded,
+                PaperSizeID:PaperSizeID, DuplexID:DuplexID, PaperColorID:PaperColorID, CoverColorID:CoverColorID, ColorCopy:ColorCopy, FrontCover:FrontCover, 
+                BackCover:BackCover, Confidential:Confidential, ThreeHolePunch:ThreeHolePunch, Staple:Staple, Cut:Cut, TotalPrint:TotalPrint, TotalCost:TotalCost, Note:Note},
+        async: false,  
+        success:function(data) {
+            ResultID = JSON.parse(data);
+        }
+    });
+    return ResultID;
+}
+
 function db_insertTransaction(PrintRequestID, LoginName, Note) {
     var ResultID = "";
     $.ajax({
@@ -871,6 +902,20 @@ function db_updateDuplicating(PrintRequestID, JobStatusDupID) {
     return Result;
 }
 
+function db_updateDropOff(PrintRequestID, JobStatusDupID) {
+    var Result = false;
+    $.ajax({
+        type:"POST",
+        url:"php/db_updateDropOff.php",
+        data:{PrintRequestID:PrintRequestID, JobStatusDupID:JobStatusDupID},
+        async: false,  
+        success:function(data) {
+            Result = JSON.parse(data);
+        }
+    });
+    return Result;
+}
+
 function db_updateDepartment(PrintRequestID, DepartmentID) {
     var Result = false;
     $.ajax({
@@ -934,6 +979,23 @@ function db_updateDuplicatingRequest(PrintRequestID, DepartmentID, Quantity, Dat
         type:"POST",
         url:"php/db_updateDuplicatingRequest.php",
         data:{PrintRequestID:PrintRequestID, DepartmentID:DepartmentID, Quantity:Quantity, DateNeeded:DateNeeded, TimeNeeded:TimeNeeded,
+                PaperSizeID:PaperSizeID, DuplexID:DuplexID, PaperColorID:PaperColorID, CoverColorID:CoverColorID, ColorCopy:ColorCopy, FrontCover:FrontCover, 
+                BackCover:BackCover, Confidential:Confidential, ThreeHolePunch:ThreeHolePunch, Staple:Staple, Cut:Cut, TotalPrint:TotalPrint, TotalCost:TotalCost, Note:Note},
+        async: false,  
+        success:function(data) {
+            Result = JSON.parse(data);
+        }
+    });
+    return Result;
+}
+
+function db_updateDropOffRequest(PrintRequestID, DepartmentID, Pages, Quantity, DateNeeded, TimeNeeded, PaperSizeID, DuplexID, PaperColorID, CoverColorID,
+                                    ColorCopy, FrontCover, BackCover, Confidential, ThreeHolePunch, Staple, Cut, TotalPrint, TotalCost, Note) {
+    var Result = false;
+    $.ajax({
+        type:"POST",
+        url:"php/db_updateDropOffRequest.php",
+        data:{PrintRequestID:PrintRequestID, DepartmentID:DepartmentID, Pages:Pages, Quantity:Quantity, DateNeeded:DateNeeded, TimeNeeded:TimeNeeded,
                 PaperSizeID:PaperSizeID, DuplexID:DuplexID, PaperColorID:PaperColorID, CoverColorID:CoverColorID, ColorCopy:ColorCopy, FrontCover:FrontCover, 
                 BackCover:BackCover, Confidential:Confidential, ThreeHolePunch:ThreeHolePunch, Staple:Staple, Cut:Cut, TotalPrint:TotalPrint, TotalCost:TotalCost, Note:Note},
         async: false,  
