@@ -372,12 +372,17 @@ $(document).ready(function() {
                     sendEmailAdminPrintRequestDeleted("Duplicating");
             
                     db_updatePrintRequestLocked(print_request_id, false);
-                    swal("Deleted!", "Duplicating print request has been deleted", "success");
+                    swal({  title: "Deleted!",
+                            text: "Duplicating print request has been deleted",
+                            type: "success",
+                            confirmButtonText: "OK" },
+                            function() {
+                                window.open('userHome.html', '_self');
+                                return false;
+                            }
+                        );
                }
             );
-
-        window.open('userHome.html', '_self');
-        return false;
     });
     
     // plotting delete button click ////////////////////////////////////////////
@@ -396,12 +401,17 @@ $(document).ready(function() {
                     sendEmailAdminPrintRequestDeleted("Plotter");
                     
                     db_updatePrintRequestLocked(print_request_id, false);
-                    swal("Deleted!", "Plotter print request has been deleted", "success");
+                    swal({  title: "Deleted!",
+                            text: "Plotter print request has been deleted",
+                            type: "success",
+                            confirmButtonText: "OK" },
+                            function() {
+                                window.open('userHome.html', '_self');
+                                return false;
+                            }
+                        );
                }
             );
-
-        window.open('userHome.html', '_self');
-        return false;
     });
     
     // duplicationg cancel button click ////////////////////////////////////////
