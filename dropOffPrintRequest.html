@@ -70,37 +70,17 @@
                                         <div class="col-md-10"><input type="text" class="form-control" readonly id="user_depart"></div>
                                     </div>
                                     <div class="form-group has-success">
-                                        <label class="col-md-2 control-label">Request Title:</label> 
-                                        <div class="col-md-10"><input type="text" class="form-control" id="request_title"></div>
+                                        <label class="col-md-2 control-label">Device Type:</label> 
+                                        <div class="col-md-4"><input type="text" class="form-control font-bold" value="Drop Off" readonly id="device_type"></div>
+                                        <label class="col-md-2 control-label">Billing Depart:</label> 
+                                        <div class="col-md-4">
+                                            <select class="form-control m-b" data-container="body" id="drop_billing_depart"></select>
+                                        </div>
                                     </div>
                                     <div class="form-group has-success">
-                                        <label class="col-md-2 control-label">Device Type:</label> 
-                                        <div class="col-md-4">
-                                            <select class="form-control m-b" data-container="body" id="device_type"></select>
-                                        </div>
-                                    </div> 
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- dropoff section -->
-                <div hidden class="row" id="dropoff_section">
-                    <div class="col-md-12">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-content">
-                                <br>
-                                <form class="form-horizontal">
-                                    <div class="form-group has-success">
-                                        <label class="col-md-2 control-label">Billing Depart:</label> 
-                                        <div class="col-md-4"><select class="form-control m-b" data-container="body" id="drop_billing_depart"></select></div>
-                                        <label class="col-md-2 control-label">Pages:</label> 
-                                        <div class="col-md-1"><input type="text" class="form-control text-center font-bold" id="drop_pdf_pages"></div>
-                                    </div>  
-                                    <div class="form-group has-success">
-                                        <label class="col-md-2 control-label">Quantity:</label>
-                                        <div class="col-md-2"><input type="text" class="form-control" id="drop_quantity"></div>
-                                        <label class="col-md-2 col-md-offset-2 control-label">Date/Time Needed:</label>
+                                        <label class="col-md-2 control-label">Request Title:</label> 
+                                        <div class="col-md-4"><input type="text" class="form-control" id="request_title"></div>
+                                        <label class="col-md-2 control-label">Date/Time Needed:</label>
                                         <div class="col-md-2"><input type="text" class="form-control" placeholder="please click here" readonly id="drop_date_needed"></div>
                                         <div class="col-md-2">
                                             <div class="input-group bootstrap-timepicker">
@@ -108,47 +88,19 @@
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group has-success">
-                                        <label class="col-md-2 control-label">Paper Size:</label> 
-                                        <div class="col-md-4"><select class="form-control m-b" data-container="body" id="drop_paper_size"></select></div>
-                                        <label class="col-md-2 control-label">Duplex:</label> 
-                                        <div class="col-md-4"><select class="form-control m-b" data-container="body" id="drop_duplex"></select></div>
-                                    </div>
-                                    <div class="form-group has-success">
-                                        <label class="col-md-2 control-label">Paper Color:</label> 
-                                        <div class="col-md-4"><select class="form-control m-b" data-container="body" id="drop_paper_color"></select></div>
-                                        <label class="col-md-2 control-label">Cover Color:</label> 
-                                        <div class="col-md-4"><select class="form-control m-b" data-container="body" id="drop_cover_color"></select></div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="drop_ckb_color_copy">&nbsp;&nbsp;&nbsp;Color Copy</label></div></div>
-                                        <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="drop_ckb_front_cover">&nbsp;&nbsp;&nbsp;Front Cover</label></div></div>
-                                        <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="drop_ckb_back_cover">&nbsp;&nbsp;&nbsp;Back Cover</label></div></div>
-                                        <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="drop_ckb_confidential">&nbsp;&nbsp;&nbsp;Confidential</label></div></div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="drop_ckb_three_hole_punch">&nbsp;&nbsp;&nbsp;Three Hole Punch</label></div></div>
-                                        <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="drop_ckb_staple">&nbsp;&nbsp;&nbsp;Staple</label></div></div>
-                                        <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="drop_ckb_cut">&nbsp;&nbsp;&nbsp;Cut</label></div></div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-2 control-label">Note:</label>
-                                        <div class="col-md-10">
-                                            <textarea class="form-control" style="resize: vertical; height: 55px;" id="drop_off_note"></textarea>
-                                        </div>
-                                    </div>
+                                    </div> 
                                 </form>
-                                <div class="alert alert-success m-b-sm">
-                                    <p id="drop_cost_info"></p>
-                                    <p class="font-bold" id="drop_total_print"></p>
-                                    <p class="font-bold" id="drop_total_cost"></p>
-                                </div>
                                 <div class="panel-body">
                                     <div class="col-md-2">
+                                        <button class="btn btn-primary col-md-12 iconic-color-default" id="btn_drop_add_job"><i class="fa fa-plus-square"></i> Add Job</button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button class="btn btn-danger col-md-12 iconic-color-default" id="btn_drop_delete_job"><i class="fa fa-minus-square"></i> Delete Job</button>
+                                    </div>
+                                    <div class="col-md-2 col-md-offset-4">
                                         <button class="ladda-button btn btn-success col-md-12 iconic-color-default" data-style="zoom-in" id="btn_drop_submit"><i class="fa fa-arrow-circle-up"></i> Submit</button>
                                     </div>
-                                    <div class="col-md-2 col-md-offset-8">
+                                    <div class="col-md-2">
                                         <button class="btn btn-outline btn-info col-md-12 iconic-color-default" id="btn_drop_cancel"><i class="fa fa-times-circle"></i> Cancel</button>
                                     </div>
                                 </div>
@@ -156,171 +108,55 @@
                         </div>
                     </div>
                 </div>
-                <!-- attachment section -->
-                <div hidden class="row" id="attachment_section">
-                    <div class="col-md-12">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-content">
-                                <br>
-                                <form class="form-horizontal">
-                                    <div class="form-group" style="font-size: 14px;">
-                                        <div class="col-md-10 col-md-offset-2">
-                                            <p class="text-danger" style="font-style: italic;">Note: The Duplication Center Only uses <b>PDF</b> files. Please save your file as a <b>PDF</b> before attaching to your request
-                                            &nbsp;&nbsp;&nbsp;<a href="http://www.adobe.com/products/acrobat/word-to-pdf-converter.html" target="_blank"><b>(How to convert word to PDF)</b></a></p>
+                <!-- dropoff section -->
+                <div id="dropoff_section">
+                    <!-- job 1 default -->
+                    <div class="row" id="job_index_1">
+                        <div class="col-md-12">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-content">
+                                    <h2 class="font-bold">JOB # 1</h2>
+                                    <form class="form-horizontal">  
+                                        <div class="form-group has-success">
+                                            <label class="col-md-2 control-label">Quantity:</label>
+                                            <div class="col-md-1"><input type="text" class="form-control" id="quantity_job_1"></div>
+                                            <label class="col-md-2 control-label">Pages:</label>
+                                            <div class="col-md-1"><input type="text" class="form-control" id="pdf_pages_job_1"></div>
                                         </div>
-                                    </div>
-                                    <div class="form-group has-success">
-                                        <label class="col-md-2 control-label">Attachment (PDF):</label>
-                                        <div class="col-md-4">
-                                            <input type="file" class="filestyle" accept="application/pdf" data-buttonName="btn-primary" id="attachment_file">
+                                        <div class="form-group has-success">
+                                            <label class="col-md-2 control-label">Paper Size:</label> 
+                                            <div class="col-md-4"><select class="form-control m-b" data-container="body" id="paper_size_job_1"></select></div>
+                                            <label class="col-md-2 control-label">Duplex:</label> 
+                                            <div class="col-md-4"><select class="form-control m-b" data-container="body" id="duplex_job_1"></select></div>
                                         </div>
-                                        <label class="col-md-1 col-md-offset-1 control-label">Pages:</label>
-                                        <div class="col-md-1"><input type="text" class="form-control text-center font-bold" readonly id="pdf_pages"></div>
-                                        <div class="col-md-2 pull-right" style="padding-top: 5px;">
-                                            <a href="http://www.adobe.com/products/acrobat/word-to-pdf-converter.html" target="_blank">How to convert word to PDF</a>
-                                        </div>   
-                                    </div>  
-                                </form>
-                                <div hidden class="sk-spinner sk-spinner-fading-circle" id="spinner_attachment">
-                                    <div class="sk-circle1 sk-circle"></div>
-                                    <div class="sk-circle2 sk-circle"></div>
-                                    <div class="sk-circle3 sk-circle"></div>
-                                    <div class="sk-circle4 sk-circle"></div>
-                                    <div class="sk-circle5 sk-circle"></div>
-                                    <div class="sk-circle6 sk-circle"></div>
-                                    <div class="sk-circle7 sk-circle"></div>
-                                    <div class="sk-circle8 sk-circle"></div>
-                                    <div class="sk-circle9 sk-circle"></div>
-                                    <div class="sk-circle10 sk-circle"></div>
-                                    <div class="sk-circle11 sk-circle"></div>
-                                    <div class="sk-circle12 sk-circle"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- duplicating section -->
-                <div hidden class="row" id="duplicating_section">
-                    <div class="col-md-12">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-content">
-                                <br>
-                                <form class="form-horizontal">
-                                    <div class="form-group has-success">
-                                        <label class="col-md-2 control-label">Billing Depart:</label> 
-                                        <div class="col-md-4"><select class="form-control m-b" data-container="body" id="billing_depart"></select></div>
-                                    </div>  
-                                    <div class="form-group has-success">
-                                        <label class="col-md-2 control-label">Quantity:</label>
-                                        <div class="col-md-2"><input type="text" class="form-control" id="quantity"></div>
-                                        <label class="col-md-2 col-md-offset-2 control-label">Date/Time Needed:</label>
-                                        <div class="col-md-2"><input type="text" class="form-control" placeholder="please click here" readonly id="date_needed"></div>
-                                        <div class="col-md-2">
-                                            <div class="input-group bootstrap-timepicker">
-                                                <input class="form-control input-small" type="text" readonly id="time_needed">
-                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                        <div class="form-group has-success">
+                                            <label class="col-md-2 control-label">Paper Color:</label> 
+                                            <div class="col-md-4"><select class="form-control m-b" data-container="body" id="paper_color_job_1"></select></div>
+                                            <label class="col-md-2 control-label">Cover Color:</label> 
+                                            <div class="col-md-4"><select class="form-control m-b" data-container="body" id="cover_color_job_1"></select></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_color_copy_job_1">&nbsp;&nbsp;&nbsp;Color Copy</label></div></div>
+                                            <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_front_cover_job_1">&nbsp;&nbsp;&nbsp;Front Cover</label></div></div>
+                                            <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_back_cover_job_1">&nbsp;&nbsp;&nbsp;Back Cover</label></div></div>
+                                            <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_confidential_job_1">&nbsp;&nbsp;&nbsp;Confidential</label></div></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_three_hole_punch_job_1">&nbsp;&nbsp;&nbsp;Three Hole Punch</label></div></div>
+                                            <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_staple_job_1">&nbsp;&nbsp;&nbsp;Staple</label></div></div>
+                                            <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_cut_job_1">&nbsp;&nbsp;&nbsp;Cut</label></div></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">Note:</label>
+                                            <div class="col-md-10">
+                                                <textarea class="form-control" style="resize: vertical; height: 55px;" id="note_job_1"></textarea>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group has-success">
-                                        <label class="col-md-2 control-label">Paper Size:</label> 
-                                        <div class="col-md-4"><select class="form-control m-b" data-container="body" id="paper_size"></select></div>
-                                        <label class="col-md-2 control-label">Duplex:</label> 
-                                        <div class="col-md-4"><select class="form-control m-b" data-container="body" id="duplex"></select></div>
-                                    </div>
-                                    <div class="form-group has-success">
-                                        <label class="col-md-2 control-label">Paper Color:</label> 
-                                        <div class="col-md-4"><select class="form-control m-b" data-container="body" id="paper_color"></select></div>
-                                        <label class="col-md-2 control-label">Cover Color:</label> 
-                                        <div class="col-md-4"><select class="form-control m-b" data-container="body" id="cover_color"></select></div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_color_copy">&nbsp;&nbsp;&nbsp;Color Copy</label></div></div>
-                                        <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_front_cover">&nbsp;&nbsp;&nbsp;Front Cover</label></div></div>
-                                        <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_back_cover">&nbsp;&nbsp;&nbsp;Back Cover</label></div></div>
-                                        <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_confidential">&nbsp;&nbsp;&nbsp;Confidential</label></div></div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_three_hole_punch">&nbsp;&nbsp;&nbsp;Three Hole Punch</label></div></div>
-                                        <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_staple">&nbsp;&nbsp;&nbsp;Staple</label></div></div>
-                                        <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_cut">&nbsp;&nbsp;&nbsp;Cut</label></div></div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-2 control-label">Note:</label>
-                                        <div class="col-md-10">
-                                            <textarea class="form-control" style="resize: vertical; height: 55px;" id="dup_note"></textarea>
-                                        </div>
-                                    </div>
-                                </form>
-                                <div class="alert alert-success m-b-sm">
-                                    <p id="dup_cost_info"></p>
-                                    <p class="font-bold" id="dup_total_print"></p>
-                                    <p class="font-bold" id="dup_total_cost"></p>
-                                </div>
-                                <div class="panel-body">
-                                    <div class="col-md-2">
-                                        <button class="ladda-button btn btn-success col-md-12 iconic-color-default" data-style="zoom-in" id="btn_dup_submit"><i class="fa fa-arrow-circle-up"></i> Submit</button>
-                                    </div>
-                                    <div class="col-md-2 col-md-offset-8">
-                                        <button class="btn btn-outline btn-info col-md-12 iconic-color-default" id="btn_dup_cancel"><i class="fa fa-times-circle"></i> Cancel</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- plotter section -->
-                <div hidden class="row" id="plotter_section">
-                    <div class="col-md-12">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-content">
-                                <br>
-                                <form class="form-horizontal">
-                                    <div class="form-group has-success">
-                                        <label class="col-md-2 control-label">Paper Type:</label> 
-                                        <div class="col-md-4"><select class="form-control m-b" data-container="body" id="paper_type"></select></div>
-                                        <label class="col-md-2 control-label">Size in Inches:</label>
-                                        <div class="col-md-1"><input type="text" class="form-control text-center" id="size_height"></div>
-                                        <div class="col-md-1 text-center" style="padding-top: 7px; font-weight: bold;">X</div>
-                                        <div class="col-md-1"><input type="text" class="form-control text-center" readonly value="36" id="size_width"></div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-2 control-label">Total Cost:</label>
-                                        <div class="col-md-2"><input type="text" class="form-control" readonly id="plot_total_cost"></div>
-                                        <div class="col-md-6 pull-right" id="honor_student"><p class="text-danger"><b>Honor Student: Free of Charge</b></p></div>
-                                    </div>  
-                                    <div class="form-group">
-                                        <label class="col-md-2 control-label">Note:</label>
-                                        <div class="col-md-10">
-                                            <textarea class="form-control" style="resize: vertical; height: 55px;" id="plot_note"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-md-12">
-                                            <div class="i-checks"><label><input type="checkbox" checked id="ckb_waved_proof">&nbsp;&nbsp;&nbsp;Provide a sample of the document before processing my order.</label></div>  
-                                        </div>
-                                    </div>   
-                                </form>
-                                <div class="alert alert-success m-b-sm">
-                                    <h3>Terms and Conditions</h3>
-                                    <p>A photo ID must be presented at the time of pick-up. The requestor is the only person that can pick up the order.</p>
-                                    <p>All files should be at least 150 pixels per inch for acceptable quality. Files to be printed must be a single .pdf file sized to the actual size you want printed. 
-                                        The Duplication Center will not resize or modify files. They will be printed as is.</p>
-                                    <p><b>NOTE:</b> What you see on your computer monitor is not always what will print. A computer monitor is in a color scheme called RGB, printer us CMYK. 
-                                        Your color will not be identical to what you see on screen, but they will close. The printer only prints the files according to how it "reads" them; i.e. your poster file
-                                        consist of data codes that the computer and printer interprets and constructs your file with. 
-                                        Sometimes, these files are interpreted differently between various computers, software programs, versions of software, and printers.</p>
-                                </div>
-                                <div>
-                                    <div class="i-checks"><label><input type="checkbox" checked id="ckb_terms_condition">&nbsp;&nbsp;&nbsp;I agree with Terms and Condition</label></div>  
-                                </div>
-                                <br>
-                                <div class="panel-body">
-                                    <div class="col-md-2">
-                                        <button class="ladda-button btn btn-success col-sm-12 iconic-color-default" data-style="zoom-in" id="btn_plot_submit"><i class="fa fa-arrow-circle-up"></i> Submit</button>
-                                    </div>
-                                    <div class="col-md-2 col-md-offset-8">
-                                        <button class="btn btn-outline btn-info col-sm-12 iconic-color-default" id="btn_plot_cancel"><i class="fa fa-times-circle"></i> Cancel</button>
+                                    </form>
+                                    <div class="alert alert-success m-b-sm">
+                                        <p id="cost_info_job_1"></p>
+                                        <p class="font-bold" id="total_print_job_1"></p>
+                                        <p class="font-bold" id="total_cost_job_1"></p>
                                     </div>
                                 </div>
                             </div>

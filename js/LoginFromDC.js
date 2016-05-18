@@ -36,7 +36,7 @@ $(document).ready(function() {
                 result2 = db_getHonorStudentByEmail(sessionStorage.getItem('ls_dc_loginEmail'));
                 
                 if (result2.length === 0) {
-                    swal("Error", "You don't have asscee to IVC Duplication Services", "error");
+                    swal("Error", "You don't have asscee to IVC Duplicating Services", "error");
                     return false;
                 }
                 else {
