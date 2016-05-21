@@ -71,19 +71,17 @@ $(document).ready(function() {
     });
     
     // job section calculation event ///////////////////////////////////////////    
-    $(document).on('change', '[id^="pdf_pages_job_"]', function() {
-        var index_id = $(this).attr('id').replace("pdf_pages_job_", "");
-        var input_val = Number($(this).val().replace(/[^0-9\.]/g, ''));     
-        $(this).val(input_val);
-        var total_page = Number(input_val) * Number($('#quantity_job_' + index_id).val());
-        calculateDropOffTotalCost(index_id, total_page);
-    });
-    
     $(document).on('change', '[id^="quantity_job_"]', function() {
         var index_id = $(this).attr('id').replace("quantity_job_", "");
         var input_val = Number($(this).val().replace(/[^0-9\.]/g, ''));     
-        $(this).val(input_val);
-        var total_page = Number($('#pdf_pages_job_' + index_id).val()) * Number(input_val);
+        var total_page = Number($('#pdf_pages_job_' + index_id).val()) * input_val;
+        calculateDropOffTotalCost(index_id, total_page);
+    });
+    
+    $(document).on('change', '[id^="pdf_pages_job_"]', function() {
+        var index_id = $(this).attr('id').replace("pdf_pages_job_", "");
+        var input_val = Number($(this).val().replace(/[^0-9\.]/g, ''));     
+        var total_page = input_val * Number($('#quantity_job_' + index_id).val());
         calculateDropOffTotalCost(index_id, total_page);
     });
     
@@ -111,43 +109,43 @@ $(document).ready(function() {
         calculateDropOffTotalCost(index_id, total_page);
     });
     
-    $('[id^="ckb_color_copy_job_"]').on('ifChanged', function() {
+    $(document).on('ifChanged', '[id^="ckb_color_copy_job_"]', function() {
         var index_id = $(this).attr('id').replace("ckb_color_copy_job_", "");
         var total_page = Number($('#pdf_pages_job_' + index_id).val()) * Number($('#quantity_job_' + index_id).val());
         calculateDropOffTotalCost(index_id, total_page);
     });
     
-    $('[id^="ckb_front_cover_job_"]').on('ifChanged', function() {
+    $(document).on('ifChanged', '[id^="ckb_front_cover_job_"]', function() {
         var index_id = $(this).attr('id').replace("ckb_front_cover_job_", "");
         var total_page = Number($('#pdf_pages_job_' + index_id).val()) * Number($('#quantity_job_' + index_id).val());
         calculateDropOffTotalCost(index_id, total_page);
     });
     
-    $('[id^="ckb_back_cover_job_"]').on('ifChanged', function() {
+    $(document).on('ifChanged', '[id^="ckb_back_cover_job_"]', function() {
         var index_id = $(this).attr('id').replace("ckb_back_cover_job_", "");
         var total_page = Number($('#pdf_pages_job_' + index_id).val()) * Number($('#quantity_job_' + index_id).val());
         calculateDropOffTotalCost(index_id, total_page);
     });
     
-    $('[id^="ckb_confidential_job_"]').on('ifChanged', function() {
+    $(document).on('ifChanged', '[id^="ckb_confidential_job_"]', function() {
         var index_id = $(this).attr('id').replace("ckb_confidential_job_", "");
         var total_page = Number($('#pdf_pages_job_' + index_id).val()) * Number($('#quantity_job_' + index_id).val());
         calculateDropOffTotalCost(index_id, total_page);
     });
     
-    $('[id^="ckb_three_hole_punch_job_"]').on('ifChanged', function() {
+    $(document).on('ifChanged', '[id^="ckb_three_hole_punch_job_"]', function() {
         var index_id = $(this).attr('id').replace("ckb_three_hole_punch_job_", "");
         var total_page = Number($('#pdf_pages_job_' + index_id).val()) * Number($('#quantity_job_' + index_id).val());
         calculateDropOffTotalCost(index_id, total_page);
     });
     
-    $('[id^="ckb_staple_job_"]').on('ifChanged', function() {
+    $(document).on('ifChanged', '[id^="ckb_staple_job_"]', function() {
         var index_id = $(this).attr('id').replace("ckb_staple_job_", "");
         var total_page = Number($('#pdf_pages_job_' + index_id).val()) * Number($('#quantity_job_' + index_id).val());
         calculateDropOffTotalCost(index_id, total_page);
     });
     
-    $('[id^="ckb_cut_job_"]').on('ifChanged', function() {
+    $(document).on('ifChanged', '[id^="ckb_cut_job_"]', function() {
         var index_id = $(this).attr('id').replace("ckb_cut_job_", "");
         var total_page = Number($('#pdf_pages_job_' + index_id).val()) * Number($('#quantity_job_' + index_id).val());
         calculateDropOffTotalCost(index_id, total_page);
@@ -173,41 +171,43 @@ $(document).ready(function() {
     // drop off submit button click ////////////////////////////////////////////
     $('#btn_drop_submit').click(function() {
         var err_main = formDropOffValidation();
-//        var err_drop_off = dropOffValidation();
+        var err_jobs = jobDropOffValidation();
         
         if (err_main !== "") {
             $.ladda('stopAll');
             swal("Error", err_main, "error");
             return false;
         }
-//        if (err_drop_off !== "") {
-//            $.ladda('stopAll');
-//            swal("Error", err_drop_off, "error");
-//            return false;
-//        }
-//
-//        $('#btn_drop_add_job').prop('disabled', true);
-//        $('#btn_drop_cancel').prop('disabled', true);
+        if (err_jobs !== "") {
+            $.ladda('stopAll');
+            swal("Error", err_jobs, "error");
+            return false;
+        }
+
+        $('#btn_drop_add_job').prop('disabled', true);
+        $('#btn_drop_delete_job').prop('disabled', true);
+        $('#btn_drop_submit').prop('disabled', true);
+        $('#btn_drop_cancel').prop('disabled', true);
         
-//        setTimeout(function() {
-//            var print_request_id = addPrintRequest();
-//            addDropOff(print_request_id);
-//            db_insertReceipt(print_request_id, m_str_dup_cost_info);
-//            db_insertTransaction(print_request_id, sessionStorage.getItem('ls_dc_loginDisplayName'), "Request submitted");
-//            // print invoice
-//            
-//            $.ladda('stopAll');
-//            swal({  title: "Success",
-//                text: "Your copy center drop off request has been submitted successfully",
-//                type: "success",
-//                confirmButtonText: "OK" },
-//                function() {
-//                    sessionStorage.clear();
-//                    window.open('LoginFromDC.html', '_self');
-//                    return false;
-//                }
-//            );
-//        }, 1000);        
+        setTimeout(function() {
+            var print_request_id = addPrintRequest();
+            addDropOffJob(print_request_id);
+            db_insertTransaction(print_request_id, sessionStorage.getItem('ls_dc_loginDisplayName'), "Request submitted");
+            
+            window.open('printingDropOff.html?print_request_id=' + print_request_id, '_blank');
+
+            $.ladda('stopAll');
+            swal({  title: "Success",
+                text: "Your copy center drop off request has been submitted successfully",
+                type: "success",
+                confirmButtonText: "OK" },
+                function() {
+                    sessionStorage.clear();
+                    window.open('LoginFromDC.html', '_self');
+                    return false;
+                }
+            );
+        }, 1000);        
     });
 
     // drop off cancel button click ////////////////////////////////////////////
@@ -355,9 +355,10 @@ function calculateDropOffTotalCost(index_id, total_page) {
     var cost_info = "";
     var paper_cost = 0.0;
     var quantity = Number($('#quantity_job_' + index_id).val());
+    var pages = Number($('#pdf_pages_job_' + index_id).val());
     var paper_color = $('#paper_color_job_' + index_id + ' option:selected').text();
     
-    cost_info += "Original Page: " + total_page + "<br/>";
+    cost_info += "Original Page: " + pages + "<br/>";
     cost_info += "Quantity: " + quantity + "<br/>";
     cost_info += "Paper Color: " + paper_color + "<br/>";
     
@@ -381,8 +382,8 @@ function calculateDropOffTotalCost(index_id, total_page) {
     cost_info += "<b>Print Cost: " + formatDollar(paper_cost, 3) + "</b><br>";
     
     $('#cost_info_job_' + index_id).html(cost_info.trim());
-    $('#total_print_job_' + index_id).html("<b>Total Print: " + total_page + "</b>");
-    $('#total_cost_job_' + index_id).html("<b>Total Cost: " + formatDollar(total_cost, 2) + "</b>");
+    $('#total_print_job_' + index_id).html(total_page);
+    $('#total_cost_job_' + index_id).html(formatDollar(total_cost, 2));
 }
 
 function getDropOffPrintPaperPrice(index_id) {
@@ -626,13 +627,18 @@ function formDropOffValidation() {
     return err;
 }
 
-function duplicatingValidation() {
+function jobDropOffValidation() {
     var err = "";
     
-    if ($('#quantity').val().replace(/\s+/g, '') === "") {
-        err += "Quantity is a required field\n";
+    for (var i = 1; i <= job_index; i++) {
+        if ($('#quantity_job_' + i).val().replace(/\s+/g, '') === "" || $('#quantity_job_' + i).val().replace(/\s+/g, '') === "0") {
+            err += "Job # " + i + ": Quantity is a required field\n";
+        }
+        if ($('#pdf_pages_job_' + i).val().replace(/\s+/g, '') === "" || $('#pdf_pages_job_' + i).val().replace(/\s+/g, '') === "0") {
+            err += "Job # " + i + ": Pages number is a required field\n";
+        }
     }
-    
+
     return err;
 }
 
@@ -644,19 +650,22 @@ function addPrintRequest() {
     var login_type = sessionStorage.getItem('ls_dc_loginType');
     var login_id = textReplaceApostrophe($('#login_id').val());
     var request_title = textReplaceApostrophe($('#request_title').val());
-    var device_type_id = $('#device_type').val();
-    var delivery_location_id = "3";
-    if (device_type_id === "2" || device_type_id === "3") {
-        delivery_location_id = "1";
-    }
     
-    return db_insertPrintRequest(device_type_id, delivery_location_id, login_type, login_id, name, email, phone, request_title);
+    return db_insertPrintRequest("3", "1", login_type, login_id, name, email, phone, request_title);
 }
 
-function addDropOff(print_request_id, job_row) {
+function addDropOffJob(print_request_id) {
+    for (var i = 1; i <= job_index; i++) {
+        addEachDropOffJob(print_request_id, i);
+        var cost_info = $('#cost_info_job_' + i).html();
+        db_insertReceipt(print_request_id, cost_info);
+    }
+}
+
+function addEachDropOffJob(print_request_id, job_row) {
     var date_needed = textReplaceApostrophe($('#drop_date_needed').val());
     var time_needed = textReplaceApostrophe($('#drop_time_needed').val());
-    
+    var job_name = "Job # " + job_row;
     var pages = textReplaceApostrophe($('#pdf_pages_job_' + job_row).val());
     var quantity = textReplaceApostrophe($('#quantity_job_' + job_row).val());
     var paper_size_id = $('#paper_size_job_' + job_row).val();
@@ -672,11 +681,11 @@ function addDropOff(print_request_id, job_row) {
     var cut = ($('#ckb_cut_job_' + job_row).is(':checked') ? true : false);
     
     var total_print = $('#total_print_job_' + job_row).html();
-    var dup_total_cost = revertDollar($('#total_cost_job_' + job_row).html());
+    var total_cost = revertDollar($('#total_cost_job_' + job_row).html());
     var note = textReplaceApostrophe($('#note_job_' + + job_row).val());
     
-    return db_insertDropOff(print_request_id, "1", m_billing_depart_id, pages, quantity, date_needed, time_needed, paper_size_id, duplex_id, paper_color_id, cover_color_id,
-                                color_copy, front_cover, back_cover, confidential, three_hole_punch, staple, cut, total_print, dup_total_cost, note);
+    return db_insertDropOffJob(print_request_id, "1", m_billing_depart_id, job_name, pages, quantity, date_needed, time_needed, paper_size_id, duplex_id, paper_color_id, cover_color_id,
+                                color_copy, front_cover, back_cover, confidential, three_hole_punch, staple, cut, total_print, total_cost, note);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -684,11 +693,12 @@ function setAddJobSectionHTML() {
     var str_html = "<div class='row' id='job_index_" + job_index + "'>";
     str_html += "<div class='col-md-12'>";
     str_html += "<div class='ibox float-e-margins'>";
-    str_html += "<div class='ibox-content'>";
-    str_html += "<h2 class='font-bold'>JOB # " + job_index + "</h2>";                   
-    str_html += "<form class='form-horizontal'>";                   
-    str_html += "<div class='form-group has-success'>";                             
-    str_html += "<label class='col-md-2 control-label'>Quantity:</label>";                                 
+    str_html += "<div class='ibox-content'>";                   
+    str_html += "<form class='form-horizontal'>"; 
+    str_html += "<br>";
+    str_html += "<div class='form-group has-success'>";
+    str_html += "<div class='col-md-2'><h2 class='pull-right font-bold'>JOB # " + job_index + "</h2></div>";
+    str_html += "<label class='col-md-2 col-md-offset-4 control-label'>Quantity:</label>";                                 
     str_html += "<div class='col-md-1'><input type='text' class='form-control' id='quantity_job_" + job_index + "'></div>";                                  
     str_html += "<label class='col-md-2 control-label'>Pages:</label>";                                     
     str_html += "<div class='col-md-1'><input type='text' class='form-control' id='pdf_pages_job_" + job_index + "'></div>";                                         
@@ -707,14 +717,14 @@ function setAddJobSectionHTML() {
     str_html += "</div>";                                        
     str_html += "<div class='form-group'>"; 
     str_html += "<div class='col-md-3'><div class='i-checks'><label><input type='checkbox' id='ckb_color_copy_job_" + job_index + "'>&nbsp;&nbsp;&nbsp;Color Copy</label></div></div>";
-    str_html += "<div class='col-md-3'><div class='i-checks'><label><input type='checkbox' id='ckb_front_cover_job_" + job_index + "'>&nbsp;&nbsp;&nbsp;Color Copy</label></div></div>";
-    str_html += "<div class='col-md-3'><div class='i-checks'><label><input type='checkbox' id='ckb_back_cover_job_" + job_index + "'>&nbsp;&nbsp;&nbsp;Color Copy</label></div></div>";
-    str_html += "<div class='col-md-3'><div class='i-checks'><label><input type='checkbox' id='ckb_confidential_job_" + job_index + "'>&nbsp;&nbsp;&nbsp;Color Copy</label></div></div>";                                        
+    str_html += "<div class='col-md-3'><div class='i-checks'><label><input type='checkbox' id='ckb_front_cover_job_" + job_index + "'>&nbsp;&nbsp;&nbsp;Front Cover</label></div></div>";
+    str_html += "<div class='col-md-3'><div class='i-checks'><label><input type='checkbox' id='ckb_back_cover_job_" + job_index + "'>&nbsp;&nbsp;&nbsp;Back Cover</label></div></div>";
+    str_html += "<div class='col-md-3'><div class='i-checks'><label><input type='checkbox' id='ckb_confidential_job_" + job_index + "'>&nbsp;&nbsp;&nbsp;Confidential</label></div></div>";                                        
     str_html += "</div>";                                        
     str_html += "<div class='form-group'>"; 
-    str_html += "<div class='col-md-3'><div class='i-checks'><label><input type='checkbox' id='ckb_three_hole_punch_job_" + job_index + "'>&nbsp;&nbsp;&nbsp;Color Copy</label></div></div>";
-    str_html += "<div class='col-md-3'><div class='i-checks'><label><input type='checkbox' id='ckb_staple_job_" + job_index + "'>&nbsp;&nbsp;&nbsp;Color Copy</label></div></div>";
-    str_html += "<div class='col-md-3'><div class='i-checks'><label><input type='checkbox' id='ckb_cut_job_" + job_index + "'>&nbsp;&nbsp;&nbsp;Color Copy</label></div></div>";
+    str_html += "<div class='col-md-3'><div class='i-checks'><label><input type='checkbox' id='ckb_three_hole_punch_job_" + job_index + "'>&nbsp;&nbsp;&nbsp;Three Hole Punch</label></div></div>";
+    str_html += "<div class='col-md-3'><div class='i-checks'><label><input type='checkbox' id='ckb_staple_job_" + job_index + "'>&nbsp;&nbsp;&nbsp;Staple</label></div></div>";
+    str_html += "<div class='col-md-3'><div class='i-checks'><label><input type='checkbox' id='ckb_cut_job_" + job_index + "'>&nbsp;&nbsp;&nbsp;Cut</label></div></div>";
     str_html += "</div>";                                        
     str_html += "<div class='form-group'>";
     str_html += "<label class='col-md-2 control-label'>Note:</label>";
@@ -725,8 +735,8 @@ function setAddJobSectionHTML() {
     str_html += "</form>";
     str_html += "<div class='alert alert-success m-b-sm'>";
     str_html += "<p id='cost_info_job_" + job_index + "'></p>";
-    str_html += "<p class='font-bold' id='total_print_job_" + job_index + "'></p>";                                
-    str_html += "<p class='font-bold' id='total_cost_job_" + job_index + "'></p>";                                 
+    str_html += "<p class='font-bold'><b>Total Print: </b><b id='total_print_job_" + job_index + "'></b></p>";                                
+    str_html += "<p class='font-bold'><b>Total Cost: </b><b id='total_cost_job_" + job_index + "'></b></p>";                                 
     str_html += "</div>";
     str_html += "</div>";                                    
     str_html += "</div>";
@@ -741,9 +751,4 @@ function setAddJobSectionHTML() {
     });
     
     $('#note_job_' + job_index).autosize();
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function setDeleteJobSectionHTML() {
-    
 }

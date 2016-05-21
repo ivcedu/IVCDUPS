@@ -67,20 +67,22 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-2 control-label">Department:</label> 
-                                        <div class="col-md-10"><input type="text" class="form-control" readonly id="user_depart"></div>
+                                        <div class="col-md-4"><input type="text" class="form-control" readonly id="user_depart"></div>
                                     </div>
                                     <div class="form-group has-success">
-                                        <label class="col-md-2 control-label">Device Type:</label> 
-                                        <div class="col-md-4"><input type="text" class="form-control font-bold" value="Drop Off" readonly id="device_type"></div>
+                                        <label class="col-md-2 control-label">Request Title:</label> 
+                                        <div class="col-md-10"><input type="text" class="form-control" id="request_title"></div>
+                                    </div> 
+                                    <div class="form-group has-success">
                                         <label class="col-md-2 control-label">Billing Depart:</label> 
                                         <div class="col-md-4">
                                             <select class="form-control m-b" data-container="body" id="drop_billing_depart"></select>
                                         </div>
                                     </div>
                                     <div class="form-group has-success">
-                                        <label class="col-md-2 control-label">Request Title:</label> 
-                                        <div class="col-md-4"><input type="text" class="form-control" id="request_title"></div>
-                                        <label class="col-md-2 control-label">Date/Time Needed:</label>
+                                        <label class="col-md-2 control-label">Device Type:</label> 
+                                        <div class="col-md-2"><input type="text" class="form-control font-bold" value="Drop Off" readonly id="device_type"></div>
+                                        <label class="col-md-3 col-md-offset-1 control-label">Date/Time Needed:</label>
                                         <div class="col-md-2"><input type="text" class="form-control" placeholder="please click here" readonly id="drop_date_needed"></div>
                                         <div class="col-md-2">
                                             <div class="input-group bootstrap-timepicker">
@@ -88,7 +90,7 @@
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                             </div>
                                         </div>
-                                    </div> 
+                                    </div>
                                 </form>
                                 <div class="panel-body">
                                     <div class="col-md-2">
@@ -115,10 +117,11 @@
                         <div class="col-md-12">
                             <div class="ibox float-e-margins">
                                 <div class="ibox-content">
-                                    <h2 class="font-bold">JOB # 1</h2>
-                                    <form class="form-horizontal">  
+                                    <form class="form-horizontal">
+                                        <br>
                                         <div class="form-group has-success">
-                                            <label class="col-md-2 control-label">Quantity:</label>
+                                            <div class="col-md-2"><h2 class="pull-right font-bold">JOB # 1</h2></div>
+                                            <label class="col-md-2 col-md-offset-4 control-label">Quantity:</label>
                                             <div class="col-md-1"><input type="text" class="form-control" id="quantity_job_1"></div>
                                             <label class="col-md-2 control-label">Pages:</label>
                                             <div class="col-md-1"><input type="text" class="form-control" id="pdf_pages_job_1"></div>
@@ -155,8 +158,8 @@
                                     </form>
                                     <div class="alert alert-success m-b-sm">
                                         <p id="cost_info_job_1"></p>
-                                        <p class="font-bold" id="total_print_job_1"></p>
-                                        <p class="font-bold" id="total_cost_job_1"></p>
+                                        <p class="font-bold"><b>Total Print: </b><b id="total_print_job_1"></b></p>
+                                        <p class="font-bold"><b>Total Cost: </b><b id="total_cost_job_1"></b></p>
                                     </div>
                                 </div>
                             </div>

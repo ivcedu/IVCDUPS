@@ -2,7 +2,9 @@
     require("config.php");
     
     $PrintRequestID = filter_input(INPUT_POST, 'PrintRequestID');
+    $JobStatusDupID = filter_input(INPUT_POST, 'JobStatusDupID');
     $DepartmentID = filter_input(INPUT_POST, 'DepartmentID');
+    $JobName = filter_input(INPUT_POST, 'JobName');
     $Pages = filter_input(INPUT_POST, 'Pages');
     $Quantity = filter_input(INPUT_POST, 'Quantity');
     $DateNeeded = filter_input(INPUT_POST, 'DateNeeded');
@@ -22,29 +24,13 @@
     $TotalCost = filter_input(INPUT_POST, 'TotalCost');
     $Note = filter_input(INPUT_POST, 'Note');
 
-    $query = "UPDATE [IVCDCENTER].[dbo].[DropOff] "
-                ."SET DepartmentID = '".$DepartmentID."', "
-                ."Pages = '".$Pages."', "
-                ."Quantity = '".$Quantity."', "
-                ."DateNeeded = '".$DateNeeded."', "
-                ."TimeNeeded = '".$TimeNeeded."', "
-                ."PaperSizeID = '".$PaperSizeID."', "
-                ."DuplexID = '".$DuplexID."', "
-                ."PaperColorID = '".$PaperColorID."', "
-                ."CoverColorID = '".$CoverColorID."', "
-                ."ColorCopy = '".$ColorCopy."', "
-                ."FrontCover = '".$FrontCover."', "
-                ."BackCover = '".$BackCover."', "
-                ."Confidential = '".$Confidential."', "
-                ."ThreeHolePunch = '".$ThreeHolePunch."', "
-                ."Staple = '".$Staple."', "
-                ."Cut = '".$Cut."', "
-                ."TotalPrint = '".$TotalPrint."', "
-                ."TotalCost = '".$TotalCost."', "
-                ."Note = '".$Note."' "
-                ."WHERE PrintRequestID = '".$PrintRequestID."'";
+    $query = "INSERT INTO [IVCDCENTER].[dbo].[DropOffJob] (PrintRequestID, JobStatusDupID, DepartmentID, JobName, Pages, Quantity, DateNeeded, TimeNeeded, "
+                . "PaperSizeID, DuplexID, PaperColorID, CoverColorID, ColorCopy, FrontCover, BackCover, Confidential, ThreeHolePunch, Staple, Cut, TotalPrint, TotalCost, Note) "
+                . "VALUES ('$PrintRequestID', '$JobStatusDupID', '$DepartmentID', '$JobName', '$Pages', '$Quantity', '$DateNeeded', '$TimeNeeded', "
+                . "'$PaperSizeID', '$DuplexID', '$PaperColorID', '$CoverColorID', '$ColorCopy', '$FrontCover', '$BackCover', '$Confidential', '$ThreeHolePunch', '$Staple', '$Cut', '$TotalPrint', '$TotalCost', '$Note')";  
     
     $cmd = $dbConn->prepare($query);
-    $result = $cmd->execute(); 
+    $cmd->execute();
+    $ResultID = $dbConn->lastInsertId();
 
-    echo json_encode($result);
+    echo json_encode($ResultID);

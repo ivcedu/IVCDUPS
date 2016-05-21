@@ -184,6 +184,7 @@ $(document).ready(function() {
     
     $('#size_height').change(function() {      
         var input_val = Number($(this).val().replace(/[^0-9\.]/g, '')); 
+        $(this).val(input_val);
         var paper_type_id = $('#paper_type').val();
         if (paper_type_id === "1") {
             var plot_total_cost = input_val * m_bond_cost;
@@ -789,7 +790,7 @@ function formValidation() {
 function plotterValidation() {
     var err = "";
     
-    if ($('#size_height').val().replace(/\s+/g, '') === "") {
+    if ($('#size_height').val().replace(/\s+/g, '') === "" || $('#size_height').val().replace(/\s+/g, '') === "0") {
         err += "Size is a required field\n";
     }
     if ($('#ckb_terms_condition').is(':checked') === false) {
@@ -802,7 +803,7 @@ function plotterValidation() {
 function duplicatingValidation() {
     var err = "";
     
-    if ($('#quantity').val().replace(/\s+/g, '') === "") {
+    if ($('#quantity').val().replace(/\s+/g, '') === "" || $('#quantity').val().replace(/\s+/g, '') === "0") {
         err += "Quantity is a required field\n";
     }
     if ($('#date_needed').val().replace(/\s+/g, '') === "") {

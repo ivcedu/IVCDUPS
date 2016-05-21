@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+        <meta http-equiv="Cache-Control" content="no-cache"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Drop Off Request Print View</title>
+        <!-- inspinia-2.5 css -->
+        <link rel="stylesheet" href="../inspinia-2.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../inspinia-2.5/font-awesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../inspinia-2.5/css/animate.css">
+        <link rel="stylesheet" href="../inspinia-2.5/css/style.css">
+        <!-- homer-1.9 App css -->
+        <!-- include css -->
+        <!-- application css -->
+        <link rel="stylesheet" href="css/print-style.css"/>
+    </head>
+    <body class="white-bg">
+        <div class="wrapper wrapper-content p-xl">
+            <div class="ibox-content p-xl">
+                <div class="row well">
+                    <div class="col-sm-2"><b>Job Status:</b></div> 
+                    <div class="col-sm-4"><b id="job_status"></b></div>
+                    <div class="col-sm-2"><b>Date Time:</b></div>
+                    <div class="col-sm-4"><b id="modified"></b></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">Name:</div>
+                    <div class="col-sm-4" id="requestor"></div>
+                    <div class="col-sm-2">Email:</div>
+                    <div class="col-sm-4" id="email"></div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-2">Phone:</div>
+                    <div class="col-sm-4" id="phone"></div>
+                    <div class="col-sm-2">Employee ID:</div>
+                    <div class="col-sm-4" id="login_id"></div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-2">Department:</div>
+                    <div class="col-sm-10" id="user_depart"></div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-2">Request Title:</div>
+                    <div class="col-sm-10" id="request_title"></div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-2">Billing Depart:</div>
+                    <div class="col-sm-10" id="billing_depart"></div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-2">Device Type:</div>
+                    <div class="col-sm-2">Drop Off</div>
+                    <div class="col-sm-3 col-sm-offset-1">Date/Time Needed:</div>
+                    <div class="col-sm-2" id="date_needed"></div>
+                    <div class="col-sm-2" id="time_needed"></div>
+                </div>
+                <div class="row"><div class="col-sm-12"><hr></div></div>
+                <!-- drop off section -->
+                <div id="dropoff_section">
+                </div>
+                <!-- transaction history -->
+                <div class="row">
+                    <div class="col-sm-12" id="transaction_history"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- inspinia-2.5 javascript -->
+        <script src="../inspinia-2.5/js/jquery-2.1.1.js"></script>
+        <script src="../inspinia-2.5/js/bootstrap.min.js"></script>
+        <script src="../inspinia-2.5/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+        <script src="../inspinia-2.5/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+        <!-- inspinia-2.5 custom javascript -->
+        <script src="../inspinia-2.5/js/inspinia.min.js"></script>
+        <script src="../inspinia-2.5/js/plugins/pace/pace.min.js"></script>
+        <!-- include javascript -->
+        <!-- application javascript -->
+        <script src="js/printingDropOff.js"></script>
+        <script src="js/session_data.js"></script>
+        <script src="js/db_access.js"></script>
+    </body>
+</html>

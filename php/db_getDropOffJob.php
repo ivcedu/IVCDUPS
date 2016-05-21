@@ -3,7 +3,7 @@
 
     $PrintRequestID = filter_input(INPUT_POST, 'PrintRequestID');
     
-    $query = "SELECT * FROM [IVCDCENTER].[dbo].[DropOff] WHERE PrintRequestID = '" . $PrintRequestID . "'";
+    $query = "SELECT * FROM [IVCDCENTER].[dbo].[DropOffJob] WHERE PrintRequestID = '" . $PrintRequestID . "'";
 
     $cmd = $dbConn->prepare($query);
     $cmd->execute(); 

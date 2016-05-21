@@ -532,11 +532,11 @@ function db_getDuplicating(PrintRequestID) {
     return result;
 }
 
-function db_getDropOff(PrintRequestID) {
+function db_getDropOffJob(PrintRequestID) {
     var result = new Array();
     $.ajax({
         type:"POST",
-        url:"php/db_getDropOff.php",
+        url:"php/db_getDropOffJob.php",
         data:{PrintRequestID:PrintRequestID},
         async: false,  
         success:function(data) {
@@ -730,13 +730,13 @@ function db_insertDuplicating(PrintRequestID, JobStatusDupID, DepartmentID, Quan
     return ResultID;
 }
 
-function db_insertDropOff(PrintRequestID, JobStatusDupID, DepartmentID, Pages, Quantity, DateNeeded, TimeNeeded, PaperSizeID, DuplexID, PaperColorID, CoverColorID,
+function db_insertDropOffJob(PrintRequestID, JobStatusDupID, DepartmentID, JobName, Pages, Quantity, DateNeeded, TimeNeeded, PaperSizeID, DuplexID, PaperColorID, CoverColorID,
                                 ColorCopy, FrontCover, BackCover, Confidential, ThreeHolePunch, Staple, Cut, TotalPrint, TotalCost, Note) {
     var ResultID = "";
     $.ajax({
         type:"POST",
-        url:"php/db_insertDropOff.php",
-        data:{PrintRequestID:PrintRequestID, JobStatusDupID:JobStatusDupID, DepartmentID:DepartmentID, Pages:Pages, Quantity:Quantity, DateNeeded:DateNeeded, TimeNeeded:TimeNeeded,
+        url:"php/db_insertDropOffJob.php",
+        data:{PrintRequestID:PrintRequestID, JobStatusDupID:JobStatusDupID, DepartmentID:DepartmentID, JobName:JobName, Pages:Pages, Quantity:Quantity, DateNeeded:DateNeeded, TimeNeeded:TimeNeeded,
                 PaperSizeID:PaperSizeID, DuplexID:DuplexID, PaperColorID:PaperColorID, CoverColorID:CoverColorID, ColorCopy:ColorCopy, FrontCover:FrontCover, 
                 BackCover:BackCover, Confidential:Confidential, ThreeHolePunch:ThreeHolePunch, Staple:Staple, Cut:Cut, TotalPrint:TotalPrint, TotalCost:TotalCost, Note:Note},
         async: false,  
@@ -902,11 +902,11 @@ function db_updateDuplicating(PrintRequestID, JobStatusDupID) {
     return Result;
 }
 
-function db_updateDropOff(PrintRequestID, JobStatusDupID) {
+function db_updateDropOffJob(PrintRequestID, JobStatusDupID) {
     var Result = false;
     $.ajax({
         type:"POST",
-        url:"php/db_updateDropOff.php",
+        url:"php/db_updateDropOffJob.php",
         data:{PrintRequestID:PrintRequestID, JobStatusDupID:JobStatusDupID},
         async: false,  
         success:function(data) {
@@ -989,13 +989,13 @@ function db_updateDuplicatingRequest(PrintRequestID, DepartmentID, Quantity, Dat
     return Result;
 }
 
-function db_updateDropOffRequest(PrintRequestID, DepartmentID, Pages, Quantity, DateNeeded, TimeNeeded, PaperSizeID, DuplexID, PaperColorID, CoverColorID,
+function db_updateDropOffJobRequest(PrintRequestID, DepartmentID, JobName, Pages, Quantity, DateNeeded, TimeNeeded, PaperSizeID, DuplexID, PaperColorID, CoverColorID,
                                     ColorCopy, FrontCover, BackCover, Confidential, ThreeHolePunch, Staple, Cut, TotalPrint, TotalCost, Note) {
     var Result = false;
     $.ajax({
         type:"POST",
-        url:"php/db_updateDropOffRequest.php",
-        data:{PrintRequestID:PrintRequestID, DepartmentID:DepartmentID, Pages:Pages, Quantity:Quantity, DateNeeded:DateNeeded, TimeNeeded:TimeNeeded,
+        url:"php/db_updateDropOffJobRequest.php",
+        data:{PrintRequestID:PrintRequestID, DepartmentID:DepartmentID, JobName:JobName, Pages:Pages, Quantity:Quantity, DateNeeded:DateNeeded, TimeNeeded:TimeNeeded,
                 PaperSizeID:PaperSizeID, DuplexID:DuplexID, PaperColorID:PaperColorID, CoverColorID:CoverColorID, ColorCopy:ColorCopy, FrontCover:FrontCover, 
                 BackCover:BackCover, Confidential:Confidential, ThreeHolePunch:ThreeHolePunch, Staple:Staple, Cut:Cut, TotalPrint:TotalPrint, TotalCost:TotalCost, Note:Note},
         async: false,  
