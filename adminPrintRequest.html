@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
         <meta http-equiv="Cache-Control" content="no-cache"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>View Duplication Request</title>
+        <title>Administrator Duplication Request</title>
         <!-- inspinia-2.5 css -->
         <link rel="stylesheet" href="../inspinia-2.5/css/bootstrap.min.css">
         <link rel="stylesheet" href="../inspinia-2.5/font-awesome/css/font-awesome.css">
@@ -39,7 +39,7 @@
                                 IN+
                             </div>
                         </li>
-                        <li class="active iconic-color-default">
+                        <li class="iconic-color-default">
                             <a href="userHome.html"><i class="fa fa-home"></i> <span class="nav-label">My Home</span></a>
                         </li>
                         <li class="collapse iconic-color-default" id="nav_my_profile">
@@ -56,10 +56,10 @@
                                 <li class="iconic-color-default" id="nav_copier_report"><a href="rptBillingReport.html">Copier Report</a></li>
                             </ul>
                         </li>
-                        <li class="collapse" id="menu_administrator">
+                        <li class="active" id="menu_administrator">
                             <a href=#><i class="fa fa-lock"></i> <span class="nav-label">Administrator</span><span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                                <li class="iconic-color-default"><a href="administrator.html">Admin List</a></li>
+                                <li class="active iconic-color-default"><a href="administrator.html">Admin List</a></li>
                                 <li class="iconic-color-default" id="nav_copier_price"><a href="copierPrice.html">Cpoier Price</a></li>
                                 <li class="iconic-color-default"><a href="honorStudent.html">Honor Student</a></li>
                                 <li class="iconic-color-default" id="nav_user_access"><a href="userAccess.html">User Access</a></li>
@@ -90,11 +90,44 @@
                         <a href=# id="ico_btn_print"><i class="pe-7s-print pe-2x pe-va iconic-color-default"></i></a>
                     </div>
                     <div class="col-sm-8">
-                        <h2 class="text-center">View Duplication Request</h2>
+                        <h2 class="text-center">Administrator Duplication Request</h2>
                     </div>
                 </div>
                 <!-- user active print request list-->
                 <div class="wrapper wrapper-content animated fadeInRight">
+                    <!-- administrator section -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-content" style="font-size: 14px;">
+                                    <br>
+                                    <form class="form-horizontal">
+                                        <div class="form-group has-success">
+                                            <label class="col-md-2 control-label">Job Status:</label> 
+                                            <div class="col-md-4"><select class="form-control m-b" data-container="body" id="admin_job_status"></select></div>
+                                            <label class="col-md-2 control-label">Delivery Location:</label> 
+                                            <div class="col-md-4"><select class="form-control m-b" data-container="body" id="admin_del_loc"></select></div>
+                                        </div>
+                                        <div class="form-group has-success">
+                                            <label class="col-md-2 control-label">Message Note:</label> 
+                                            <div class="col-md-4">
+                                                <textarea class="form-control" style="resize: vertical; height: 55px;" id="admin_msg_note"></textarea>
+                                            </div>
+                                            <div id="admin_billing_section">
+                                                <label class="col-md-2 control-label">Billing Depart:</label> 
+                                                <div class="col-md-4"><select class="form-control m-b" data-container="body" id="admin_billing_depart"></select></div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <div class="panel-body">
+                                        <div class="col-md-2">
+                                            <button class="ladda-button btn btn-success col-md-12 iconic-color-default" data-style="zoom-in" id="btn_admin_save"><i class="fa fa-arrow-circle-up"></i> Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <!-- request status -->
                     <div class="row">
                         <div class="col-sm-12">
@@ -287,7 +320,7 @@
         <script src="../include/bootstrap-filestyle/js/bootstrap-filestyle.1.2.1.min.js"></script>
         <script src="../include/sweetalert/js/sweetalert.min.js"></script>
         <!-- application javascript -->
-        <script src="js/viewPrintRequest.js"></script>
+        <script src="js/adminPrintRequest.js"></script>
         <script src="js/session_data.js"></script>
         <script src="js/db_access.js"></script>
     </body>

@@ -27,8 +27,17 @@ $(document).ready(function() {
     $('table').on('click', 'a', function(e) {
         e.preventDefault();
         var print_request_id = $(this).attr('id').replace("print_request_id_", "");
-        window.open('printRequest.html?print_request_id=' + print_request_id, '_self');
-        return false;
+        var result = new Array();
+        result = db_getPrintRequest(print_request_id);
+        
+        if (result[0]['DeviceTypeID'] === "1" || result[0]['DeviceTypeID'] === "2") {
+            window.open('adminPrintRequest.html?print_request_id=' + print_request_id, '_self');
+            return false;
+        }
+        else {
+            window.open('adminDropOff.html?print_request_id=' + print_request_id, '_self');
+            return false;
+        }
     });
     
     // jquery datatables initialize ////////////////////////////////////////////

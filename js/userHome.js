@@ -33,9 +33,18 @@ $(document).ready(function() {
     // table row contract click //////////////////////////////////////////////
     $('table').on('click', 'a[id^="print_request_id_"]', function(e) {
         e.preventDefault();
-        var print_request_id = $(this).attr('id').replace("print_request_id_", "");        
-        window.open('viewPrintRequest.html?print_request_id=' + print_request_id, '_self');
-        return false;
+        var print_request_id = $(this).attr('id').replace("print_request_id_", ""); 
+        var result = new Array();
+        result = db_getPrintRequest(print_request_id);
+        
+        if (result[0]['DeviceTypeID'] === "1" || result[0]['DeviceTypeID'] === "2") {
+            window.open('viewPrintRequest.html?print_request_id=' + print_request_id, '_self');
+            return false;
+        }
+        else {
+            window.open('viewDropOff.html?print_request_id=' + print_request_id, '_self');
+            return false;
+        }
     });
     
     $('table').on('click', 'a[id^="edit_request_"]', function() {

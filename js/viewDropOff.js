@@ -2,14 +2,18 @@ var print_request_id = "";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {   
-    if (sessionStorage.key(0) !== null) {        
+    if (sessionStorage.key(0) !== null) {
+        setDefaultOption();
+        setAdminOption();
+        setUserProfile();
+        getLoginInfo();
+        
         getURLParameters();
         getPrintRequest();
         getTransactionHistory();
-        window.print();
-    }
+}
     else {
-        window.open('LoginFromDC.html', '_self');
+        window.open('Login.html', '_self');
     }
 };
 
@@ -46,7 +50,76 @@ function getURLParameters() {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+$(document).ready(function() {  
+    $('#nav_logout').click(function() {
+        sessionStorage.clear();
+        window.open('Login.html', '_self');
+        return false;
+    });
+    
+    // icon close button click /////////////////////////////////////////////////
+    $('#ico_btn_close').click(function() {
+        window.open('userHome.html', '_self');
+        return false;
+    });
+    
+    // icon print button click /////////////////////////////////////////////////
+    $('#ico_btn_print').click(function() {
+        window.open('printingDropOff.html?print_request_id=' + print_request_id, '_blank');
+        return false;
+    });
+});
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+function setDefaultOption() {
+    $('#nav_my_profile').hide();
+    $('#nav_completed_list').hide();
+    $('#nav_copier_report').hide();
+    $('#nav_copier_price').hide();
+    $('#nav_user_access').hide();
+    
+    $('#menu_administrator').hide();
+}
+
+function setAdminOption() {        
+    var login_email = sessionStorage.getItem("ls_dc_loginEmail");
+    var result = new Array();
+    result = db_getAdminByEmail(login_email);
+    
+    if (result.length === 1) {
+        if (result[0]['AdminLevel'] === "Master") {
+            $('#nav_completed_list').show();
+            $('#nav_copier_report').show();
+            $('#menu_administrator').show();
+            $('#nav_copier_price').show();
+            $('#nav_user_access').show();
+        }
+        else if (result[0]['AdminLevel'] === "Admin") {
+            $('#nav_completed_list').show();
+            $('#nav_copier_report').show();
+            $('#menu_administrator').show();
+            $('#nav_copier_price').show();
+        }
+        else if (result[0]['AdminLevel'] === "Report") {
+            $('#nav_copier_report').show();
+        }
+    }
+}
+
+function setUserProfile() {
+    if (sessionStorage.getItem('ls_dc_loginType') !== "Student") {
+        $('#nav_my_profile').show();
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function getLoginInfo() {
+    var login_name = sessionStorage.getItem('ls_dc_loginDisplayName');
+    $('#login_user').html(login_name);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function getPrintRequest() {
     var result = new Array();
     result = db_getPrintRequest(print_request_id);
@@ -97,30 +170,29 @@ function setDropOffJob() {
 function setAddJobSectionHTML(job_index, ar_result) {
     var str_html = "<div class='row'>";
     str_html += "<div class='col-sm-12'>";
+    str_html += "<div class='ibox float-e-margins'>";
+    str_html += "<div class='ibox-content' style='font-size: 14px; color: black;'>";
     
-    str_html += "<div class='row'>";
+    str_html += "<div class='panel-body'>";
     str_html += "<div class='col-sm-2'><b>JOB # " + job_index + "</b></div>";
     str_html += "<div class='col-sm-2 col-sm-offset-2'>Quantity:</div>";
     str_html += "<div class='col-sm-2'>" + ar_result['Quantity'] + "</div>";
     str_html += "<div class='col-sm-2'>Pages:</div>";
     str_html += "<div class='col-sm-2'>" + ar_result['Pages'] + "</div>";
     str_html += "</div>"; 
-    str_html += "<br>";
-    str_html += "<div class='row'>";
+    str_html += "<div class='panel-body'>";
     str_html += "<div class='col-sm-2'>Paper Size:</div>";
     str_html += "<div class='col-sm-4'>" + db_getPaperSizeName(ar_result['PaperSizeID']) + "</div>";
     str_html += "<div class='col-sm-2'>Duplex:</div>";
     str_html += "<div class='col-sm-4'>" + db_getDuplexName(ar_result['DuplexID']) + "</div>";
     str_html += "</div>"; 
-    str_html += "<br>";
-    str_html += "<div class='row'>";
+    str_html += "<div class='panel-body'>";
     str_html += "<div class='col-sm-2'>Paper Color:</div>";
     str_html += "<div class='col-sm-4'>" + db_getPaperColorName(ar_result['PaperColorID']) + "</div>";
     str_html += "<div class='col-sm-2'>Cover Color:</div>";
     str_html += "<div class='col-sm-4'>" + db_getCoverColorName(ar_result['CoverColorID']) + "</div>";
     str_html += "</div>";
-    str_html += "<br>";
-    str_html += "<div class='row'>";
+    str_html += "<div class='panel-body'>";
     if (ar_result['ColorCopy'] === "1") {
         str_html += "<div class='col-sm-3'><span><i class='fa fa-check-square-o fa-lg'></i></span>&nbsp;&nbsp;&nbsp;Color Copy</div>";
     }
@@ -146,8 +218,7 @@ function setAddJobSectionHTML(job_index, ar_result) {
         str_html += "<div class='col-sm-3'><span><i class='fa fa-square-o fa-lg'></i></span>&nbsp;&nbsp;&nbsp;Confidential</div>";
     }
     str_html += "</div>";
-    str_html += "<br>";
-    str_html += "<div class='row'>";
+    str_html += "<div class='panel-body'>";
     if (ar_result['ThreeHolePunch'] === "1") {
         str_html += "<div class='col-sm-3'><span><i class='fa fa-check-square-o fa-lg'></i></span>&nbsp;&nbsp;&nbsp;Three Hole Punch</div>";
     }
@@ -167,21 +238,20 @@ function setAddJobSectionHTML(job_index, ar_result) {
         str_html += "<div class='col-sm-3'><span><i class='fa fa-square-o fa-lg'></i></span>&nbsp;&nbsp;&nbsp;Cut</div>";
     }
     str_html += "</div>";
-    str_html += "<br>";
-    str_html += "<div class='row'>";
+    str_html += "<div class='panel-body'>";
     str_html += "<div class='col-sm-2'>Note:</div>";
     str_html += "<div class='col-sm-10'>" + ar_result['Note'].replace(/\n/g, "<br>") + "</div>";
     str_html += "</div>"; 
-    str_html += "<br>";
-    str_html += "<div class='row well'>";
+    str_html += "<div class='panel-body alert alert-success m-b-sm'>";
     str_html += "<div class='col-sm-2'><b>Total Print:</b></div>";
     str_html += "<div class='col-sm-4'><b>" + ar_result['TotalPrint'] + "</b></div>";
     str_html += "<div class='col-sm-2'><b>Total Cost:</b></div>";
     str_html += "<div class='col-sm-4'><b>" + formatDollar(Number(ar_result['TotalCost']), 2) + "</b></div>";
     str_html += "</div>";
-    str_html += "<div class='row'><div class='col-sm-12'><hr></div></div>";
     
     str_html += "</div>"; 
+    str_html += "</div>";
+    str_html += "</div>";
     str_html += "</div>";
 
     $('#dropoff_section').append(str_html);

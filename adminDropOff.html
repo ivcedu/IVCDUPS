@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
         <meta http-equiv="Cache-Control" content="no-cache"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>View Duplication Request</title>
+        <title>Administrator Drop Off Request</title>
         <!-- inspinia-2.5 css -->
         <link rel="stylesheet" href="../inspinia-2.5/css/bootstrap.min.css">
         <link rel="stylesheet" href="../inspinia-2.5/font-awesome/css/font-awesome.css">
@@ -39,7 +39,7 @@
                                 IN+
                             </div>
                         </li>
-                        <li class="active iconic-color-default">
+                        <li class="iconic-color-default">
                             <a href="userHome.html"><i class="fa fa-home"></i> <span class="nav-label">My Home</span></a>
                         </li>
                         <li class="collapse iconic-color-default" id="nav_my_profile">
@@ -56,10 +56,10 @@
                                 <li class="iconic-color-default" id="nav_copier_report"><a href="rptBillingReport.html">Copier Report</a></li>
                             </ul>
                         </li>
-                        <li class="collapse" id="menu_administrator">
+                        <li class="active" id="menu_administrator">
                             <a href=#><i class="fa fa-lock"></i> <span class="nav-label">Administrator</span><span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                                <li class="iconic-color-default"><a href="administrator.html">Admin List</a></li>
+                                <li class="active iconic-color-default"><a href="administrator.html">Admin List</a></li>
                                 <li class="iconic-color-default" id="nav_copier_price"><a href="copierPrice.html">Cpoier Price</a></li>
                                 <li class="iconic-color-default"><a href="honorStudent.html">Honor Student</a></li>
                                 <li class="iconic-color-default" id="nav_user_access"><a href="userAccess.html">User Access</a></li>
@@ -90,11 +90,23 @@
                         <a href=# id="ico_btn_print"><i class="pe-7s-print pe-2x pe-va iconic-color-default"></i></a>
                     </div>
                     <div class="col-sm-8">
-                        <h2 class="text-center">View Duplication Request</h2>
+                        <h2 class="text-center">Administrator Drop Off Request</h2>
                     </div>
                 </div>
                 <!-- user active print request list-->
                 <div class="wrapper wrapper-content animated fadeInRight">
+                    <!-- administrator section -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-content" style="font-size: 14px;">
+                                    <div class="panel-body">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <!-- request status -->
                     <div class="row">
                         <div class="col-sm-12">
@@ -124,7 +136,7 @@
                                     <div class="panel-body">
                                         <div class="col-sm-2">Phone:</div> 
                                         <div class="col-sm-4" id="phone"></div>
-                                        <div class="col-sm-2" id="login_type"></div> 
+                                        <div class="col-sm-2">Employee ID:</div> 
                                         <div class="col-sm-4" id="login_id"></div>
                                     </div>
                                     <div class="panel-body">
@@ -137,112 +149,17 @@
                                     </div>
                                     <div class="panel-body">
                                         <div class="col-sm-2">Device Type:</div> 
-                                        <div class="col-sm-10" id="device_type"></div>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div class="col-sm-2">Attachment (PDF):</div> 
-                                        <div class="col-md-7"><a href="#" id="attachment_file"></a></div>
-                                        <div class="col-sm-1">Pages:</div>
-                                        <div class="col-sm-1" id="pdf_pages"></div> 
+                                        <div class="col-sm-2">Drop Off</div>
+                                        <div class="col-sm-2">Date/Time Needed:</div> 
+                                        <div class="col-sm-2" id="date_needed"></div>
+                                        <div class="col-sm-2" id="time_needed"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>                
                     <!-- duplicating section -->
-                    <div hidden class="row" id="duplicating_section">
-                        <div class="col-md-12">
-                            <div class="ibox float-e-margins">
-                                <div class="ibox-content" style="font-size: 14px; color: black;">
-                                    <div class="panel-body">
-                                        <div class="col-sm-2">Billing Depart:</div> 
-                                        <div class="col-sm-10" id="billing_depart"></div>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div class="col-sm-2">Quantity:</div> 
-                                        <div class="col-sm-2" id="quantity"></div>
-                                        <div class="col-sm-2">Date/Time Needed:</div> 
-                                        <div class="col-sm-2" id="date_needed"></div>
-                                        <div class="col-sm-2" id="time_needed"></div>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div class="col-sm-2">Paper Size:</div> 
-                                        <div class="col-sm-4" id="paper_size"></div>
-                                        <div class="col-sm-2">Duplex:</div> 
-                                        <div class="col-sm-4" id="duplex"></div>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div class="col-sm-2">Paper Color:</div> 
-                                        <div class="col-sm-4" id="paper_color"></div>
-                                        <div class="col-sm-2">Cover Color:</div> 
-                                        <div class="col-sm-4" id="cover_color"></div>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div class="col-sm-3"><span id="ckb_color_copy"></span>&nbsp;&nbsp;&nbsp;Color Copy</div>
-                                        <div class="col-sm-3"><span id="ckb_front_cover"></span>&nbsp;&nbsp;&nbsp;Front Cover</div>
-                                        <div class="col-sm-3"><span id="ckb_back_cover"></span>&nbsp;&nbsp;&nbsp;Back Cover</div>
-                                        <div class="col-sm-3"><span id="ckb_confidential"></span>&nbsp;&nbsp;&nbsp;Confidential</div>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div class="col-sm-3"><span id="ckb_three_hole_punch"></span>&nbsp;&nbsp;&nbsp;Three Hole Punch</div>
-                                        <div class="col-sm-3"><span id="ckb_staple"></span>&nbsp;&nbsp;&nbsp;Staple</div>
-                                        <div class="col-sm-3"><span id="ckb_cut"></span>&nbsp;&nbsp;&nbsp;Cut</div>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div class="col-sm-2">Note:</div> 
-                                        <div class="col-sm-10" id="dup_note"></div>
-                                    </div>
-                                    <div class="panel-body alert alert-success m-b-sm">
-                                        <div class="col-sm-2"><b>Total Print:</b></div> 
-                                        <div class="col-sm-4"><b id="dup_total_print"></b></div>
-                                        <div class="col-sm-2"><b>Total Cost:</b></div> 
-                                        <div class="col-sm-4"><b id="dup_total_cost"></b></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- plotter section -->
-                    <div hidden class="row" id="plotter_section">
-                        <div class="col-md-12">
-                            <div class="ibox float-e-margins">
-                                <div class="ibox-content" style="font-size: 14px; color: black;">
-                                    <div class="panel-body">
-                                        <div class="col-sm-2">Paper Type:</div> 
-                                        <div class="col-sm-4" id="paper_type"></div>
-                                        <div class="col-sm-2">Size in Inches:</div> 
-                                        <div class="col-sm-1" id="size_height"></div>
-                                        <div class="col-sm-1">X</div>
-                                        <div class="col-sm-1">36</div>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div class="col-sm-2"><b>Total Cost:</b></div> 
-                                        <div class="col-sm-2"><b id="plot_total_cost"></b></div>
-                                        <div class="col-sm-4 col-sm-offset-4" id="honor_student"><b style="color: red;">Honor Student: Free of Charge</b></div> 
-                                    </div>
-                                    <div class="panel-body">
-                                        <div class="col-sm-2">Note:</div> 
-                                        <div class="col-sm-10" id="plot_note"></div>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div class="col-sm-12"><span id="ckb_waved_proof"></span>&nbsp;&nbsp;&nbsp;Provide a sample of the document before processing my order.</div>
-                                    </div>
-                                    <div class="panel-body alert alert-success m-b-sm">
-                                        <h3>Terms and Conditions</h3>
-                                        <p>A photo ID must be presented at the time of pick-up. The requestor is the only person that can pick up the order.</p>
-                                        <p>All files should be at least 150 pixels per inch for acceptable quality. Files to be printed must be a single .pdf file sized to the actual size you want printed. 
-                                            The Duplication Center will not resize or modify files. They will be printed as is.</p>
-                                        <p><b>NOTE:</b> What you see on your computer monitor is not always what will print. A computer monitor is in a color scheme called RGB, printer us CMYK. 
-                                            Your color will not be identical to what you see on screen, but they will close. The printer only prints the files according to how it "reads" them; i.e. your poster file
-                                            consist of data codes that the computer and printer interprets and constructs your file with. 
-                                            Sometimes, these files are interpreted differently between various computers, software programs, versions of software, and printers.</p>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div class="col-sm-12"><span><i class='fa fa-check-square-o fa-lg'></i></span>&nbsp;&nbsp;&nbsp;I agree with Terms and Condition</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div id="dropoff_section">
                     </div>
                     <!-- transaction section -->
                     <div class="row" id="transaction_section">
@@ -287,7 +204,7 @@
         <script src="../include/bootstrap-filestyle/js/bootstrap-filestyle.1.2.1.min.js"></script>
         <script src="../include/sweetalert/js/sweetalert.min.js"></script>
         <!-- application javascript -->
-        <script src="js/viewPrintRequest.js"></script>
+        <script src="js/adminDropOff.js"></script>
         <script src="js/session_data.js"></script>
         <script src="js/db_access.js"></script>
     </body>

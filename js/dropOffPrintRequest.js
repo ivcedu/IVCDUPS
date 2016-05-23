@@ -73,14 +73,16 @@ $(document).ready(function() {
     // job section calculation event ///////////////////////////////////////////    
     $(document).on('change', '[id^="quantity_job_"]', function() {
         var index_id = $(this).attr('id').replace("quantity_job_", "");
-        var input_val = Number($(this).val().replace(/[^0-9\.]/g, ''));     
+        var input_val = Number($(this).val().replace(/[^0-9\.]/g, ''));
+        $(this).val(input_val);
         var total_page = Number($('#pdf_pages_job_' + index_id).val()) * input_val;
         calculateDropOffTotalCost(index_id, total_page);
     });
     
     $(document).on('change', '[id^="pdf_pages_job_"]', function() {
         var index_id = $(this).attr('id').replace("pdf_pages_job_", "");
-        var input_val = Number($(this).val().replace(/[^0-9\.]/g, ''));     
+        var input_val = Number($(this).val().replace(/[^0-9\.]/g, ''));
+        $(this).val(input_val);
         var total_page = input_val * Number($('#quantity_job_' + index_id).val());
         calculateDropOffTotalCost(index_id, total_page);
     });
