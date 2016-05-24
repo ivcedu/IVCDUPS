@@ -3,7 +3,6 @@ var m_table;
 ////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {
     if (sessionStorage.key(0) !== null) {
-        setDefaultOption();
         setAdminOption();
         setUserProfile();
         
@@ -50,7 +49,7 @@ $(document).ready(function() {
     $('table').on('click', 'a[id^="edit_request_"]', function() {
         var print_request_id = $(this).attr('id').replace("edit_request_id_", "");        
         if (printRequestLocked(print_request_id)) {
-            swal({title: "Warning", text: "Duplicating center is already working on your request. Please contact Jose Delgado at 949.451.5297", type: "warning"});
+            swal("Error", "Duplicating center is already working on your request. Please contact Jose Delgado at 949.451.5297", "error");
             getUserPrintList();
             return false;
         }
@@ -65,15 +64,6 @@ $(document).ready(function() {
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-function setDefaultOption() {
-    $('#nav_my_profile').hide();
-    $('#nav_completed_list').hide();
-    $('#nav_copier_report').hide();
-    $('#menu_administrator').hide();
-    $('#nav_copier_price').hide();
-    $('#nav_user_access').hide();
-}
 
 function setAdminOption() {        
     var login_email = sessionStorage.getItem("ls_dc_loginEmail");

@@ -23,7 +23,7 @@
     $TotalCost = filter_input(INPUT_POST, 'TotalCost');
     $Note = filter_input(INPUT_POST, 'Note');
 
-    $query = "UPDATE [IVCDCENTER].[dbo].[DropOff] "
+    $query = "UPDATE [IVCDCENTER].[dbo].[DropOffJob] "
                 . "SET DepartmentID = '".$DepartmentID."', "
                 . "JobName = '".$JobName."', "
                 . "Pages = '".$Pages."', "

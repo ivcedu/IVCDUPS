@@ -42,7 +42,7 @@
                         <li class="active iconic-color-default">
                             <a href="userHome.html"><i class="fa fa-home"></i> <span class="nav-label">My Home</span></a>
                         </li>
-                        <li class="collapse iconic-color-default" id="nav_my_profile">
+                        <li class="iconic-color-default" style="display: none;" id="nav_my_profile">
                             <a href="userProfile.html"><i class="fa fa-user"></i> <span class="nav-label">My Profile</span></a>
                         </li>
                         <li class="iconic-color-default">
@@ -52,17 +52,17 @@
                             <a href=#><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Reports</span><span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level collapse">
                                 <li class="iconic-color-default"><a href="userHistoryList.html">My History</a></li>
-                                <li class="iconic-color-default" id="nav_completed_list"><a href="rptCompletedList.html">Completed List</a></li>
-                                <li class="iconic-color-default" id="nav_copier_report"><a href="rptBillingReport.html">Copier Report</a></li>
+                                <li class="iconic-color-default" style="display: none;" id="nav_completed_list"><a href="rptCompletedList.html">Completed List</a></li>
+                                <li class="iconic-color-default" style="display: none;" id="nav_copier_report"><a href="rptBillingReport.html">Copier Report</a></li>
                             </ul>
                         </li>
-                        <li class="collapse" id="menu_administrator">
+                        <li class="collapse" style="display: none;" id="menu_administrator">
                             <a href=#><i class="fa fa-lock"></i> <span class="nav-label">Administrator</span><span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li class="iconic-color-default"><a href="administrator.html">Admin List</a></li>
-                                <li class="iconic-color-default" id="nav_copier_price"><a href="copierPrice.html">Cpoier Price</a></li>
+                                <li class="iconic-color-default" style="display: none;" id="nav_copier_price"><a href="copierPrice.html">Cpoier Price</a></li>
                                 <li class="iconic-color-default"><a href="honorStudent.html">Honor Student</a></li>
-                                <li class="iconic-color-default" id="nav_user_access"><a href="userAccess.html">User Access</a></li>
+                                <li class="iconic-color-default" style="display: none;" id="nav_user_access"><a href="userAccess.html">User Access</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -218,7 +218,7 @@
                                     <div class="panel-body">
                                         <div class="col-sm-2"><b>Total Cost:</b></div> 
                                         <div class="col-sm-2"><b id="plot_total_cost"></b></div>
-                                        <div class="col-sm-4 col-sm-offset-4" id="honor_student"><b style="color: red;">Honor Student: Free of Charge</b></div> 
+                                        <div hidden class="col-sm-4 col-sm-offset-4" id="honor_student"><b style="color: red;">Honor Student: Free of Charge</b></div> 
                                     </div>
                                     <div class="panel-body">
                                         <div class="col-sm-2">Note:</div> 

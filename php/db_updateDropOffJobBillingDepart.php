@@ -2,10 +2,10 @@
     require("config.php");
     
     $PrintRequestID = filter_input(INPUT_POST, 'PrintRequestID');
-    $JobStatusDupID = filter_input(INPUT_POST, 'JobStatusDupID');
+    $DepartmentID = filter_input(INPUT_POST, 'DepartmentID');
 
     $query = "UPDATE [IVCDCENTER].[dbo].[DropOffJob] "
-                ."SET JobStatusDupID = '".$JobStatusDupID."' "
+                ."SET DepartmentID = '".$DepartmentID."' "
                 ."WHERE PrintRequestID = '".$PrintRequestID."'";
     
     $cmd = $dbConn->prepare($query);

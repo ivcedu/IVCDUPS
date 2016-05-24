@@ -9,8 +9,6 @@
         <!-- inspinia-2.5 css -->
         <link rel="stylesheet" href="../inspinia-2.5/css/bootstrap.min.css">
         <link rel="stylesheet" href="../inspinia-2.5/font-awesome/css/font-awesome.css">
-        <link rel="stylesheet" href="../inspinia-2.5/css/plugins/iCheck/custom.css">
-        <link rel="stylesheet" href="../inspinia-2.5/css/plugins/dataTables/datatables.min.css">
         <link rel="stylesheet" href="../inspinia-2.5/css/plugins/ladda/ladda-themeless.min.css">
         <link rel="stylesheet" href="../inspinia-2.5/css/animate.css">
         <link rel="stylesheet" href="../inspinia-2.5/css/style.css">
@@ -18,10 +16,7 @@
         <link rel="stylesheet" href="../homer-1.9/fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css"/>
         <link rel="stylesheet" href="../homer-1.9/fonts/pe-icon-7-stroke/css/helper.css"/>
         <!-- include css -->
-        <link rel="stylesheet" href="../include/jquery-ui-themes-1.11.4/themes/flick/jquery-ui.min.css"/>
-        <link rel="stylesheet" href="../include/bootstrap-3-timepicker/css/bootstrap-timepicker.min.css"/>
         <link rel="stylesheet" href="../include/sweetalert/css/sweetalert.css"/>
-        <link rel="stylesheet" href="../include/iconic-1.9.0/font/css/iconic-bootstrap.css"/>
         <!-- application css -->
         <link rel="stylesheet" href="css/ivcdups.css"/>
     </head>
@@ -42,7 +37,7 @@
                         <li class="iconic-color-default">
                             <a href="userHome.html"><i class="fa fa-home"></i> <span class="nav-label">My Home</span></a>
                         </li>
-                        <li class="collapse iconic-color-default" id="nav_my_profile">
+                        <li class="iconic-color-default">
                             <a href="userProfile.html"><i class="fa fa-user"></i> <span class="nav-label">My Profile</span></a>
                         </li>
                         <li class="iconic-color-default">
@@ -52,17 +47,17 @@
                             <a href=#><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Reports</span><span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level collapse">
                                 <li class="iconic-color-default"><a href="userHistoryList.html">My History</a></li>
-                                <li class="iconic-color-default" id="nav_completed_list"><a href="rptCompletedList.html">Completed List</a></li>
-                                <li class="iconic-color-default" id="nav_copier_report"><a href="rptBillingReport.html">Copier Report</a></li>
+                                <li class="iconic-color-default" style="display: none;" id="nav_completed_list"><a href="rptCompletedList.html">Completed List</a></li>
+                                <li class="iconic-color-default"><a href="rptBillingReport.html">Copier Report</a></li>
                             </ul>
                         </li>
-                        <li class="active" id="menu_administrator">
+                        <li class="active">
                             <a href=#><i class="fa fa-lock"></i> <span class="nav-label">Administrator</span><span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li class="active iconic-color-default"><a href="administrator.html">Admin List</a></li>
-                                <li class="iconic-color-default" id="nav_copier_price"><a href="copierPrice.html">Cpoier Price</a></li>
+                                <li class="iconic-color-default" style="display: none;" id="nav_copier_price"><a href="copierPrice.html">Cpoier Price</a></li>
                                 <li class="iconic-color-default"><a href="honorStudent.html">Honor Student</a></li>
-                                <li class="iconic-color-default" id="nav_user_access"><a href="userAccess.html">User Access</a></li>
+                                <li class="iconic-color-default" style="display: none;" id="nav_user_access"><a href="userAccess.html">User Access</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -100,8 +95,27 @@
                         <div class="col-sm-12">
                             <div class="ibox float-e-margins">
                                 <div class="ibox-content" style="font-size: 14px;">
+                                    <br>
+                                    <form class="form-horizontal">
+                                        <div class="form-group has-success">
+                                            <label class="col-md-2 control-label">Job Status:</label> 
+                                            <div class="col-md-4"><select class="form-control m-b" data-container="body" id="admin_job_status"></select></div>
+                                            <label class="col-md-2 control-label">Delivery Location:</label> 
+                                            <div class="col-md-4"><select class="form-control m-b" data-container="body" id="admin_del_loc"></select></div>
+                                        </div>
+                                        <div class="form-group has-success">
+                                            <label class="col-md-2 control-label">Message Note:</label> 
+                                            <div class="col-md-4">
+                                                <textarea class="form-control" style="resize: vertical; height: 55px;" id="admin_msg_note"></textarea>
+                                            </div>
+                                            <label class="col-md-2 control-label">Billing Depart:</label> 
+                                            <div class="col-md-4"><select class="form-control m-b" data-container="body" id="admin_billing_depart"></select></div>
+                                        </div>
+                                    </form>
                                     <div class="panel-body">
-
+                                        <div class="col-md-2">
+                                            <button class="ladda-button btn btn-success col-md-12 iconic-color-default" data-style="zoom-in" id="btn_admin_save"><i class="fa fa-arrow-circle-up"></i> Save</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -186,10 +200,8 @@
         <!-- inspinia-2.5 javascript -->
         <script src="../inspinia-2.5/js/jquery-2.1.1.js"></script>
         <script src="../inspinia-2.5/js/bootstrap.min.js"></script>
-        <script src="../inspinia-2.5/js/plugins/iCheck/icheck.min.js"></script>
         <script src="../inspinia-2.5/js/plugins/metisMenu/jquery.metisMenu.js"></script>
         <script src="../inspinia-2.5/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-        <script src="../inspinia-2.5/js/plugins/dataTables/datatables.min.js"></script>
         <!-- inspinia-2.5 custom javascript -->
         <script src="../inspinia-2.5/js/inspinia.min.js"></script>
         <script src="../inspinia-2.5/js/plugins/pace/pace.min.js"></script>
@@ -198,14 +210,12 @@
         <script src="../inspinia-2.5/js/plugins/ladda/ladda.min.js"></script>
         <script src="../inspinia-2.5/js/plugins/ladda/ladda.jquery.min.js"></script>
         <!-- include javascript -->
-        <script src="../include/jquery-ui-1.11.4/js/jquery-ui.min.js"></script>
         <script src="../include/jquery-autosize/jquery.autosize.1.18.1.min.js"></script>
-        <script src="../include/bootstrap-3-timepicker/js/bootstrap-timepicker.min.js"></script>
-        <script src="../include/bootstrap-filestyle/js/bootstrap-filestyle.1.2.1.min.js"></script>
         <script src="../include/sweetalert/js/sweetalert.min.js"></script>
         <!-- application javascript -->
         <script src="js/adminDropOff.js"></script>
         <script src="js/session_data.js"></script>
         <script src="js/db_access.js"></script>
+        <script src="js/sendEmail.js"></script>
     </body>
 </html>

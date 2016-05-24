@@ -37,7 +37,6 @@ var m_dup_total_cost = 0.00;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {   
     if (sessionStorage.key(0) !== null) {
-        setDefaultOption();
         setAdminOption();
         setUserProfile();
         getLoginInfo();
@@ -313,19 +312,6 @@ $(document).ready(function() {
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-function setDefaultOption() {
-    $('#nav_my_profile').hide();
-    $('#nav_completed_list').hide();
-    $('#nav_copier_report').hide();
-    $('#nav_copier_price').hide();
-    $('#nav_user_access').hide();
-    
-    $('#menu_administrator').hide();
-    $('#menu_dup_cost_info').hide();
-    
-    $('#honor_student').hide();
-}
 
 function setAdminOption() {        
     var login_email = sessionStorage.getItem("ls_dc_loginEmail");

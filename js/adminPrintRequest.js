@@ -1,20 +1,13 @@
 var print_request_id = "";
-var user_locked = false;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {   
     if (sessionStorage.key(0) !== null) {
-        getURLParameters();
-        if (printRequestLocked()) {
-            alert("Request opened Plotter/Duplicating request to edit/cancel. Please try back later");
-            window.open('administrator.html', '_self');
-            return false;
-        }
-        
-        setDefaultOption();
         setAdminOption();
-        setUserProfile();
         getLoginInfo();
+        
+        getURLParameters();
+        db_updatePrintRequestLocked(print_request_id, true);
         
         getPrintRequest();
         getTransactionHistory();
@@ -59,43 +52,9 @@ function getURLParameters() {
     print_request_id = searchArray['print_request_id'];
 }
 
-////////////////////////////////////////////////////////////////////////////////
-function printRequestLocked() {    
-    var login_email = sessionStorage.getItem("ls_dc_loginEmail");
-    
-    var admin_list = new Array();
-    admin_list = db_getAdminByEmail(login_email);
-    
-    if(admin_list.length === 1) {
-        if (admin_list[0]['AdminLevel'] === "Admin") {        
-            var result = new Array();
-            result = db_getPrintRequest(print_request_id);
-
-            if (result[0]['Locked'] === "1") {
-                user_locked = true;
-                return true;
-            }
-            else {
-                db_updatePrintRequestLocked(print_request_id, true);
-                return false;
-            }
-        }
-    }
-    
-    return false;
-}
-
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $(document).ready(function() {  
-    $('.i-checks').iCheck({
-        checkboxClass: 'icheckbox_square-green',
-        radioClass: 'iradio_square-green'
-    });
-
-    ////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////
     $('#nav_logout').click(function() {
         db_updatePrintRequestLocked(print_request_id, false);
         sessionStorage.clear();
@@ -116,7 +75,7 @@ $(document).ready(function() {
         return false;
     });
     
-    ////////////////////////////////////////////////////////////////////////////
+    // attach file click event /////////////////////////////////////////////////
     $('#attachment_file').click(function() {  
         var result = new Array();
         result = db_getAttachment(print_request_id);
@@ -130,26 +89,22 @@ $(document).ready(function() {
         }
     });
     
+    // admin save button click /////////////////////////////////////////////////
+    $('#btn_admin_save').click(function() {        
+        updatePrintStatus();
+        statusEmailNotification();
+        
+        db_updatePrintRequestLocked(print_request_id, false);
+        window.open('administrator.html', '_self');
+        
+        return false;
+    });
+    
     // auto size
     $('#admin_msg_note').autosize();
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-function setDefaultOption() {
-    $('#nav_my_profile').hide();
-    $('#nav_completed_list').hide();
-    $('#nav_copier_report').hide();
-    $('#nav_copier_price').hide();
-    $('#nav_user_access').hide();
-    
-    $('#menu_administrator').hide();
-    $('#menu_dup_cost_info').hide();
-    
-    $('#admin_billing_section').hide();
-    
-    $('#honor_student').hide();
-}
 
 function setAdminOption() {        
     var login_email = sessionStorage.getItem("ls_dc_loginEmail");
@@ -159,28 +114,15 @@ function setAdminOption() {
     if (result.length === 1) {
         if (result[0]['AdminLevel'] === "Master") {
             $('#nav_completed_list').show();
-            $('#nav_copier_report').show();
-            $('#menu_administrator').show();
             $('#nav_copier_price').show();
             $('#nav_user_access').show();
             setDeliveryLocation();
         }
         else if (result[0]['AdminLevel'] === "Admin") {
             $('#nav_completed_list').show();
-            $('#nav_copier_report').show();
-            $('#menu_administrator').show();
             $('#nav_copier_price').show();
             setDeliveryLocation();
         }
-        else if (result[0]['AdminLevel'] === "Report") {
-            $('#nav_copier_report').show();
-        }
-    }
-}
-
-function setUserProfile() {
-    if (sessionStorage.getItem('ls_dc_loginType') !== "Student") {
-        $('#nav_my_profile').show();
     }
 }
 
@@ -336,8 +278,8 @@ function setPlotter(device_type_id, dtstamp, modified) {
         else {
             $("#ckb_waved_proof").append("<i class='fa fa-square-o fa-lg'></i>");
         }
-        if (result[0]['Free'] === "0") {
-            $('#honor_student').hide();
+        if (result[0]['Free'] === "1") {
+            $('#honor_student').show();
         }
         
         $('#plot_note').html(result[0]['Note'].replace(/\n/g, "<br>"));
@@ -431,4 +373,312 @@ function getTransactionHistory() {
     }
     
     $("#transaction_history").append(html);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+function updatePrintStatus() {
+    var admin_del_loc_id = $('#admin_del_loc').val();
+    var admin_job_status_id = $('#admin_job_status').val();
+    var admin_msg_note = textReplaceApostrophe($('#admin_msg_note').val());
+    var admin_billing_depart_id = $('#admin_billing_depart').val();
+    var status_change = "";
+    
+    if ($('#device_type').html() === "Duplicating") {
+        db_updateDuplicating(print_request_id, admin_job_status_id);
+        db_updateDepartment(print_request_id, admin_billing_depart_id);
+        db_updatePrintRequestDelivery(print_request_id, admin_del_loc_id);
+        status_change = db_getJobStatusDupName(admin_job_status_id);
+    }
+    else {
+        db_updatePlotter(print_request_id, admin_job_status_id);
+        status_change = db_getJobStatusPlotName(admin_job_status_id);
+    }
+    
+    if (admin_msg_note !== "") {
+        status_change += "\n" + admin_msg_note;
+    }
+    
+    db_updatePrintRequestModified(print_request_id);
+    db_insertTransaction(print_request_id, sessionStorage.getItem('ls_dc_loginDisplayName'), "Status has been changed to " + status_change);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+function statusEmailNotification() {
+    var admin_job_status_id = $('#admin_job_status').val();
+    var device_type = $('#device_type').html();
+    
+    if (device_type === "Plotter") {
+        switch(admin_job_status_id) {
+            case "2":
+                sendEmailNeedsProof();
+                break;
+            case "3":
+                sendEmailProofReady();
+                break;
+            case "4":
+                sendEmailWaitingForPayment();
+                break;
+            case "5":
+                sendEmailReadyForPrinting();
+                break;
+            case "6":
+                sendEmailAdditionalInfo();
+                break;
+            case "7":
+                sendEmailInProgress();
+                break;
+            case "8":
+                sendEmailPlotCompleted();
+                break;
+            case "9":
+                sendEmailCancel();
+                break;
+            default:
+                break;
+        }
+    }
+    else {
+        switch(admin_job_status_id) {
+            case "2":
+                sendEmailAdditionalInfo();
+                break;
+            case "3":
+                sendEmailInProgress();
+                break;
+            case "4":
+                sendEmailDupCompleted();
+                break;
+            case "5":
+                sendEmailDupDelivered();
+                break;
+            case "6":
+                sendEmailCancel();
+                break;
+            default:
+                break;
+        }
+    }
+}
+
+function sendEmailNeedsProof() {
+    var name = $('#requestor').html();
+    var email = $('#email').html();
+    
+    // testing email
+    email = "stafftest@ivc.edu";
+    
+    var subject = "Your new plotter request";
+    var message = "Dear " + name + ", <br><br>";
+    
+    message += "Thank you for your plotter request.  Request details:<br><br>";
+    message += "Contact Phone: " + $('#phone').html() + "<br>";
+    message += "Request Title: " + $('#request_title').html() + "<br>";
+    message += "Paper Type: " + $('#paper_type').html() + "<br>";
+    message += "Size: " + $('#size_height').html() + " x 36<br>";
+    message += "Total Cost: " + $('#plot_total_cost').html() + "<br><br>";
+    
+    message += "You will receive an email when your proof is ready to be reviewed.<br><br>";
+    
+    message += "Should you have any questions or comments, please contact the IVC Duplicating Center.<br><br>"; 
+    message += "Thank you.<br>";
+    message += "IVC Duplicating Center<br>";
+    message += "ivcduplicating@ivc.edu<br>";
+    message += "phone: 949.451.5297";
+    
+    proc_sendEmail(email, name, subject, message);
+}
+
+function sendEmailProofReady() {
+    var name = $('#requestor').html();
+    var email = $('#email').html();
+    
+    // testing email
+    email = "stafftest@ivc.edu";
+    
+    var subject = "Your plotter proof is now ready for review";
+    var message = "Dear " + name + ", <br><br>";
+    
+    message += "Your proof for the request titled <b>" + $('#request_title').html() + "</b> is now ready for review.<br>";
+    message += "Please come to the IVC Duplicating Center to approve your proof.<br><br>";
+    
+    message += "Should you have any questions or comments, please contact the IVC Duplicating Center.<br><br>"; 
+    message += "Thank you.<br>";
+    message += "IVC Duplicating Center<br>";
+    message += "ivcduplicating@ivc.edu<br>";
+    message += "phone: 949.451.5297";
+    
+    proc_sendEmail(email, name, subject, message);
+}
+
+function sendEmailWaitingForPayment() {
+    var name = $('#requestor').html();
+    var email = $('#email').html();
+    
+    // testing email
+    email = "stafftest@ivc.edu";
+    
+    var subject = "Your plotter request is ready for payment";
+    var message = "Dear " + name + ", <br><br>";
+    
+    message += "Your plotter request titled <b>" + $('#request_title').html() + "</b> is now ready for payment.<br>";
+    message += "Please take this email and go to the Bursars Office and pay " + $('#plot_total_cost').html() + " for this job.<br><br>";
+    
+    message += "Should you have any questions or comments, please contact the IVC Duplicating Center.<br><br>"; 
+    message += "Thank you.<br>";
+    message += "IVC Duplicating Center<br>";
+    message += "ivcduplicating@ivc.edu<br>";
+    message += "phone: 949.451.5297";
+    
+    proc_sendEmail(email, name, subject, message);
+}
+
+function sendEmailReadyForPrinting() {
+    var name = "Jose Delgado";
+    var email = "ivcduplicating@ivc.edu";
+    
+    // testing email
+    email = "stafftest@ivc.edu";
+    
+    var subject = "Plotter request " + $('#request_title').html() + " has been PAID";
+    var message = "Dear " + name + ", <br><br>";
+    
+    message += "Plotter request titled <b>" + $('#request_title').html() + "</b> has been PAID.<br><br>";
+    
+    message += "Should you have any questions, please contact the Bursars's Office.<br><br>"; 
+    message += "Thank you.<br>";
+    
+    proc_sendEmail(email, name, subject, message);
+}
+
+function sendEmailCancel() {
+    var name = $('#requestor').html();
+    var email = $('#email').html();
+    
+    // testing email
+    email = "stafftest@ivc.edu";
+    
+    var subject = "Your " + $('#device_type').html() + " request has been cancel";
+    var message = "Dear " + name + ", <br><br>";
+    
+    message += "Your " + $('#device_type').html() + " request titled <b>" + $('#request_title').html() + "</b> has been CANCEL. The reason for this is:<br>";
+    message += $('#admin_msg_note').val().replace(/\n/g, "<br>") + "<br><br>";
+    
+    message += "Should you have any questions or comments, please contact the IVC Duplicating Center.<br><br>"; 
+    message += "Thank you.<br>";
+    message += "IVC Duplicating Center<br>";
+    message += "ivcduplicating@ivc.edu<br>";
+    message += "phone: 949.451.5297";
+    
+    proc_sendEmail(email, name, subject, message);
+}
+
+function sendEmailAdditionalInfo() {
+    var name = $('#requestor').html();
+    var email = $('#email').html();
+    
+    // testing email
+    email = "stafftest@ivc.edu";
+    
+    var subject = "Additional information is needed for your " + $('#device_type').html() + " request";
+    var message = "Dear " + name + ", <br><br>";
+    
+    message += "We need some information about your " + $('#device_type').html() + " request titled <b>" + $('#request_title').html() + "</b>. Here is what we need:<br>";
+    message += $('#admin_msg_note').val().replace(/\n/g, "<br>") + "<br><br>";
+    message += "Please respond to ivcduplicating@ivc.edu<br><br>";
+
+    message += "Should you have any questions or comments, please contact the IVC Duplicating Center.<br><br>"; 
+    message += "Thank you.<br>";
+    message += "IVC Duplicating Center<br>";
+    message += "ivcduplicating@ivc.edu<br>";
+    message += "phone: 949.451.5297";
+    
+    proc_sendEmail(email, name, subject, message);
+}
+
+function sendEmailInProgress() {
+    var name = $('#requestor').html();
+    var email = $('#email').html();
+    
+    // testing email
+    email = "stafftest@ivc.edu";
+    
+    var subject = "Your " + $('#device_type').html() + " request is now in progress";
+    var message = "Dear " + name + ", <br><br>";
+    
+    message += "Your " + $('#device_type').html() + " request titled <b>" + $('#request_title').html() + "</b> is now in progress.<br>";
+    message += "You will receive an email when the request is complete.<br><br>";
+
+    message += "Should you have any questions or comments, please contact the IVC Duplicating Center.<br><br>"; 
+    message += "Thank you.<br>";
+    message += "IVC Duplicating Center<br>";
+    message += "ivcduplicating@ivc.edu<br>";
+    message += "phone: 949.451.5297";
+    
+    proc_sendEmail(email, name, subject, message);
+}
+
+function sendEmailPlotCompleted() {
+    var name = $('#requestor').html();
+    var email = $('#email').html();
+    
+    // testing email
+    email = "stafftest@ivc.edu";
+    
+    var subject = "Your " + $('#device_type').html() + " request has been completed";
+    var message = "Dear " + name + ", <br><br>";
+    
+    message += "Your " + $('#device_type').html() + " request titled <b>" + $('#request_title').html() + "</b> has been completed.<br>";
+    message += "Please come to " + db_getDeliveryLocationName($('#admin_del_loc').val()) + " to pick up your job.<br><br>";
+
+    message += "Should you have any questions or comments, please contact the IVC Duplicating Center.<br><br>"; 
+    message += "Thank you.<br>";
+    message += "IVC Duplicating Center<br>";
+    message += "ivcduplicating@ivc.edu<br>";
+    message += "phone: 949.451.5297";
+    
+    proc_sendEmail(email, name, subject, message);
+}
+
+function sendEmailDupCompleted() {
+    var name = $('#requestor').html();
+    var email = $('#email').html();
+    
+    // testing email
+    email = "stafftest@ivc.edu";
+    
+    var subject = "Your " + $('#device_type').html() + " request has been completed";
+    var message = "Dear " + name + ", <br><br>";
+    
+    message += "Your " + $('#device_type').html() + " request titled <b>" + $('#request_title').html() + "</b> has been completed.<br>";
+    message += "You will receive an email when the delivery is complete.<br><br>";
+
+    message += "Should you have any questions or comments, please contact the IVC Duplicating Center.<br><br>"; 
+    message += "Thank you.<br>";
+    message += "IVC Duplicating Center<br>";
+    message += "ivcduplicating@ivc.edu<br>";
+    message += "phone: 949.451.5297";
+    
+    proc_sendEmail(email, name, subject, message);
+}
+
+function sendEmailDupDelivered() {
+    var name = $('#requestor').html();
+    var email = $('#email').html();
+    
+    // testing email
+    email = "stafftest@ivc.edu";
+    
+    var subject = "Your " + $('#device_type').html() + " request has been completed";
+    var message = "Dear " + name + ", <br><br>";
+    
+    message += "Your " + $('#device_type').html() + " request titled <b>" + $('#request_title').html() + "</b> has been delivered.<br>";
+    message += "Please come to " + db_getDeliveryLocationName($('#admin_del_loc').val()) + " to pick up your job.<br><br>";
+
+    message += "Should you have any questions or comments, please contact the IVC Duplicating Center.<br><br>"; 
+    message += "Thank you.<br>";
+    message += "IVC Duplicating Center<br>";
+    message += "ivcduplicating@ivc.edu<br>";
+    message += "phone: 949.451.5297";
+    
+    proc_sendEmail(email, name, subject, message);
 }

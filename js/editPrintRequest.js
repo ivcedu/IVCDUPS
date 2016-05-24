@@ -41,7 +41,6 @@ var m_device = "";
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {   
     if (sessionStorage.key(0) !== null) {
-        setDefaultOption();
         setAdminOption();
         setUserProfile();
         getLoginInfo();
@@ -113,6 +112,7 @@ $(document).ready(function() {
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
     $('#nav_logout').click(function() {
+        db_updatePrintRequestLocked(print_request_id, false);
         sessionStorage.clear();
         window.open('Login.html', '_self');
         return false;
@@ -369,7 +369,7 @@ $(document).ready(function() {
                closeOnConfirm: false }, 
                function() {                    
                     db_updateDuplicating(print_request_id, 6);
-                    db_insertTransaction(print_request_id, localStorage.getItem('ls_dc_loginDisplayName'), "Duplicating print request has been deleted");
+                    db_insertTransaction(print_request_id, sessionStorage.getItem('ls_dc_loginDisplayName'), "Duplicating print request has been deleted");
                     sendEmailAdminPrintRequestDeleted("Duplicating");
             
                     db_updatePrintRequestLocked(print_request_id, false);
@@ -398,7 +398,7 @@ $(document).ready(function() {
                closeOnConfirm: false }, 
                function() {                    
                     db_updatePlotter(print_request_id, 9);
-                    db_insertTransaction(print_request_id, localStorage.getItem('ls_dc_loginDisplayName'), "Plotter print request has been deleted");
+                    db_insertTransaction(print_request_id, sessionStorage.getItem('ls_dc_loginDisplayName'), "Plotter print request has been deleted");
                     sendEmailAdminPrintRequestDeleted("Plotter");
                     
                     db_updatePrintRequestLocked(print_request_id, false);
@@ -417,12 +417,14 @@ $(document).ready(function() {
     
     // duplicationg cancel button click ////////////////////////////////////////
     $('#btn_dup_cancel').click(function() {
+        db_updatePrintRequestLocked(print_request_id, false);
         window.open('userHome.html', '_self');
         return false;
     });
     
     // plotting cancel button click ////////////////////////////////////////////
     $('#btn_plot_cancel').click(function() {
+        db_updatePrintRequestLocked(print_request_id, false);
         window.open('userHome.html', '_self');
         return false;
     });
@@ -492,19 +494,6 @@ function duplicatingValidation() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function setDefaultOption() {
-    $('#nav_my_profile').hide();
-    $('#nav_completed_list').hide();
-    $('#nav_copier_report').hide();
-    $('#nav_copier_price').hide();
-    $('#nav_user_access').hide();
-    
-    $('#menu_administrator').hide();
-    $('#menu_dup_cost_info').hide();
-    
-    $('#honor_student').hide();
-}
-
 function setAdminOption() {        
     var login_email = sessionStorage.getItem("ls_dc_loginEmail");
     var result = new Array();
@@ -732,8 +721,8 @@ function setPlotter() {
         if (result[0]['WavedProof'] === "1") {
             $("#ckb_waved_proof").prop('checked', true);
         }
-        if (result[0]['Free'] === "0") {
-            $('#honor_student').hide();
+        if (result[0]['Free'] === "1") {
+            $('#honor_student').show();
         }
         
         $('#plot_note').val(result[0]['Note']);

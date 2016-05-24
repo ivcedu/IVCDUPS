@@ -3,7 +3,6 @@ var print_request_id = "";
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {   
     if (sessionStorage.key(0) !== null) {
-        setDefaultOption();
         setAdminOption();
         setUserProfile();
         getLoginInfo();
@@ -92,19 +91,6 @@ $(document).ready(function() {
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-function setDefaultOption() {
-    $('#nav_my_profile').hide();
-    $('#nav_completed_list').hide();
-    $('#nav_copier_report').hide();
-    $('#nav_copier_price').hide();
-    $('#nav_user_access').hide();
-    
-    $('#menu_administrator').hide();
-    $('#menu_dup_cost_info').hide();
-    
-    $('#honor_student').hide();
-}
 
 function setAdminOption() {        
     var login_email = sessionStorage.getItem("ls_dc_loginEmail");
@@ -226,8 +212,8 @@ function setPlotter(device_type_id, dtstamp, modified) {
         else {
             $("#ckb_waved_proof").append("<i class='fa fa-square-o fa-lg'></i>");
         }
-        if (result[0]['Free'] === "0") {
-            $('#honor_student').hide();
+        if (result[0]['Free'] === "") {
+            $('#honor_student').show();
         }
         
         $('#plot_note').html(result[0]['Note'].replace(/\n/g, "<br>"));

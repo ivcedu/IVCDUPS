@@ -930,6 +930,20 @@ function db_updateDepartment(PrintRequestID, DepartmentID) {
     return Result;
 }
 
+function db_updateDropOffJobBillingDepart(PrintRequestID, DepartmentID) {
+    var Result = false;
+    $.ajax({
+        type:"POST",
+        url:"php/db_updateDropOffJobBillingDepart.php",
+        data:{PrintRequestID:PrintRequestID, DepartmentID:DepartmentID},
+        async: false,  
+        success:function(data) {
+            Result = JSON.parse(data);
+        }
+    });
+    return Result;
+}
+
 function db_updateAttachment(PrintRequestID, FileName, Pages, PDFData) {
     var Result = false;
     $.ajax({

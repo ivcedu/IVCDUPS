@@ -4,7 +4,6 @@ var m_honor_student_id = "";
 ////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {
     if (sessionStorage.key(0) !== null) {
-        setDefaultOption();
         setAdminOption();
         
         getLoginInfo();
@@ -88,14 +87,6 @@ $(document).ready(function() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-function setDefaultOption() {
-    $('#nav_completed_list').hide();
-    $('#nav_copier_report').hide();
-    $('#menu_administrator').hide();
-    $('#nav_copier_price').hide();
-    $('#nav_user_access').hide();
-}
-
 function setAdminOption() {        
     var login_email = sessionStorage.getItem("ls_dc_loginEmail");
     var result = new Array();
@@ -103,20 +94,7 @@ function setAdminOption() {
     
     if (result.length === 1) {
         if (result[0]['AdminLevel'] === "Master") {
-            $('#nav_completed_list').show();
-            $('#nav_copier_report').show();
-            $('#menu_administrator').show();
-            $('#nav_copier_price').show();
             $('#nav_user_access').show();
-        }
-        else if (result[0]['AdminLevel'] === "Admin") {
-            $('#nav_completed_list').show();
-            $('#nav_copier_report').show();
-            $('#menu_administrator').show();
-            $('#nav_copier_price').show();
-        }
-        else if (result[0]['AdminLevel'] === "Report") {
-            $('#nav_copier_report').show();
         }
     }
 }
