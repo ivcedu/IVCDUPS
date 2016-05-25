@@ -422,12 +422,12 @@ function db_getUserPrintRequestList(Email) {
     return result;
 }
 
-function db_getUserHistoryList(Email) {
+function db_getUserHistoryList(Email, StartDate, EndDate) {
     var result = new Array();
     $.ajax({
         type:"POST",
         url:"php/db_getUserHistoryList.php",
-        data:{Email:Email},
+        data:{Email:Email, StartDate:StartDate, EndDate:EndDate},
         async: false,  
         success:function(data) {
             result = JSON.parse(data);

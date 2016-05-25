@@ -3,6 +3,7 @@ var print_request_id = "";
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {   
     if (sessionStorage.key(0) !== null) {
+        setActiveMenu();
         setAdminOption();
         setUserProfile();
         getLoginInfo();
@@ -65,8 +66,15 @@ $(document).ready(function() {
     
     // icon close button click /////////////////////////////////////////////////
     $('#ico_btn_close').click(function() {
-        window.open('userHome.html', '_self');
-        return false;
+        var click_from = sessionStorage.getItem("ivcdups_print_click");
+        if (click_from === "userHome.html") {
+            window.open('userHome.html', '_self');
+            return false;
+        }
+        else {
+            window.open('rptMyHistory.html', '_self');
+            return false;
+        }
     });
     
     // icon print button click /////////////////////////////////////////////////
@@ -91,6 +99,18 @@ $(document).ready(function() {
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function setActiveMenu() {
+    var click_from = sessionStorage.getItem("ivcdups_print_click");
+    if (click_from === "userHome.html") {
+        $("#nav_my_home").addClass("active");
+    }
+    else {
+        $("#nav_sub_reports").removeClass("collapse");
+        $("#nav_reports").addClass("active");
+        $("#nav_my_history").addClass("active");
+    }
+}
 
 function setAdminOption() {        
     var login_email = sessionStorage.getItem("ls_dc_loginEmail");

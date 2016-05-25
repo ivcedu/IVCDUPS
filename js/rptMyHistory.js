@@ -1,14 +1,15 @@
 var m_table;
 
 ////////////////////////////////////////////////////////////////////////////////
-window.onload = function() {
+window.onload = function() {   
     if (sessionStorage.key(0) !== null) {
         setAdminOption();
         setUserProfile();
         
         getLoginInfo();
-        getUserPrintList();
-    }
+        getDefaultStartEndDate();
+        getMyHistoryList();
+}
     else {
         window.open('Login.html', '_self');
     }
@@ -23,20 +24,14 @@ $(document).ready(function() {
         return false;
     });
     
-    $('#mobile_nav_logout').click(function() {
-        sessionStorage.clear();
-        window.open('Login.html', '_self');
-        return false;
-    });
-    
-    // table row contract click //////////////////////////////////////////////
-    $('table').on('click', 'a[id^="print_request_id_"]', function(e) {
+    // table row contract click ////////////////////////////////////////////////
+    $('table').on('click', 'a', function(e) {
         e.preventDefault();
-        var print_request_id = $(this).attr('id').replace("print_request_id_", ""); 
+        var print_request_id = $(this).attr('id').replace("print_request_id_", "");
         var result = new Array();
         result = db_getPrintRequest(print_request_id);
         
-        sessionStorage.setItem('ivcdups_print_click', "userHome.html");
+        sessionStorage.setItem('ivcdups_print_click', "rptMyHistory.html");
         if (result[0]['DeviceTypeID'] === "1" || result[0]['DeviceTypeID'] === "2") {
             window.open('viewPrintRequest.html?print_request_id=' + print_request_id, '_self');
             return false;
@@ -47,21 +42,18 @@ $(document).ready(function() {
         }
     });
     
-    $('table').on('click', 'a[id^="edit_request_"]', function() {
-        var print_request_id = $(this).attr('id').replace("edit_request_id_", "");        
-        if (printRequestLocked(print_request_id)) {
-            swal("Error", "Duplicating center is already working on your request. Please contact Jose Delgado at 949.451.5297", "error");
-            getUserPrintList();
-            return false;
-        }
-        else {
-            window.open('editPrintRequest.html?print_request_id=' + print_request_id, '_self');
-            return false;
-        }
+    // refresh button click ////////////////////////////////////////////////////
+    $('#btn_refresh').click(function() {
+        getMyHistoryList();
+        return false;
     });
-
+    
+    // datepicker
+    $('#start_date').datepicker();
+    $('#end_date').datepicker();
+    
     // jquery datatables initialize ////////////////////////////////////////////
-    m_table = $('#tbl_usr_active_list').DataTable({ paging: false, bInfo: false, searching: false, columnDefs: [{ orderable: false, targets: 5 }] });
+    m_table = $('#tbl_my_history_list').DataTable({ paging: false, bInfo: false, searching: false, order: [[ 0, "desc" ]] });
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -103,30 +95,17 @@ function getLoginInfo() {
     $('#login_user').html(login_name);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-function printRequestLocked(print_request_id) {
-    var result = new Array();
-    result = db_getPrintRequest(print_request_id);
-    
-    if (result[0]['Locked'] === "1") {
-        return true;
-    }
-    else {
-        return false;
-    }
+function getDefaultStartEndDate() {
+    $('#start_date').datepicker( "setDate", getCurrentFirstDayOfMonth() );
+    $('#end_date').datepicker( "setDate", getCurrentLastDayOfMonth() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-function getUserPrintList() {
+function getMyHistoryList() {
+    var start_date = $('#start_date').val();
+    var end_date = $('#end_date').val();
     var result = new Array(); 
-    result = db_getUserPrintRequestList(sessionStorage.getItem("ls_dc_loginEmail"));
-    
-    var total_cost = 0.0;
-    for(var i = 0; i < result.length; i++) { 
-        total_cost += Number(result[i]['TotalCost'].replace('$', ''));
-    }
-    
-    $('#total_cost').html(formatDollar(total_cost, 2));
+    result = db_getUserHistoryList(sessionStorage.getItem("ls_dc_loginEmail"), start_date, end_date);
     
     m_table.clear();
     m_table.rows.add(result).draw();
