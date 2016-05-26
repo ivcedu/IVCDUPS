@@ -64,8 +64,12 @@ $(document).ready(function() {
             window.open('userHome.html', '_self');
             return false;
         }
-        else {
+        else if (click_from === "rptMyHistory.html") {
             window.open('rptMyHistory.html', '_self');
+            return false;
+        }
+        else if (click_from === "rptCompletedList.html") {
+            window.open('rptCompletedList.html', '_self');
             return false;
         }
     });
@@ -84,10 +88,15 @@ function setActiveMenu() {
     if (click_from === "userHome.html") {
         $("#nav_my_home").addClass("active");
     }
-    else {
+    else if (click_from === "rptMyHistory.html") {
         $("#nav_sub_reports").removeClass("collapse");
         $("#nav_reports").addClass("active");
         $("#nav_my_history").addClass("active");
+    }
+    else if (click_from === "rptCompletedList.html") {
+        $("#nav_sub_reports").removeClass("collapse");
+        $("#nav_reports").addClass("active");
+        $("#nav_completed_list").addClass("active");
     }
 }
 

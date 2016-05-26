@@ -8,7 +8,7 @@ window.onload = function() {
         
         getLoginInfo();
         getDefaultStartEndDate();
-        getMyHistoryList();
+        getAdminCompletedList();
 }
     else {
         window.open('Login.html', '_self');
@@ -31,7 +31,7 @@ $(document).ready(function() {
         var result = new Array();
         result = db_getPrintRequest(print_request_id);
         
-        sessionStorage.setItem('ivcdups_print_click', "rptMyHistory.html");
+        sessionStorage.setItem('ivcdups_print_click', "rptCompletedList.html");
         if (result[0]['DeviceTypeID'] === "1" || result[0]['DeviceTypeID'] === "2") {
             window.open('viewPrintRequest.html?print_request_id=' + print_request_id, '_self');
             return false;
@@ -44,7 +44,7 @@ $(document).ready(function() {
     
     // refresh button click ////////////////////////////////////////////////////
     $('#btn_refresh').click(function() {
-        getMyHistoryList();
+        getAdminCompletedList();
         return false;
     });
     
@@ -53,7 +53,7 @@ $(document).ready(function() {
     $('#end_date').datepicker();
     
     // jquery datatables initialize ////////////////////////////////////////////
-    m_table = $('#tbl_my_history_list').DataTable({ paging: false, bInfo: false, searching: false, order: [[ 0, "desc" ]] });
+    m_table = $('#tbl_completed_list').DataTable({ paging: false, bInfo: false, order: [[ 0, "desc" ]] });
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -101,9 +101,9 @@ function getDefaultStartEndDate() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-function getMyHistoryList() {
+function getAdminCompletedList() {
     var result = new Array(); 
-    result = db_getUserHistoryList(sessionStorage.getItem("ls_dc_loginEmail"), $('#start_date').val(), $('#end_date').val());
+    result = result = db_getAdminCompletedList($('#start_date').val(), $('#end_date').val());
     
     m_table.clear();
     m_table.rows.add(result).draw();
