@@ -72,6 +72,10 @@ $(document).ready(function() {
             window.open('rptCompletedList.html', '_self');
             return false;
         }
+        else if (click_from === "rptBillingReport.html") {
+            window.open('rptBillingReport.html', '_self');
+            return false;
+        }
     });
     
     // icon print button click /////////////////////////////////////////////////
@@ -97,6 +101,11 @@ function setActiveMenu() {
         $("#nav_sub_reports").removeClass("collapse");
         $("#nav_reports").addClass("active");
         $("#nav_completed_list").addClass("active");
+    }
+    else if (click_from === "rptBillingReport.html") {
+        $("#nav_sub_reports").removeClass("collapse");
+        $("#nav_reports").addClass("active");
+        $("#nav_copier_report").addClass("active");
     }
 }
 
