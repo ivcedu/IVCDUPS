@@ -3,13 +3,27 @@ var m_total_cost = 0;
 
 ////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {   
-    if (sessionStorage.key(0) !== null) {
+    if (sessionStorage.key(0) !== null) {        
         setAdminOption();
         setUserProfile();
         
         getLoginInfo();
-        getDefaultStartEndDate();
-        getBillingReportDepartment();
+        if (sessionStorage.getItem('ls_dc_pr_user_id') === null) {
+            getDefaultStartEndDate(); 
+            getBillingReportDepartment();
+            
+        }
+        else {
+            $('#start_date').val(sessionStorage.getItem('ls_dc_pr_start_date'));
+            $('#end_date').val(sessionStorage.getItem('ls_dc_pr_end_date'));
+            var depart_id = sessionStorage.getItem('ls_dc_pr_depart_id');
+            var user_id = sessionStorage.getItem('ls_dc_pr_user_id');
+            getBillingReportDepartment();
+            $("#row_depart_id_" + depart_id).html("<i class='fa fa-minus'></i>");
+            getBillingReportUsers(depart_id);
+            $("#row_user_id_" + user_id + "_DID_" + depart_id).html("<i class='fa fa-minus'></i>");
+            getBillingReportPrint(depart_id, user_id);
+        }
 }
     else {
         window.open('Login.html', '_self');
@@ -27,6 +41,10 @@ $(document).ready(function() {
     
     // refresh button click ////////////////////////////////////////////////////
     $('#btn_refresh').click(function() {
+        sessionStorage.removeItem('ls_dc_pr_start_date');
+        sessionStorage.removeItem('ls_dc_pr_end_date');
+        sessionStorage.removeItem('ls_dc_pr_depart_id');
+        sessionStorage.removeItem('ls_dc_pr_user_id');
         getBillingReportDepartment();
         return false;
     });
@@ -37,7 +55,6 @@ $(document).ready(function() {
         var row_html = $(this).html();
         var first_child_row_id = $(this).attr('id');
         var depart_id = first_child_row_id.replace("row_depart_id_", "");
-        
         if (row_html === "<i class=\"fa fa-plus\"></i>") {
             $(this).html("<i class='fa fa-minus'></i>");
             getBillingReportUsers(depart_id);
@@ -66,11 +83,19 @@ $(document).ready(function() {
         
         if (row_html === "<i class=\"fa fa-plus\"></i>") {
             $(this).html("<i class='fa fa-minus'></i>");
+            sessionStorage.setItem('ls_dc_pr_start_date', $('#start_date').val());
+            sessionStorage.setItem('ls_dc_pr_end_date', $('#end_date').val());
+            sessionStorage.setItem('ls_dc_pr_depart_id', depart_id);
+            sessionStorage.setItem('ls_dc_pr_user_id', user_id);
             getBillingReportPrint(depart_id, user_id);
         }
         else {
             $(this).html("<i class='fa fa-plus'></i>");
             $(".class_user_id_" + user_id).empty();
+            sessionStorage.removeItem('ls_dc_pr_start_date');
+            sessionStorage.removeItem('ls_dc_pr_end_date');
+            sessionStorage.removeItem('ls_dc_pr_depart_id');
+            sessionStorage.removeItem('ls_dc_pr_user_id');
         }
         return false;
     });
@@ -153,6 +178,7 @@ function getBillingReportDepartment() {
     $("#tbl_body").empty();
     var body_html = "";
     for(var i = 0; i < result.length; i++) { 
+        var tmp = result[i];
         m_total_pages += Number(result[i]['TotalPages']);
         m_total_cost += Number(result[i]['TotalCost']);
         body_html += setBillingReportDepartmentHTML(result[i]['DepartmentID'], result[i]['Department'], result[i]['TotalPages'], formatDollar(Number(result[i]['TotalCost']), 2));
@@ -210,8 +236,7 @@ function getBillingReportPrint(depart_id, user_id) {
     $(".class_user_id_" + user_id).empty();
     var body_html = "";
     for(var i = 0; i < result.length; i++) { 
-        body_html += setBillingReportPrintHTML(user_id, result[i]['PrintRequestID'], result[i]['RequestTitle'], 
-                                                convertDBDateToString(result[i]['Modified']), result[i]['TotalPages'], formatDollar(Number(result[i]['TotalCost']), 2));
+        body_html += setBillingReportPrintHTML(user_id, result[i]['PrintRequestID'], result[i]['RequestTitle'], result[i]['Created'], result[i]['TotalPages'], formatDollar(Number(result[i]['TotalCost']), 2));
     }
     $("#second_child_user_id_" + user_id).after(body_html);
     $("#tbl_billing_report").trigger("update");
