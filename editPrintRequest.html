@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="../inspinia-2.5/css/bootstrap.min.css">
         <link rel="stylesheet" href="../inspinia-2.5/font-awesome/css/font-awesome.css">
         <link rel="stylesheet" href="../inspinia-2.5/css/plugins/iCheck/custom.css">
+        <link rel="stylesheet" href="../inspinia-2.5/css/plugins/datapicker/datepicker3.css">
         <link rel="stylesheet" href="../inspinia-2.5/css/plugins/dataTables/datatables.min.css">
         <link rel="stylesheet" href="../inspinia-2.5/css/plugins/ladda/ladda-themeless.min.css">
         <link rel="stylesheet" href="../inspinia-2.5/css/animate.css">
@@ -24,6 +25,7 @@
         <link rel="stylesheet" href="../include/iconic-1.9.0/font/css/iconic-bootstrap.css"/>
         <!-- application css -->
         <link rel="stylesheet" href="css/ivcdups.css"/>
+        <link rel="stylesheet" href="css/popup-z-Index.css">
     </head>
     <body>
         <div id="wrapper">
@@ -203,7 +205,12 @@
                                             <label class="col-md-2 control-label">Quantity:</label>
                                             <div class="col-md-2"><input type="text" class="form-control" id="quantity"></div>
                                             <label class="col-md-2 col-md-offset-2 control-label">Date/Time Needed:</label>
-                                            <div class="col-md-2"><input type="text" class="form-control" placeholder="please click here" readonly id="date_needed"></div>
+                                            <div class="col-md-2">
+                                                <div class="input-group" data-provide="datepicker">
+                                                    <input type="text" class="form-control Z-IndexFront" readonly id="date_needed">
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                </div>
+                                            </div>
                                             <div class="col-md-2">
                                                 <div class="input-group bootstrap-timepicker">
                                                     <input class="form-control input-small" type="text" readonly id="time_needed">
@@ -331,6 +338,7 @@
         <script src="../inspinia-2.5/js/jquery-2.1.1.js"></script>
         <script src="../inspinia-2.5/js/bootstrap.min.js"></script>
         <script src="../inspinia-2.5/js/plugins/iCheck/icheck.min.js"></script>
+        <script src="../inspinia-2.5/js/plugins/datapicker/bootstrap-datepicker.js"></script>
         <script src="../inspinia-2.5/js/plugins/metisMenu/jquery.metisMenu.js"></script>
         <script src="../inspinia-2.5/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
         <script src="../inspinia-2.5/js/plugins/dataTables/datatables.min.js"></script>

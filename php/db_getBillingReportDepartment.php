@@ -34,8 +34,7 @@
                     . "GROUP BY dprt.DepartmentID, dprt.Department";
     
     $query_get_result = "SELECT DepartmentID, Department, SUM(TotalPages) AS TotalPages, SUM(TotalCost) AS TotalCost "
-                        . "FROM #BILLINGDEPART GROUP BY DepartmentID, Department "
-                        . "ORDER BY Department ASC";
+                        . "FROM #BILLINGDEPART GROUP BY DepartmentID, Department";
 
     $dbConn->query($query_create_table);
     $dbConn->query($query_duplicating);

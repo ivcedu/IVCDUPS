@@ -11,6 +11,7 @@ window.onload = function() {
         if (sessionStorage.getItem('ls_dc_pr_user_id') === null) {
             getDefaultStartEndDate(); 
             getBillingReportDepartment();
+            initializeTable();
             
         }
         else {
@@ -29,6 +30,11 @@ window.onload = function() {
         window.open('Login.html', '_self');
     }
 };
+
+////////////////////////////////////////////////////////////////////////////////
+function initializeTable() {
+    $("#tbl_billing_report").tablesorter({ sortList: [[2,0]] });
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,9 +55,14 @@ $(document).ready(function() {
         return false;
     });
     
+    // table sorting end event /////////////////////////////////////////////////
+//    $("table").bind("sortEnd", function() { 
+//        $('#tbl_billing_report').trigger("update"); 
+//    });
+    
     // table row depart + click ////////////////////////////////////////////////
     $('table').on('click', '[id^="row_depart_id_"]', function(e) {
-        e.preventDefault();
+        e.preventDefault();        
         var row_html = $(this).html();
         var first_child_row_id = $(this).attr('id');
         var depart_id = first_child_row_id.replace("row_depart_id_", "");
@@ -74,7 +85,7 @@ $(document).ready(function() {
     
     // table row users + click /////////////////////////////////////////////////
     $('table').on('click', '[id^="row_user_id_"]', function(e) {
-        e.preventDefault();
+        e.preventDefault();        
         var row_html = $(this).html();
         var second_child_row_id = $(this).attr('id');
         var ar_str = second_child_row_id.split("_DID_");

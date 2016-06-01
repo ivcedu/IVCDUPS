@@ -123,6 +123,16 @@ function getCurrentLastDayOfMonth() {
     return mon + "/" + day + "/" + yrs;
 }
 
+function getToday() {
+    var cur_date = new Date();
+    
+    var yrs = cur_date.getFullYear();
+    var mon = cur_date.getMonth() + 1;
+    var day = cur_date.getDate();
+    
+    return mon + "/" + day + "/" + yrs;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 function convertDBDateTimeToString(date_time) {
     if (date_time === null || date_time === "") {
