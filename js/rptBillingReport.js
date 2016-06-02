@@ -63,11 +63,6 @@ $(document).ready(function() {
         return false;
     });
     
-    // table sorting end event /////////////////////////////////////////////////
-//    $("table").bind("sortEnd", function() { 
-//        $('#tbl_billing_report').trigger("update"); 
-//    });
-    
     // table row depart + click ////////////////////////////////////////////////
     $('table').on('click', '[id^="row_depart_id_"]', function(e) {
         e.preventDefault();        
@@ -75,18 +70,19 @@ $(document).ready(function() {
         var first_child_row_id = $(this).attr('id');
         var depart_id = first_child_row_id.replace("row_depart_id_", "");
         if (row_html === "<i class=\"fa fa-plus\"></i>") {
-            $(this).html("<i class='fa fa-minus'></i>");
+            $(this).html("<i class='fa fa-minus'></i>");            
             getBillingReportUsers(depart_id);
         }
         else {
-            $(this).html("<i class='fa fa-plus'></i>");
+            $(this).html("<i class='fa fa-plus'></i>");            
             var result = new Array();
             result = db_getBillingReportUsers($('#start_date').val(), $('#end_date').val(), depart_id);
             for(var i = 0; i < result.length; i++) {
                 var user_id = result[i]['LoginID'];
-                $(".class_user_id_" + user_id).empty();
+                $(".class_user_id_" + user_id).remove();
             }
-            $(".class_depart_id_" + depart_id).empty();
+            $(".class_depart_id_" + depart_id).remove();
+            $("#tbl_billing_report").trigger("update");
         }
         return false;
     });
@@ -110,7 +106,7 @@ $(document).ready(function() {
         }
         else {
             $(this).html("<i class='fa fa-plus'></i>");
-            $(".class_user_id_" + user_id).empty();
+            $(".class_user_id_" + user_id).remove();
             sessionStorage.removeItem('ls_dc_pr_start_date');
             sessionStorage.removeItem('ls_dc_pr_end_date');
             sessionStorage.removeItem('ls_dc_pr_depart_id');
@@ -232,6 +228,7 @@ function getBillingReportUsers(depart_id) {
         body_html += setBillingReportUsersHTML(depart_id, result[i]['LoginID'], result[i]['Requestor'], result[i]['TotalPages'], formatDollar(Number(result[i]['TotalCost']), 2));
     }
     $("#first_child_depart_id_" + depart_id).after(body_html);
+    
     $("#tbl_billing_report").trigger("update");
 }
 
