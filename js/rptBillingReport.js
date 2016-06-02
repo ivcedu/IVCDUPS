@@ -55,6 +55,14 @@ $(document).ready(function() {
         return false;
     });
     
+    // excel button click //////////////////////////////////////////////////////
+    $('#btn_excel').click(function() {
+        var start_date = $('#start_date').val();
+        var end_date = $('#end_date').val();
+        location.href = "php/csv_CopierBillingReport.php?StartDate=" + start_date + "&EndDate=" + end_date; 
+        return false;
+    });
+    
     // table sorting end event /////////////////////////////////////////////////
 //    $("table").bind("sortEnd", function() { 
 //        $('#tbl_billing_report').trigger("update"); 
