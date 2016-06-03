@@ -12,7 +12,6 @@ window.onload = function() {
             getDefaultStartEndDate(); 
             getBillingReportDepartment();
             initializeTable();
-            
         }
         else {
             $('#start_date').val(sessionStorage.getItem('ls_dc_pr_start_date'));
@@ -53,7 +52,6 @@ $(document).ready(function() {
         sessionStorage.removeItem('ls_dc_pr_depart_id');
         sessionStorage.removeItem('ls_dc_pr_user_id');
         getBillingReportDepartment();
-        initializeTable();
         return false;
     });
     
@@ -74,12 +72,6 @@ $(document).ready(function() {
         if (row_html === "<i class=\"fa fa-plus\"></i>") {
             $(this).html("<i class='fa fa-minus'></i>"); 
             getBillingReportUsers(depart_id);
-            
-//            $('#tbl_thead_deaprt').addClass('sorter-false');
-//            $('#tbl_thead_pages').addClass('sorter-false');
-//            $('#tbl_thead_cost').addClass('sorter-false');
-//            $("#tbl_billing_report").trigger("update");
-//            $("#tbl_billing_report").tablesorter({ resort: false });
         }
         else {
             $(this).html("<i class='fa fa-plus'></i>");  
@@ -87,15 +79,11 @@ $(document).ready(function() {
             result = db_getBillingReportUsers($('#start_date').val(), $('#end_date').val(), depart_id);
             for(var i = 0; i < result.length; i++) {
                 var user_id = result[i]['LoginID'];
-                $(".class_user_id_" + user_id).empty();
+                $(".class_user_id_" + user_id).remove();
             }
-            $(".class_depart_id_" + depart_id).empty();
-            
-//            $('#tbl_thead_deaprt').removeClass()('sorter-false');
-//            $('#tbl_thead_pages').removeClass('sorter-false');
-//            $('#tbl_thead_cost').removeClass('sorter-false');
-//            $("#tbl_billing_report").trigger("update");
-//            $("#tbl_billing_report").tablesorter({ resort: true });
+            $(".class_depart_id_" + depart_id).remove();
+            $("#tbl_billing_report").trigger("update");
+            $("#tbl_billing_report").trigger("appendCache");
         }
         return false;
     });
@@ -119,7 +107,10 @@ $(document).ready(function() {
         }
         else {
             $(this).html("<i class='fa fa-plus'></i>");
-            $(".class_user_id_" + user_id).empty();
+            $(".class_user_id_" + user_id).remove();
+            $("#tbl_billing_report").trigger("update");
+            $("#tbl_billing_report").trigger("appendCache");
+            
             sessionStorage.removeItem('ls_dc_pr_start_date');
             sessionStorage.removeItem('ls_dc_pr_end_date');
             sessionStorage.removeItem('ls_dc_pr_depart_id');
@@ -213,6 +204,7 @@ function getBillingReportDepartment() {
     }
     $("#tbl_body").append(body_html);
     $("#tbl_billing_report").trigger("update");
+    $("#tbl_billing_report").trigger("appendCache");
     
     $('#total_pages').html(m_total_pages);
     $('#total_cost').html(formatDollar(m_total_cost, 2));
@@ -243,6 +235,7 @@ function getBillingReportUsers(depart_id) {
     $("#first_child_depart_id_" + depart_id).after(body_html);
     
     $("#tbl_billing_report").trigger("update");
+    $("#tbl_billing_report").trigger("appendCache");
 }
 
 function setBillingReportUsersHTML(depart_id, login_id, requestor, total_pages, total_cost) {
@@ -269,6 +262,7 @@ function getBillingReportPrint(depart_id, user_id) {
     }
     $("#second_child_user_id_" + user_id).after(body_html);
     $("#tbl_billing_report").trigger("update");
+    $("#tbl_billing_report").trigger("appendCache");
 }
 
 function setBillingReportPrintHTML(user_id, print_request_id, request_title, modified, total_pages, total_cost) {
