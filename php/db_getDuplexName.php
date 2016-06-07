@@ -3,7 +3,7 @@
 
     $DuplexID = filter_input(INPUT_POST, 'DuplexID');
     
-    $query = "SELECT Duplex FROM [IVCDCENTER].[dbo].[Duplex] WHERE DuplexID = '" . $DuplexID . "'";
+    $query = "SELECT Duplex FROM [".$dbDatabase."].[dbo].[Duplex] WHERE DuplexID = '" . $DuplexID . "'";
 
     $cmd = $dbConn->prepare($query);
     $cmd->execute(); 

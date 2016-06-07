@@ -10,7 +10,7 @@
     $Phone = filter_input(INPUT_POST, 'Phone');
     $RequestTitle = filter_input(INPUT_POST, 'RequestTitle');
 
-    $query = "INSERT INTO [IVCDCENTER].[dbo].[PrintRequest] (DeviceTypeID, DeliveryLocationID, LoginType, LoginID, Requestor, Email, Phone, RequestTitle) "
+    $query = "INSERT INTO [".$dbDatabase."].[dbo].[PrintRequest] (DeviceTypeID, DeliveryLocationID, LoginType, LoginID, Requestor, Email, Phone, RequestTitle) "
                 ."VALUES ('$DeviceTypeID', '$DeliveryLocationID', '$LoginType', '$LoginID', '$Requestor', '$Email', '$Phone', '$RequestTitle')";  
     
     $cmd = $dbConn->prepare($query);

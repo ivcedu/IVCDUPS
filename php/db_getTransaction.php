@@ -3,7 +3,7 @@
 
     $PrintRequestID = filter_input(INPUT_POST, 'PrintRequestID');
     
-    $query = "SELECT * FROM [IVCDCENTER].[dbo].[Transaction] WHERE PrintRequestID = '" . $PrintRequestID . "' ORDER BY TransactionID DESC";
+    $query = "SELECT * FROM [".$dbDatabase."].[dbo].[Transaction] WHERE PrintRequestID = '" . $PrintRequestID . "' ORDER BY TransactionID DESC";
 
     $cmd = $dbConn->prepare($query);
     $cmd->execute(); 

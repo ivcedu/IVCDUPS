@@ -22,7 +22,7 @@
     $TotalCost = filter_input(INPUT_POST, 'TotalCost');
     $Note = filter_input(INPUT_POST, 'Note');
 
-    $query = "INSERT INTO [IVCDCENTER].[dbo].[Duplicating] (PrintRequestID, JobStatusDupID, DepartmentID, Quantity, DateNeeded, TimeNeeded, "
+    $query = "INSERT INTO [".$dbDatabase."].[dbo].[Duplicating] (PrintRequestID, JobStatusDupID, DepartmentID, Quantity, DateNeeded, TimeNeeded, "
                 . "PaperSizeID, DuplexID, PaperColorID, CoverColorID, ColorCopy, FrontCover, BackCover, Confidential, ThreeHolePunch, Staple, Cut, TotalPrint, TotalCost, Note) "
                 . "VALUES ('$PrintRequestID', '$JobStatusDupID', '$DepartmentID', '$Quantity', '$DateNeeded', '$TimeNeeded', "
                 . "'$PaperSizeID', '$DuplexID', '$PaperColorID', '$CoverColorID', '$ColorCopy', '$FrontCover', '$BackCover', '$Confidential', '$ThreeHolePunch', '$Staple', '$Cut', '$TotalPrint', '$TotalCost', '$Note')";  

@@ -1,7 +1,7 @@
 <?php
     require("config.php");
 
-    $query = "SELECT * FROM [IVCDCENTER].[dbo].[CopierPrice]";
+    $query = "SELECT * FROM [".$dbDatabase."].[dbo].[CopierPrice]";
 
     $cmd = $dbConn->prepare($query);
     $cmd->execute(); 

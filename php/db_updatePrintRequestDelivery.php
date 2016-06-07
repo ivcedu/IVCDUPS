@@ -4,7 +4,7 @@
     $PrintRequestID = filter_input(INPUT_POST, 'PrintRequestID');
     $DeliveryLocationID = filter_input(INPUT_POST, 'DeliveryLocationID');
 
-    $query = "UPDATE [IVCDCENTER].[dbo].[PrintRequest] "
+    $query = "UPDATE [".$dbDatabase."].[dbo].[PrintRequest] "
                 ."SET DeliveryLocationID = '".$DeliveryLocationID."', "
                 ."Modified = getdate() "
                 ."WHERE PrintRequestID = '".$PrintRequestID."'";

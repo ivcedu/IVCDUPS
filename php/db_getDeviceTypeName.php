@@ -3,7 +3,7 @@
 
     $DeviceTypeID = filter_input(INPUT_POST, 'DeviceTypeID');
     
-    $query = "SELECT DeviceType FROM [IVCDCENTER].[dbo].[DeviceType] WHERE DeviceTypeID = '" . $DeviceTypeID . "'";
+    $query = "SELECT DeviceType FROM [".$dbDatabase."].[dbo].[DeviceType] WHERE DeviceTypeID = '" . $DeviceTypeID . "'";
 
     $cmd = $dbConn->prepare($query);
     $cmd->execute(); 

@@ -3,7 +3,7 @@
 
     $DeliveryLocationID = filter_input(INPUT_POST, 'DeliveryLocationID');
     
-    $query = "SELECT DeliveryLocation FROM [IVCDCENTER].[dbo].[DeliveryLocation] WHERE DeliveryLocationID = '" . $DeliveryLocationID . "'";
+    $query = "SELECT DeliveryLocation FROM [".$dbDatabase."].[dbo].[DeliveryLocation] WHERE DeliveryLocationID = '" . $DeliveryLocationID . "'";
 
     $cmd = $dbConn->prepare($query);
     $cmd->execute(); 

@@ -8,7 +8,7 @@
     $EmployeeID = filter_input(INPUT_POST, 'EmployeeID');
     $DepartmentID = filter_input(INPUT_POST, 'DepartmentID');
 
-    $query = "UPDATE [IVCDCENTER].[dbo].[UserProfile] "
+    $query = "UPDATE [".$dbDatabase."].[dbo].[UserProfile] "
                 ."SET UserName = '".$UserName."', UserEmail = '".$UserEmail."', UserPhone = '".$UserPhone."', EmployeeID = '".$EmployeeID."', DepartmentID = '".$DepartmentID."' "
                 ."WHERE UserProfileID = '".$UserProfileID."'";
     

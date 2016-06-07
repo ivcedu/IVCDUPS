@@ -3,7 +3,7 @@
 
     $PrintRequestID = filter_input(INPUT_POST, 'PrintRequestID');
     
-    $query = "SELECT * FROM [IVCDCENTER].[dbo].[PrintRequest] WHERE PrintRequestID = '" . $PrintRequestID . "'";
+    $query = "SELECT * FROM [".$dbDatabase."].[dbo].[PrintRequest] WHERE PrintRequestID = '" . $PrintRequestID . "'";
 
     $cmd = $dbConn->prepare($query);
     $cmd->execute(); 

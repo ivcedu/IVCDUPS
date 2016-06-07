@@ -5,7 +5,7 @@
     $HonorStudentName = filter_input(INPUT_POST, 'HonorStudentName');
     $HonorStudentEmail = filter_input(INPUT_POST, 'HonorStudentEmail');
 
-    $query = "UPDATE [IVCDCENTER].[dbo].[HonorStudent] "
+    $query = "UPDATE [".$dbDatabase."].[dbo].[HonorStudent] "
                 ."SET HonorStudentName = '".$HonorStudentName."', HonorStudentEmail = '".$HonorStudentEmail."' "
                 ."WHERE HonorStudentID = '".$HonorStudentID."'";
     

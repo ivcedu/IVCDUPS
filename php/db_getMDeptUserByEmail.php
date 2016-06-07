@@ -3,7 +3,7 @@
     
     $LoginEmail = filter_input(INPUT_POST, 'LoginEmail');
 
-    $query = "SELECT * FROM [IVCDCENTER].[dbo].[MDeptUser] WHERE MDUEmail = '" . $LoginEmail . "'";
+    $query = "SELECT * FROM [".$dbDatabase."].[dbo].[MDeptUser] WHERE MDUEmail = '" . $LoginEmail . "'";
 
     $cmd = $dbConn->prepare($query);
     $cmd->execute(); 

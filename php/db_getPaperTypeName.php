@@ -3,7 +3,7 @@
 
     $PaperTypeID = filter_input(INPUT_POST, 'PaperTypeID');
     
-    $query = "SELECT PaperType FROM [IVCDCENTER].[dbo].[PaperType] WHERE PaperTypeID = '" . $PaperTypeID . "'";
+    $query = "SELECT PaperType FROM [".$dbDatabase."].[dbo].[PaperType] WHERE PaperTypeID = '" . $PaperTypeID . "'";
 
     $cmd = $dbConn->prepare($query);
     $cmd->execute(); 

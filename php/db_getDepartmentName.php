@@ -3,7 +3,7 @@
 
     $DepartmentID = filter_input(INPUT_POST, 'DepartmentID');
     
-    $query = "SELECT Department FROM [IVCDCENTER].[dbo].[Department] WHERE DepartmentID = '" . $DepartmentID . "'";
+    $query = "SELECT Department FROM [".$dbDatabase."].[dbo].[Department] WHERE DepartmentID = '" . $DepartmentID . "'";
 
     $cmd = $dbConn->prepare($query);
     $cmd->execute(); 

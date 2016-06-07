@@ -21,7 +21,7 @@
     $TotalCost = filter_input(INPUT_POST, 'TotalCost');
     $Note = filter_input(INPUT_POST, 'Note');
 
-    $query = "UPDATE [IVCDCENTER].[dbo].[Duplicating] "
+    $query = "UPDATE [".$dbDatabase."].[dbo].[Duplicating] "
                 ."SET DepartmentID = '".$DepartmentID."', "
                 ."Quantity = '".$Quantity."', "
                 ."DateNeeded = '".$DateNeeded."', "

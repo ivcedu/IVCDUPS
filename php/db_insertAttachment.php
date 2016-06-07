@@ -6,7 +6,7 @@
     $Pages = filter_input(INPUT_POST, 'Pages');
     $PDFData = filter_input(INPUT_POST, 'PDFData');
 
-    $query = "INSERT INTO [IVCDCENTER].[dbo].[Attachment] (PrintRequestID, FileName, Pages, PDFData) "
+    $query = "INSERT INTO [".$dbDatabase."].[dbo].[Attachment] (PrintRequestID, FileName, Pages, PDFData) "
                 ."VALUES ('$PrintRequestID', '$FileName', '$Pages', '$PDFData')";  
     
     $cmd = $dbConn->prepare($query);

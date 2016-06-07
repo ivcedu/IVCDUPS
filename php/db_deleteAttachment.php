@@ -3,7 +3,7 @@
     
     $PrintRequestID = filter_input(INPUT_POST, 'PrintRequestID');
     
-    $query = "DELETE [IVCDCENTER].[dbo].[Attachment] WHERE PrintRequestID = '".$PrintRequestID ."'";
+    $query = "DELETE [".$dbDatabase."].[dbo].[Attachment] WHERE PrintRequestID = '".$PrintRequestID ."'";
     $cmd = $dbConn->prepare($query);
     $result = $cmd->execute();           
 

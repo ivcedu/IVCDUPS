@@ -1,7 +1,7 @@
 <?php
     require("config.php");
 
-    $query = "SELECT * FROM [IVCDCENTER].[dbo].[DeviceType] ORDER BY DeviceType ASC";
+    $query = "SELECT * FROM [".$dbDatabase."].[dbo].[DeviceType] ORDER BY DeviceType ASC";
 
     $cmd = $dbConn->prepare($query);
     $cmd->execute(); 

@@ -20,7 +20,7 @@
     $back_cover_color = filter_input(INPUT_POST, 'back_cover_color');
     $cut = filter_input(INPUT_POST, 'cut');
 
-    $query = "UPDATE [IVCDCENTER].[dbo].[CopierPrice] "
+    $query = "UPDATE [".$dbDatabase."].[dbo].[CopierPrice] "
                 . "SET s_letter = '".$s_letter."', d_letter = '".$d_letter."', s_letter_color = '".$s_letter_color."', d_letter_color = '".$d_letter_color."', "
                 . "s_legal = '".$s_legal."', d_legal = '".$d_legal."', s_legal_color = '".$s_legal_color."', d_legal_color = '".$d_legal_color."', "
                 . "s_tabloid = '".$s_tabloid."', d_tabloid = '".$d_tabloid."', s_tabloid_color = '".$s_tabloid_color."', d_tabloid_color = '".$d_tabloid_color."', "

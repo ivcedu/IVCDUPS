@@ -3,7 +3,7 @@
 
     $JobStatusPlotID = filter_input(INPUT_POST, 'JobStatusPlotID');
     
-    $query = "SELECT JobStatusPlot FROM [IVCDCENTER].[dbo].[JobStatusPlot] WHERE JobStatusPlotID = '" . $JobStatusPlotID . "'";
+    $query = "SELECT JobStatusPlot FROM [".$dbDatabase."].[dbo].[JobStatusPlot] WHERE JobStatusPlotID = '" . $JobStatusPlotID . "'";
 
     $cmd = $dbConn->prepare($query);
     $cmd->execute(); 

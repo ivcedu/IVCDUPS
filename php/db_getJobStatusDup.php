@@ -1,7 +1,7 @@
 <?php
     require("config.php");
 
-    $query = "SELECT * FROM [IVCDCENTER].[dbo].[JobStatusDup]";
+    $query = "SELECT * FROM [".$dbDatabase."].[dbo].[JobStatusDup]";
 
     $cmd = $dbConn->prepare($query);
     $cmd->execute(); 

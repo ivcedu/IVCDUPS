@@ -1,7 +1,7 @@
 <?php
     require("config.php");
 
-    $query = "SELECT * FROM [IVCDCENTER].[dbo].[PaperType]";
+    $query = "SELECT * FROM [".$dbDatabase."].[dbo].[PaperType]";
 
     $cmd = $dbConn->prepare($query);
     $cmd->execute(); 

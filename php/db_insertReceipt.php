@@ -4,7 +4,7 @@
     $PrintRequestID = filter_input(INPUT_POST, 'PrintRequestID');
     $ReceiptDetail = filter_input(INPUT_POST, 'ReceiptDetail');
 
-    $query = "INSERT INTO [IVCDCENTER].[dbo].[Receipt] (PrintRequestID, ReceiptDetail) "
+    $query = "INSERT INTO [".$dbDatabase."].[dbo].[Receipt] (PrintRequestID, ReceiptDetail) "
                 ."VALUES ('$PrintRequestID', '$ReceiptDetail')";  
     
     $cmd = $dbConn->prepare($query);

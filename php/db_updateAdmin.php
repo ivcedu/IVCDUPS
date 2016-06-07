@@ -6,7 +6,7 @@
     $AdminEmail = filter_input(INPUT_POST, 'AdminEmail');
     $AdminLevel = filter_input(INPUT_POST, 'AdminLevel');
 
-    $query = "UPDATE [IVCDCENTER].[dbo].[Admin] "
+    $query = "UPDATE [".$dbDatabase."].[dbo].[Admin] "
                 ."SET AdminName = '".$AdminName."', AdminEmail = '".$AdminEmail."', AdminLevel = '".$AdminLevel."' "
                 ."WHERE AdminID = '".$AdminID."'";
     

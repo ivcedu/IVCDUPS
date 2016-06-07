@@ -7,7 +7,7 @@
     $EmployeeID = filter_input(INPUT_POST, 'EmployeeID');
     $DepartmentID = filter_input(INPUT_POST, 'DepartmentID');
 
-    $query = "INSERT INTO [IVCDCENTER].[dbo].[UserProfile] (UserName, UserEmail, UserPhone, EmployeeID, DepartmentID) "
+    $query = "INSERT INTO [".$dbDatabase."].[dbo].[UserProfile] (UserName, UserEmail, UserPhone, EmployeeID, DepartmentID) "
                 ."VALUES ('$UserName', '$UserEmail', '$UserPhone', '$EmployeeID', '$DepartmentID')";  
     
     $cmd = $dbConn->prepare($query);

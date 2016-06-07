@@ -1,7 +1,7 @@
 <?php
     require("config.php");
 
-    $query = "SELECT * FROM [IVCDCENTER].[dbo].[DeliveryLocation]";
+    $query = "SELECT * FROM [".$dbDatabase."].[dbo].[DeliveryLocation]";
 
     $cmd = $dbConn->prepare($query);
     $cmd->execute(); 

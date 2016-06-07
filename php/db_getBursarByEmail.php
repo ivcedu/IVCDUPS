@@ -3,7 +3,7 @@
     
     $LoginEmail = filter_input(INPUT_POST, 'LoginEmail');
 
-    $query = "SELECT * FROM [IVCDCENTER].[dbo].[Bursar] WHERE BursarEmail = '" . $LoginEmail . "'";
+    $query = "SELECT * FROM [".$dbDatabase."].[dbo].[Bursar] WHERE BursarEmail = '" . $LoginEmail . "'";
 
     $cmd = $dbConn->prepare($query);
     $cmd->execute(); 

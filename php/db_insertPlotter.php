@@ -11,7 +11,7 @@
     $Free = filter_input(INPUT_POST, 'Free');
     $Note = filter_input(INPUT_POST, 'Note');
 
-    $query = "INSERT INTO [IVCDCENTER].[dbo].[Plotter] (PrintRequestID, JobStatusPlotID, PaperTypeID, SizeHeight, SizeWidth, TotalCost, WavedProof, Free, Note) "
+    $query = "INSERT INTO [".$dbDatabase."].[dbo].[Plotter] (PrintRequestID, JobStatusPlotID, PaperTypeID, SizeHeight, SizeWidth, TotalCost, WavedProof, Free, Note) "
                 ."VALUES ('$PrintRequestID', '$JobStatusPlotID', '$PaperTypeID', '$SizeHeight', '$SizeWidth', '$TotalCost', '$WavedProof', '$Free', '$Note')";  
     
     $cmd = $dbConn->prepare($query);

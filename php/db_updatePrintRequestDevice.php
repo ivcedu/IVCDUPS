@@ -4,7 +4,7 @@
     $PrintRequestID = filter_input(INPUT_POST, 'PrintRequestID');
     $DeviceTypeID = filter_input(INPUT_POST, 'DeviceTypeID');
 
-    $query = "UPDATE [IVCDCENTER].[dbo].[PrintRequest] "
+    $query = "UPDATE [".$dbDatabase."].[dbo].[PrintRequest] "
                 ."SET DeviceTypeID = '".$DeviceTypeID."', "
                 ."Modified = getdate() "
                 ."WHERE PrintRequestID = '".$PrintRequestID."'";

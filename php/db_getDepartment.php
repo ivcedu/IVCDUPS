@@ -1,7 +1,7 @@
 <?php
     require("config.php");
 
-    $query = "SELECT * FROM [IVCDCENTER].[dbo].[Department] ORDER BY Department ASC";
+    $query = "SELECT * FROM [".$dbDatabase."].[dbo].[Department] ORDER BY Department ASC";
 
     $cmd = $dbConn->prepare($query);
     $cmd->execute(); 

@@ -9,7 +9,7 @@
     $WavedProof = filter_input(INPUT_POST, 'WavedProof');
     $Note = filter_input(INPUT_POST, 'Note');
 
-    $query = "UPDATE [IVCDCENTER].[dbo].[Plotter] "
+    $query = "UPDATE [".$dbDatabase."].[dbo].[Plotter] "
                 ."SET PaperTypeID = '".$PaperTypeID."', "
                 ."SizeHeight = '".$SizeHeight."', "
                 ."SizeWidth = '".$SizeWidth."', "

@@ -3,7 +3,7 @@
     
     $PrintRequestID = filter_input(INPUT_POST, 'PrintRequestID');
 
-    $query = "UPDATE [IVCDCENTER].[dbo].[PrintRequest] "
+    $query = "UPDATE [".$dbDatabase."].[dbo].[PrintRequest] "
                 ."SET Modified = getdate() "
                 ."WHERE PrintRequestID = '".$PrintRequestID."'";
     

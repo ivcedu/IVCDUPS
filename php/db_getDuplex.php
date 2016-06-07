@@ -1,7 +1,7 @@
 <?php
     require("config.php");
 
-    $query = "SELECT * FROM [IVCDCENTER].[dbo].[Duplex]";
+    $query = "SELECT * FROM [".$dbDatabase."].[dbo].[Duplex]";
 
     $cmd = $dbConn->prepare($query);
     $cmd->execute(); 

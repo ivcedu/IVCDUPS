@@ -4,7 +4,7 @@
     $PrintRequestID = filter_input(INPUT_POST, 'PrintRequestID');
     $JobStatusDupID = filter_input(INPUT_POST, 'JobStatusDupID');
 
-    $query = "UPDATE [IVCDCENTER].[dbo].[Duplicating] "
+    $query = "UPDATE [".$dbDatabase."].[dbo].[Duplicating] "
                 ."SET JobStatusDupID = '".$JobStatusDupID."' "
                 ."WHERE PrintRequestID = '".$PrintRequestID."'";
     

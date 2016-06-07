@@ -3,7 +3,7 @@
 
     $CoverColorID = filter_input(INPUT_POST, 'CoverColorID');
     
-    $query = "SELECT CoverColor FROM [IVCDCENTER].[dbo].[CoverColor] WHERE CoverColorID = '" . $CoverColorID . "'";
+    $query = "SELECT CoverColor FROM [".$dbDatabase."].[dbo].[CoverColor] WHERE CoverColorID = '" . $CoverColorID . "'";
 
     $cmd = $dbConn->prepare($query);
     $cmd->execute(); 

@@ -4,7 +4,7 @@
     $PrintRequestID = filter_input(INPUT_POST, 'PrintRequestID');
     $DepartmentID = filter_input(INPUT_POST, 'DepartmentID');
 
-    $query = "UPDATE [IVCDCENTER].[dbo].[DropOffJob] "
+    $query = "UPDATE [".$dbDatabase."].[dbo].[DropOffJob] "
                 ."SET DepartmentID = '".$DepartmentID."' "
                 ."WHERE PrintRequestID = '".$PrintRequestID."'";
     

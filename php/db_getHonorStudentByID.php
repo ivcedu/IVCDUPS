@@ -3,7 +3,7 @@
     
     $HonorStudentID = filter_input(INPUT_POST, 'HonorStudentID');
 
-    $query = "SELECT * FROM [IVCDCENTER].[dbo].[HonorStudent] WHERE HonorStudentID = '" . $HonorStudentID . "'";
+    $query = "SELECT * FROM [".$dbDatabase."].[dbo].[HonorStudent] WHERE HonorStudentID = '" . $HonorStudentID . "'";
 
     $cmd = $dbConn->prepare($query);
     $cmd->execute(); 

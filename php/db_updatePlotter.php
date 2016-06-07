@@ -4,7 +4,7 @@
     $PrintRequestID = filter_input(INPUT_POST, 'PrintRequestID');
     $JobStatusPlotID = filter_input(INPUT_POST, 'JobStatusPlotID');
 
-    $query = "UPDATE [IVCDCENTER].[dbo].[Plotter] "
+    $query = "UPDATE [".$dbDatabase."].[dbo].[Plotter] "
                 ."SET JobStatusPlotID = '".$JobStatusPlotID."' "
                 ."WHERE PrintRequestID = '".$PrintRequestID."'";
     

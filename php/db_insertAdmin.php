@@ -5,7 +5,7 @@
     $AdminEmail = filter_input(INPUT_POST, 'AdminEmail');
     $AdminLevel = filter_input(INPUT_POST, 'AdminLevel');
 
-    $query = "INSERT INTO [IVCDCENTER].[dbo].[Admin] (AdminName, AdminEmail, AdminLevel) "
+    $query = "INSERT INTO [".$dbDatabase."].[dbo].[Admin] (AdminName, AdminEmail, AdminLevel) "
                 ."VALUES ('$AdminName', '$AdminEmail', '$AdminLevel')";  
     
     $cmd = $dbConn->prepare($query);

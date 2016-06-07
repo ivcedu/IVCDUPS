@@ -3,7 +3,7 @@
     
     $PrintRequestID = filter_input(INPUT_POST, 'PrintRequestID');
     
-    $query = "DELETE [IVCDCENTER].[dbo].[Duplicating] WHERE PrintRequestID = '".$PrintRequestID ."'";
+    $query = "DELETE [".$dbDatabase."].[dbo].[Duplicating] WHERE PrintRequestID = '".$PrintRequestID ."'";
     $cmd = $dbConn->prepare($query);
     $result = $cmd->execute();           
 

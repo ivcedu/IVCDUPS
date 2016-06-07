@@ -4,7 +4,7 @@
     $PrintRequestID = filter_input(INPUT_POST, 'PrintRequestID');
     $Locked = filter_input(INPUT_POST, 'Locked');
 
-    $query = "UPDATE [IVCDCENTER].[dbo].[PrintRequest] "
+    $query = "UPDATE [".$dbDatabase."].[dbo].[PrintRequest] "
                 ."SET Locked = '".$Locked."', "
                 ."Modified = getdate() "
                 ."WHERE PrintRequestID = '".$PrintRequestID."'";
