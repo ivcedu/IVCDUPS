@@ -3,10 +3,10 @@
 //    $dbHost = "ivcintdb1";
 //    $dbDatabase = "IVCDCENTER";
     // sql 2014 server (production DB)
-//    $dbHost = "IEXDBCLST1";
+//    $dbHost = "IEXDBLISTNR";
 //    $dbDatabase = "IVCDCENTER";
     // sql 2014 server (development DB)
-    $dbHost = "IEXDBCLST1";
+    $dbHost = "IEXDBLISTNR";
     $dbDatabase = "DEVDCENTER";
     
     $dbUser = "ivcdcenter";
