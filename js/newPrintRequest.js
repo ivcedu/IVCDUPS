@@ -574,6 +574,8 @@ function getPDFAttachmentInfo() {
     else {
         m_total_page = 0;
         $('#pdf_pages').val("");
+        duplexSettingForPages();
+        calculateDupTotalCost();
         return false;
     }
 }
@@ -608,15 +610,15 @@ function calculateDupTotalCost() {
     threeHolePunchCost();
     stapleCost();
     
-    var total_cost = paper_cost * quantity * Number(m_total_page);
+    var total_cost = paper_cost * quantity * m_total_page;
     total_cost += front_cover + back_cover + cutCost();
     
     m_str_dup_cost_info += "<b>Print Cost: " + formatDollar(paper_cost, 3) + "</b><br>";
-    m_dup_total_print = quantity * Number(m_total_page);
+    m_dup_total_print = quantity * m_total_page;
     m_dup_total_cost = total_cost;
     
     $('#dup_cost_info').html(m_str_dup_cost_info.trim());
-    $('#dup_total_print').html("<b>Total Print: " + (quantity * Number(m_total_page)) + "</b>");
+    $('#dup_total_print').html("<b>Total Print: " + (quantity * m_total_page) + "</b>");
     $('#dup_total_cost').html("<b>Total Cost: " + formatDollar(total_cost, 2) + "</b>");
 }
 
