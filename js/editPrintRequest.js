@@ -163,7 +163,9 @@ $(document).ready(function() {
     });
     
     $('#quantity').change(function() {      
-        var input_val = Number($(this).val().replace(/[^0-9\.]/g, ''));     
+        var input_val = Number($(this).val().replace(/[^0-9\.]/g, ''));
+        input_val = Math.floor(input_val);
+        input_val = Math.abs(input_val);
         $(this).val(input_val);
         calculateDupTotalCost();
     }); 
@@ -777,11 +779,12 @@ function setDuplicating() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function getPDFAttachmentInfo() {
     var file = $('#attachment_file').get(0).files[0];
-    var f_name = file.name.replace(/#/g, "");
-    m_file_size = file.size;
     
     if (typeof file !== "undefined") { 
+        var f_name = file.name.replace(/#/g, "");
+        m_file_size = file.size;
         var f_extension = getFileExtension(f_name);
+        
         if (f_extension !== "pdf") {
             alert("Only PDF file can be upload");
             m_file_attached = false;
@@ -808,6 +811,7 @@ function getPDFAttachmentInfo() {
                 else {
                     m_file_attached = true;
                     $('#pdf_pages').val(m_total_page);
+                    duplexSettingForPages();
                     calculateDupTotalCost();
                     return true;
                 }
@@ -815,7 +819,20 @@ function getPDFAttachmentInfo() {
         }
     }
     else {
+        m_total_page = 0;
+        $('#pdf_pages').val("");
         return false;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function duplexSettingForPages() {
+    if (m_total_page === 1) {
+        $('#duplex').val("1");
+        $('#duplex').attr('disabled', true);
+    }
+    else {
+        $('#duplex').attr('disabled', false);
     }
 }
 
