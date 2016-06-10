@@ -99,7 +99,7 @@ function setAddJobSectionHTML(job_index, ar_result) {
     str_html += "<div class='col-sm-12'>";
     
     str_html += "<div class='row'>";
-    str_html += "<div class='col-sm-2'><b>JOB # " + job_index + "</b></div>";
+    str_html += "<div class='col-sm-2'><b style='font-size: 16px;'>JOB # " + job_index + "</b></div>";
     str_html += "<div class='col-sm-2 col-sm-offset-2'>Quantity:</div>";
     str_html += "<div class='col-sm-2'>" + ar_result['Quantity'] + "</div>";
     str_html += "<div class='col-sm-2'>Pages:</div>";

@@ -116,8 +116,8 @@ $(document).ready(function() {
     
     $('#quantity').change(function() {      
         var input_val = Number($(this).val().replace(/[^0-9\.]/g, ''));  
-        input_val = Math.floor(input_val);
         input_val = Math.abs(input_val);
+        input_val = Math.floor(input_val);
         $(this).val(input_val);
         calculateDupTotalCost();
     }); 

@@ -74,6 +74,8 @@ $(document).ready(function() {
     $(document).on('change', '[id^="quantity_job_"]', function() {
         var index_id = $(this).attr('id').replace("quantity_job_", "");
         var input_val = Number($(this).val().replace(/[^0-9\.]/g, ''));
+        input_val = Math.abs(input_val);
+        input_val = Math.floor(input_val);
         $(this).val(input_val);
         var total_page = Number($('#pdf_pages_job_' + index_id).val()) * input_val;
         calculateDropOffTotalCost(index_id, total_page);
@@ -82,7 +84,10 @@ $(document).ready(function() {
     $(document).on('change', '[id^="pdf_pages_job_"]', function() {
         var index_id = $(this).attr('id').replace("pdf_pages_job_", "");
         var input_val = Number($(this).val().replace(/[^0-9\.]/g, ''));
+        input_val = Math.abs(input_val);
+        input_val = Math.floor(input_val);
         $(this).val(input_val);
+        duplexSettingForPages(index_id, input_val);
         var total_page = input_val * Number($('#quantity_job_' + index_id).val());
         calculateDropOffTotalCost(index_id, total_page);
     });
@@ -350,6 +355,17 @@ function setJobOption() {
     $('#duplex_job_' + job_index).append(str_duplex_option);
     $('#paper_color_job_' + job_index).append(str_paper_color_option);
     $('#cover_color_job_' + job_index).append(str_cover_color_option);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function duplexSettingForPages(index_id, pdf_pages) {
+    if (pdf_pages === 1) {
+        $('#duplex_job_' + index_id).val("1");
+        $('#duplex_job_' + index_id).attr('disabled', true);
+    }
+    else {
+        $('#duplex_job_' + index_id).attr('disabled', false);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -164,8 +164,8 @@ $(document).ready(function() {
     
     $('#quantity').change(function() {      
         var input_val = Number($(this).val().replace(/[^0-9\.]/g, ''));
-        input_val = Math.floor(input_val);
         input_val = Math.abs(input_val);
+        input_val = Math.floor(input_val);
         $(this).val(input_val);
         calculateDupTotalCost();
     }); 
@@ -459,7 +459,7 @@ function formValidation() {
     if (m_edit_attachment && m_file_attached && m_total_page === 0) {
         m_file_attached = false;
         $('#attachment_file').filestyle('clear');
-        $('#pdf_pages').val("");
+        $('#edit_pdf_pages').val("");
         err += "Your PDF file are not correctly formatted. please verify your pdf file again\n";
     }
     
@@ -790,7 +790,7 @@ function getPDFAttachmentInfo() {
             alert("Only PDF file can be upload");
             m_file_attached = false;
             $('#attachment_file').filestyle('clear');
-            $('#pdf_pages').val("");
+            $('#edit_pdf_pages').val("");
             return false;
         } 
         else {   
@@ -798,7 +798,7 @@ function getPDFAttachmentInfo() {
                 alert("Attached file size is too big, max. file size allow is 20Mb or less");
                 m_file_attached = false;
                 $('#attachment_file').filestyle('clear');
-                $('#pdf_pages').val("");
+                $('#edit_pdf_pages').val("");
                 return false;
             }
             else {
@@ -811,7 +811,7 @@ function getPDFAttachmentInfo() {
                 }
                 else {
                     m_file_attached = true;
-                    $('#pdf_pages').val(m_total_page);
+                    $('#edit_pdf_pages').val(m_total_page);
                     duplexSettingForPages();
                     calculateDupTotalCost();
                     return true;
@@ -821,7 +821,7 @@ function getPDFAttachmentInfo() {
     }
     else {
         m_total_page = 0;
-        $('#pdf_pages').val("");
+        $('#edit_pdf_pages').val("");
         duplexSettingForPages();
         calculateDupTotalCost();
         return false;
