@@ -1,13 +1,10 @@
 <?php
-    // sql 2008 r2 server
-//    $dbHost = "ivcintdb1";
-//    $dbDatabase = "IVCDCENTER";
     // sql 2014 server (production DB)
-//    $dbHost = "IEXDBLISTNR";
-//    $dbDatabase = "IVCDCENTER";
-    // sql 2014 server (development DB)
     $dbHost = "IEXDBLISTNR";
-    $dbDatabase = "DEVDCENTER";
+    $dbDatabase = "IVCDCENTER";
+    // sql 2014 server (development DB)
+//    $dbHost = "IEXDBLISTNR";
+//    $dbDatabase = "DEVDCENTER";
     
     $dbUser = "ivcdcenter";
     $dbPass = "~7QM#pd?X*";

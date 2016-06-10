@@ -269,11 +269,8 @@ $(document).ready(function() {
             sendEmailPlotterRequestor(print_request_id);
             sendEmailPlotterAdmin(print_request_id);
             if (m_free) {
-                // testing email
-                sendEmailPlotterHonorNotification("Jerry Rudmann", "vptest@ivc.edu");
-                sendEmailPlotterHonorNotification("Kay Ryals", "deantest@ivc.edu");
-//                sendEmailPlotterHonorNotification("Jerry Rudmann", "jrudmann@ivc.edu");
-//                sendEmailPlotterHonorNotification("Kay Ryals", "kryals@ivc.edu");
+                sendEmailPlotterHonorNotification("Jerry Rudmann", "jrudmann@ivc.edu");
+                sendEmailPlotterHonorNotification("Kay Ryals", "kryals@ivc.edu");
             }
             db_insertTransaction(print_request_id, sessionStorage.getItem('ls_dc_loginDisplayName'), "Request submitted");
             
@@ -901,9 +898,6 @@ function sendEmailPlotterRequestor(print_request_id) {
     var name = $('#requestor').val();
     var email = $('#email').val();
     
-    // testing email
-    email = "stafftest@ivc.edu";
-    
     var subject = "Your new plotter request has been submitted";
     var message = "Dear " + name + ", <br><br>";
     message += "Thank you for your plotter request.  Request details:<br><br>";
@@ -932,9 +926,6 @@ function sendEmailPlotterAdmin(print_request_id) {
     var url_param = "?print_request_id=" + print_request_id;
     var name = "Copier Center";
     var email = "ivcduplicating@ivc.edu";
-    
-    // testing email
-    email = "presidenttest@ivc.edu";
     
     var subject = "A new plotter request has been created";
     var message = "Dear " + name + ", <br><br>";
@@ -1005,9 +996,6 @@ function sendEmailDuplicatingAdmin(print_request_id) {
     var url_param = "?print_request_id=" + print_request_id;
     var name = "Copier Center";
     var email = "ivcduplicating@ivc.edu";
-    
-    // testing email
-    email = "presidenttest@ivc.edu";
     
     var subject = "A new duplicating request has been created";
     var message = "Dear " + name + ", <br><br>";

@@ -363,9 +363,6 @@ function sendEmailAdditionalInfo() {
     var name = $('#requestor').html();
     var email = $('#email').html();
     
-    // testing email
-    email = "stafftest@ivc.edu";
-    
     var subject = "Additional information is needed for your Drop Off request";
     var message = "Dear " + name + ", <br><br>";
     
@@ -386,9 +383,6 @@ function sendEmailInProgress() {
     var name = $('#requestor').html();
     var email = $('#email').html();
     
-    // testing email
-    email = "stafftest@ivc.edu";
-    
     var subject = "Your Drop Off request is now in progress";
     var message = "Dear " + name + ", <br><br>";
     
@@ -407,9 +401,6 @@ function sendEmailInProgress() {
 function sendEmailDropOffCompleted() {
     var name = $('#requestor').html();
     var email = $('#email').html();
-    
-    // testing email
-    email = "stafftest@ivc.edu";
     
     var subject = "Your Drop Off request has been completed";
     var message = "Dear " + name + ", <br><br>";
@@ -430,9 +421,6 @@ function sendEmailDropOffDelivered() {
     var name = $('#requestor').html();
     var email = $('#email').html();
     
-    // testing email
-    email = "stafftest@ivc.edu";
-    
     var subject = "Your Drop Off request has been completed";
     var message = "Dear " + name + ", <br><br>";
     
@@ -451,9 +439,6 @@ function sendEmailDropOffDelivered() {
 function sendEmailCancel() {
     var name = $('#requestor').html();
     var email = $('#email').html();
-    
-    // testing email
-    email = "stafftest@ivc.edu";
     
     var subject = "Your Drop Off request has been cancel";
     var message = "Dear " + name + ", <br><br>";

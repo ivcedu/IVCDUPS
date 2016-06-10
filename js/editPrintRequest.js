@@ -337,11 +337,8 @@ $(document).ready(function() {
             updatePlotter(print_request_id);
             db_insertTransaction(print_request_id, sessionStorage.getItem('ls_dc_loginDisplayName'), "Plotter request has been changed");
             sendEmailUpdateAdmin(print_request_id, "Plotter");
-            // testing email
-            sendEmailPlotterHonorUpdateNotification("Jerry Rudmann", "vptest@ivc.edu");
-            sendEmailPlotterHonorUpdateNotification("Kay Ryals", "deantest@ivc.edu");
-//            sendEmailPlotterHonorUpdateNotification("Jerry Rudmann", "jrudmann@ivc.edu");
-//            sendEmailPlotterHonorUpdateNotification("Kay Ryals", "kryals@ivc.edu");
+            sendEmailPlotterHonorUpdateNotification("Jerry Rudmann", "jrudmann@ivc.edu");
+            sendEmailPlotterHonorUpdateNotification("Kay Ryals", "kryals@ivc.edu");
             
             
             $.ladda('stopAll');
@@ -1070,9 +1067,6 @@ function sendEmailAdminPrintRequestDeleted(device_type) {
     var name = "Jose Delgado";
     var email = "ivcduplicating@ivc.edu";
     
-    // testing email
-    email = "presidenttest@ivc.edu";
-    
     var subject = device_type + " print request has been canceled";
     var message = "Dear " + name + ", <br><br>";
     message += device_type + " print request, title <strong>" + $('#request_title').val() + "</strong> has been canceled from requestor<br>";    
@@ -1088,9 +1082,6 @@ function sendEmailUpdateAdmin(print_request_id, device_type) {
 
     var name = "Jose Delgado";
     var email = "ivcduplicating@ivc.edu";
-    
-    // testing email
-    email = "presidenttest@ivc.edu";
     
     var subject = device_type + " print request has been changed";
     var message = "Dear " + name + ", <br><br>";

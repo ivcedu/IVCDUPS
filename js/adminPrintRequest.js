@@ -464,9 +464,6 @@ function sendEmailNeedsProof() {
     var name = $('#requestor').html();
     var email = $('#email').html();
     
-    // testing email
-    email = "stafftest@ivc.edu";
-    
     var subject = "Your new plotter request";
     var message = "Dear " + name + ", <br><br>";
     
@@ -492,9 +489,6 @@ function sendEmailProofReady() {
     var name = $('#requestor').html();
     var email = $('#email').html();
     
-    // testing email
-    email = "stafftest@ivc.edu";
-    
     var subject = "Your plotter proof is now ready for review";
     var message = "Dear " + name + ", <br><br>";
     
@@ -513,9 +507,6 @@ function sendEmailProofReady() {
 function sendEmailWaitingForPayment() {
     var name = $('#requestor').html();
     var email = $('#email').html();
-    
-    // testing email
-    email = "stafftest@ivc.edu";
     
     var subject = "Your plotter request is ready for payment";
     var message = "Dear " + name + ", <br><br>";
@@ -536,9 +527,6 @@ function sendEmailReadyForPrinting() {
     var name = "Jose Delgado";
     var email = "ivcduplicating@ivc.edu";
     
-    // testing email
-    email = "stafftest@ivc.edu";
-    
     var subject = "Plotter request " + $('#request_title').html() + " has been PAID";
     var message = "Dear " + name + ", <br><br>";
     
@@ -553,9 +541,6 @@ function sendEmailReadyForPrinting() {
 function sendEmailCancel() {
     var name = $('#requestor').html();
     var email = $('#email').html();
-    
-    // testing email
-    email = "stafftest@ivc.edu";
     
     var subject = "Your " + $('#device_type').html() + " request has been cancel";
     var message = "Dear " + name + ", <br><br>";
@@ -575,9 +560,6 @@ function sendEmailCancel() {
 function sendEmailAdditionalInfo() {
     var name = $('#requestor').html();
     var email = $('#email').html();
-    
-    // testing email
-    email = "stafftest@ivc.edu";
     
     var subject = "Additional information is needed for your " + $('#device_type').html() + " request";
     var message = "Dear " + name + ", <br><br>";
@@ -599,9 +581,6 @@ function sendEmailInProgress() {
     var name = $('#requestor').html();
     var email = $('#email').html();
     
-    // testing email
-    email = "stafftest@ivc.edu";
-    
     var subject = "Your " + $('#device_type').html() + " request is now in progress";
     var message = "Dear " + name + ", <br><br>";
     
@@ -620,9 +599,6 @@ function sendEmailInProgress() {
 function sendEmailPlotCompleted() {
     var name = $('#requestor').html();
     var email = $('#email').html();
-    
-    // testing email
-    email = "stafftest@ivc.edu";
     
     var subject = "Your " + $('#device_type').html() + " request has been completed";
     var message = "Dear " + name + ", <br><br>";
@@ -643,9 +619,6 @@ function sendEmailDupCompleted() {
     var name = $('#requestor').html();
     var email = $('#email').html();
     
-    // testing email
-    email = "stafftest@ivc.edu";
-    
     var subject = "Your " + $('#device_type').html() + " request has been completed";
     var message = "Dear " + name + ", <br><br>";
     
@@ -664,9 +637,6 @@ function sendEmailDupCompleted() {
 function sendEmailDupDelivered() {
     var name = $('#requestor').html();
     var email = $('#email').html();
-    
-    // testing email
-    email = "stafftest@ivc.edu";
     
     var subject = "Your " + $('#device_type').html() + " request has been completed";
     var message = "Dear " + name + ", <br><br>";
