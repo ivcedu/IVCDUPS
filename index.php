@@ -49,6 +49,13 @@
                             </form>
                         </div>
                     </div>
+                    <div class="text-center m-b-md" style="color: white; font-weight: bold">
+                        <h2>Hours</h2>
+                        <h4>Monday thru Thursday, 8:00 AM to 7:30 PM</h4>
+                        <h4>Friday, 8:00 AM to 6:00 PM</h4>
+                        <h2>Locations</h2>
+                        <h4>Located in Library 110 or call 949.451.5297</h4>
+                    </div>
                 </div>
             </div>
         </div>
@@ -61,7 +68,7 @@
         <script src="../homer-1.9/vendor/metisMenu/dist/metisMenu.min.js"></script>
         <script src="../homer-1.9/vendor/iCheck/icheck.min.js"></script>
         <script src="../homer-1.9/vendor/sparkline/index.js"></script>
-        <!-- homer-1.9 custom javascript -->
+        <!-- homer-1.9 custom javascript --> 
         <script src="../homer-1.9/scripts/homer.min.js"></script>
         <!-- include javascript -->
         <script src="../include/bowser/bowser.min.js"></script>

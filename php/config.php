@@ -1,10 +1,9 @@
 <?php
-    // sql 2014 server (production DB)
     $dbHost = "IEXDBLISTNR";
-    $dbDatabase = "IVCDCENTER";
+    // sql 2014 server (production DB)
+//    $dbDatabase = "IVCDCENTER";
     // sql 2014 server (development DB)
-//    $dbHost = "IEXDBLISTNR";
-//    $dbDatabase = "DEVDCENTER";
+    $dbDatabase = "DEVDCENTER";
     
     $dbUser = "ivcdcenter";
     $dbPass = "~7QM#pd?X*";
