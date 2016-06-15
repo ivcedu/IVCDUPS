@@ -1,13 +1,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {
     // verify copier front desk computer (ip address and Net BIOS Name)
-    var net_bios_name = getClientComputerName();
+//    var net_bios_name = getClientComputerName();
     // testing ...
 //    net_bios_name = "IMAC-0D3D76";
-    if (user_ip !== "137.164.79.11" || net_bios_name !== "IMAC-0D3D76") {
-        window.open('Login.html', '_self');
-        return false;
-    }
+//    if (net_bios_name !== "IMAC-0D3D76") {
+//        window.open('Login.html', '_self');
+//        return false;
+//    }
     $('#logn_error').hide();
 };
 
