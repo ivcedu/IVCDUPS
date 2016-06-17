@@ -1012,6 +1012,25 @@ function cutCost() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function uploadPDFAttachment(print_request_id) {
+    var file = $('#attachment_file').get(0).files[0];    
+    var file_data = new FormData();  
+    var f_name = file.name.replace(/#/g, "").replace(/'/g, "");
+    var php_flname = print_request_id + "_fileIndex_" + f_name;
+    file_data.append("files[]", file, php_flname); 
+
+    var attachment_id = uploadAttachFile(file_data);
+    if (attachment_id === "") {
+        return false;
+    }
+    else {   
+        var pages = $('#edit_pdf_pages').val();
+        db_updateAttachmentPages(attachment_id, pages);
+        return true;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function updatePlotter(print_request_id) {
     var paper_type_id = $('#paper_type').val();
     var size_height = textReplaceApostrophe($('#size_height').val());
