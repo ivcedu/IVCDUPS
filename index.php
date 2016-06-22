@@ -35,7 +35,7 @@
                         <div class="panel-body">
                             <form action="#" id="loginForm">
                                 <div class="form-group">
-                                    <label class="control-label">College Email Address</label>
+                                    <label class="control-label">College Email</label>
                                     <input type="text" class="form-control" id="username">
                                 </div>
                                 <div class="form-group">
