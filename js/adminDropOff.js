@@ -7,7 +7,6 @@ window.onload = function() {
         getLoginInfo();
         
         getURLParameters();
-        db_updatePrintRequestLocked(print_request_id, true);
         
         getPrintRequest();
         getTransactionHistory();
@@ -52,7 +51,6 @@ function getURLParameters() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $(document).ready(function() {  
     $('#nav_logout').click(function() {
-        db_updatePrintRequestLocked(print_request_id, false);
         sessionStorage.clear();
         window.open('Login.html', '_self');
         return false;
@@ -60,7 +58,6 @@ $(document).ready(function() {
     
     // icon close button click /////////////////////////////////////////////////
     $('#ico_btn_close').click(function() {
-        db_updatePrintRequestLocked(print_request_id, false);
         window.open('administrator.html', '_self');
         return false;
     });
@@ -76,7 +73,6 @@ $(document).ready(function() {
         updatePrintStatus();
         statusEmailNotification();
         
-        db_updatePrintRequestLocked(print_request_id, false);
         window.open('administrator.html', '_self');
         return false;
     });
