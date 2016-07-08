@@ -18,7 +18,7 @@
                         . "INNER JOIN [".$dbDatabase."].[dbo].[Department] AS dprt ON dupl.DepartmentID = dprt.DepartmentID "
                         . "INNER JOIN [".$dbDatabase."].[dbo].[JobStatusDup] AS jstd ON dupl.JobStatusDupID = jstd.JobStatusDupID "
                         . "WHERE prrq.LoginType = 'Staff' AND jstd.JobStatusDupID = '5' "
-                        . "AND CONVERT(VARCHAR(10), prrq.DTStamp, 101) BETWEEN '".$StartDate."' AND '".$EndDate."' "
+                        . "AND TRY_CONVERT(DATE, prrq.DTStamp, 101) BETWEEN '".$StartDate."' AND '".$EndDate."' "
                         . "GROUP BY dprt.DepartmentID, dprt.Department";
     
     $query_dropoff = "INSERT INTO #BILLINGDEPART "
@@ -30,7 +30,7 @@
                     . "INNER JOIN [".$dbDatabase."].[dbo].[Department] AS dprt ON droj.DepartmentID = dprt.DepartmentID "
                     . "INNER JOIN [".$dbDatabase."].[dbo].[JobStatusDup] AS jstd ON droj.JobStatusDupID = jstd.JobStatusDupID "
                     . "WHERE prrq.LoginType = 'Staff' AND jstd.JobStatusDupID = '5' "
-                    . "AND CONVERT(VARCHAR(10), prrq.DTStamp, 101) BETWEEN '".$StartDate."' AND '".$EndDate."' "
+                    . "AND TRY_CONVERT(DATE, prrq.DTStamp, 101) BETWEEN '".$StartDate."' AND '".$EndDate."' "
                     . "GROUP BY dprt.DepartmentID, dprt.Department";
     
     $query_get_result = "SELECT DepartmentID, Department, SUM(TotalPages) AS TotalPages, SUM(TotalCost) AS TotalCost "

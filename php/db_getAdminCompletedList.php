@@ -29,7 +29,7 @@
                         . "WHERE (jstp.JobStatusPlotID = '8' OR jstp.JobStatusPlotID = '9' "
                         . "OR jstd.JobStatusDupID = '5' OR jstd.JobStatusDupID = '6' "
                         . "OR dojb.JobStatusDupID = '5' OR dojb.JobStatusDupID = '6') "
-                        . "AND CONVERT(VARCHAR(10), prrq.DTStamp, 101) BETWEEN '".$StartDate."' AND '".$EndDate."'";
+                        . "AND TRY_CONVERT(DATE, prrq.DTStamp, 101) BETWEEN '".$StartDate."' AND '".$EndDate."'";
     
     $query_get_result = "SELECT	Completed, RequestTitle, Requestor, DeviceType, JobStatus, "
                         . "'$' + convert(varchar, SUM(TotalCost), 1) AS TotalCost "

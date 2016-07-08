@@ -14,29 +14,29 @@
                         . "dprt.Department, "
                         . "prrq.Requestor, "
                         . "prrq.RequestTitle, "
-                        . "CONVERT(VARCHAR(10), prrq.DTStamp, 101), "
+                        . "TRY_CONVERT(DATE, prrq.DTStamp, 101), "
                         . "dupl.TotalPrint AS TotalPages, "
                         . "dupl.TotalCost AS TotalCost "
                         . "FROM [".$dbDatabase."].[dbo].[PrintRequest] AS prrq INNER JOIN [".$dbDatabase."].[dbo].[Duplicating] AS dupl ON prrq.PrintRequestID = dupl.PrintRequestID "
                         . "INNER JOIN [".$dbDatabase."].[dbo].[Department] AS dprt ON dupl.DepartmentID = dprt.DepartmentID "
                         . "INNER JOIN [".$dbDatabase."].[dbo].[JobStatusDup] AS jstd ON dupl.JobStatusDupID = jstd.JobStatusDupID "
                         . "WHERE prrq.LoginType = 'Staff' AND jstd.JobStatusDupID = '5' "
-                        . "AND CONVERT(VARCHAR(10), prrq.DTStamp, 101) BETWEEN '".$StartDate."' AND '".$EndDate."'";
+                        . "AND TRY_CONVERT(DATE, prrq.DTStamp, 101) BETWEEN '".$StartDate."' AND '".$EndDate."'";
     
     $query_dropoff = "INSERT INTO #EXCELBILLING "
                     . "SELECT prrq.PrintRequestID, "
                     . "dprt.Department, "
                     . "prrq.Requestor, "
                     . "prrq.RequestTitle, "
-                    . "CONVERT(VARCHAR(10), prrq.DTStamp, 101), "
+                    . "TRY_CONVERT(DATE, prrq.DTStamp, 101), "
                     . "SUM(droj.TotalPrint) AS TotalPages, "
                     . "SUM(droj.TotalCost) AS TotalCost "
                     . "FROM [".$dbDatabase."].[dbo].[PrintRequest] AS prrq INNER JOIN [".$dbDatabase."].[dbo].[DropOffJob] AS droj ON prrq.PrintRequestID = droj.PrintRequestID "
                     . "INNER JOIN [".$dbDatabase."].[dbo].[Department] AS dprt ON droj.DepartmentID = dprt.DepartmentID "
                     . "INNER JOIN [".$dbDatabase."].[dbo].[JobStatusDup] AS jstd ON droj.JobStatusDupID = jstd.JobStatusDupID "
                     . "WHERE prrq.LoginType = 'Staff' AND jstd.JobStatusDupID = '5' "
-                    . "AND CONVERT(VARCHAR(10), prrq.DTStamp, 101) BETWEEN '".$StartDate."' AND '".$EndDate."' "
-                    . "GROUP BY prrq.PrintRequestID, dprt.Department, prrq.Requestor, prrq.RequestTitle, CONVERT(VARCHAR(10), prrq.DTStamp, 101)";
+                    . "AND TRY_CONVERT(DATE, prrq.DTStamp, 101) BETWEEN '".$StartDate."' AND '".$EndDate."' "
+                    . "GROUP BY prrq.PrintRequestID, dprt.Department, prrq.Requestor, prrq.RequestTitle, TRY_CONVERT(DATE, prrq.DTStamp, 101)";
     
     $query_get_result = "SELECT BillingDepart, UserName, RequestTitle, Created, SUM(TotalPages) AS TotalPages, SUM(TotalCost) AS TotalCost "
                         . "FROM #EXCELBILLING GROUP BY BillingDepart, UserName, RequestTitle, Created "
