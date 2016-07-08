@@ -8,7 +8,7 @@
     $query_create_table = "CREATE TABLE #RESULT (Created nvarchar(255), RequestTitle nvarchar(255), DeviceType nvarchar(255), JobStatus nvarchar(255), TotalCost money, EditButton nvarchar(255))";
     $query_drop_table = "DROP TABLE #RESULT";
     
-    $query_insert_result = "INSERT INTO #RESULT SELECT TRY_CONVERT(DATE, prrq.DTStamp, 101) AS Created, "
+    $query_insert_result = "INSERT INTO #RESULT SELECT CONVERT(VARCHAR(10), prrq.DTStamp, 101) AS Created, "
                         . "'<a href=# id=''print_request_id_' + CONVERT(NVARCHAR(255), prrq.PrintRequestID) + '''>' + prrq.RequestTitle + '</a>' AS RequestTitle, "
                         . "dvtp.DeviceType, "
                         . "CASE WHEN prrq.DeviceTypeID = 1 THEN jstp.JobStatusPlot "
