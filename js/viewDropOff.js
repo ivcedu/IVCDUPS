@@ -76,6 +76,10 @@ $(document).ready(function() {
             window.open('rptBillingReport.html', '_self');
             return false;
         }
+        else if (click_from === "rptDeliveryTimeExceeded.html") {
+            window.open('rptDeliveryTimeExceeded.html', '_self');
+            return false;
+        }
     });
     
     // icon print button click /////////////////////////////////////////////////
@@ -107,6 +111,11 @@ function setActiveMenu() {
         $("#nav_reports").addClass("active");
         $("#nav_copier_report").addClass("active");
     }
+    else if (click_from === "rptDeliveryTimeExceeded.html") {
+        $("#nav_sub_reports").removeClass("collapse");
+        $("#nav_reports").addClass("active");
+        $("#nav_copier_report").addClass("active");
+    }
 }
 
 function setAdminOption() {        
@@ -118,6 +127,7 @@ function setAdminOption() {
         if (result[0]['AdminLevel'] === "Master") {
             $('#nav_completed_list').show();
             $('#nav_copier_report').show();
+            $('#nav_del_time_exceeded').show();
             $('#menu_administrator').show();
             $('#nav_copier_price').show();
             $('#nav_user_access').show();
@@ -125,11 +135,13 @@ function setAdminOption() {
         else if (result[0]['AdminLevel'] === "Admin") {
             $('#nav_completed_list').show();
             $('#nav_copier_report').show();
+            $('#nav_del_time_exceeded').show();
             $('#menu_administrator').show();
             $('#nav_copier_price').show();
         }
         else if (result[0]['AdminLevel'] === "Report") {
             $('#nav_copier_report').show();
+            $('#nav_del_time_exceeded').show();
         }
     }
 }
