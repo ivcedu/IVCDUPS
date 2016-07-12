@@ -114,13 +114,11 @@ function setAdminOption() {
     if (result.length === 1) {
         if (result[0]['AdminLevel'] === "Master") {
             $('#nav_completed_list').show();
-            $('#nav_copier_price').show();
             $('#nav_user_access').show();
             setDeliveryLocation();
         }
         else if (result[0]['AdminLevel'] === "Admin") {
             $('#nav_completed_list').show();
-            $('#nav_copier_price').show();
             setDeliveryLocation();
         }
     }

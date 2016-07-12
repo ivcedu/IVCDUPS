@@ -57,16 +57,8 @@ function setAdminOption() {
     
     if (result.length === 1) {
         if (result[0]['AdminLevel'] === "Master") {
-//            $('#nav_completed_list').show();
-//            $('#nav_copier_report').show();
-//            $('#nav_del_time_exceeded').show();
             $('#nav_user_access').show();
         }
-//        else if (result[0]['AdminLevel'] === "Admin") {
-//            $('#nav_completed_list').show();
-//            $('#nav_copier_report').show();
-//            $('#nav_del_time_exceeded').show();
-//        }
     }
 }
 

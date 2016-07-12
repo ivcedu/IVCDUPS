@@ -89,7 +89,6 @@ function setAdminOption() {
         }
         else if (result[0]['AdminLevel'] === "Report") {
             $('#nav_copier_report').show();
-            $('#nav_del_time_exceeded').show();
         }
     }
 }
