@@ -3,8 +3,8 @@ var m_table;
 ////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {
     if (sessionStorage.key(0) !== null) {
+        deleteReportSessionItems();
         setAdminOption();
-        setUserProfile();
         
         getLoginInfo();
         getUserPrintList();
@@ -65,7 +65,6 @@ $(document).ready(function() {
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 function setAdminOption() {        
     var login_email = sessionStorage.getItem("ls_dc_loginEmail");
     var result = new Array();
@@ -75,6 +74,7 @@ function setAdminOption() {
         if (result[0]['AdminLevel'] === "Master") {
             $('#nav_completed_list').show();
             $('#nav_copier_report').show();
+            $('#nav_new_copier_report').show();
             $('#nav_del_time_exceeded').show();
             $('#menu_administrator').show();
             $('#nav_copier_price').show();
@@ -83,19 +83,15 @@ function setAdminOption() {
         else if (result[0]['AdminLevel'] === "Admin") {
             $('#nav_completed_list').show();
             $('#nav_copier_report').show();
+            $('#nav_new_copier_report').show();
             $('#nav_del_time_exceeded').show();
             $('#menu_administrator').show();
             $('#nav_copier_price').show();
         }
         else if (result[0]['AdminLevel'] === "Report") {
             $('#nav_copier_report').show();
+            $('#nav_new_copier_report').show();
         }
-    }
-}
-
-function setUserProfile() {
-    if (sessionStorage.getItem('ls_dc_loginType') !== "Student") {
-        $('#nav_my_profile').show();
     }
 }
 

@@ -108,19 +108,6 @@ function getLoginInfo() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function getBillingDepart() {
-    var result = new Array();
-    result = db_getDepartment();
-    
-    var html = "";
-    for (var i = 0; i < result.length; i++) {
-        html += "<option value='" + result[i]['DepartmentID'] + "'>" + result[i]['Department'] + "</option>";
-    }
-    
-    $('#admin_billing_depart').append(html);
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function setDeliveryLocation() {
     var result = new Array();
     result = db_getDeliveryLocation();
@@ -154,7 +141,6 @@ function getPrintRequest() {
     $('#modified').html(convertDBDateTimeToString(result[0]['DTStamp']));
     if (result.length === 1) {
         setJobStatusDup();
-        getBillingDepart();
         
         $('#admin_del_loc').val(result[0]['DeliveryLocationID']);
         
@@ -163,24 +149,10 @@ function getPrintRequest() {
     }
 }
 
-function getUserDepartName(email) {
-    var result = new Array();
-    result = db_getUserProfile(email);
-    var department_id = result[0]['DepartmentID'];
-    
-    if (department_id !== "") {
-        return db_getUserDepartName(department_id);
-    }
-    else {
-        return "";
-    }
-}
-
 function setRequestorInformation(login_id, requestor, email, phone, request_title) {
     $('#requestor').html(requestor);
     $('#email').html(email);
     $('#phone').html(phone);
-    $('#user_depart').html(getUserDepartName(email));    
     $('#login_id').html(login_id);
     $('#request_title').html(request_title);
 }
@@ -190,10 +162,15 @@ function setDropOffJob() {
     result = db_getDropOffJob(print_request_id);
     
     $('#admin_job_status').val(result[0]['JobStatusDupID']);
-    $('#admin_billing_depart').val(result[0]['DepartmentID']);
     
     $('#job_status').html(db_getJobStatusDupName(result[0]['JobStatusDupID']));
-    $('#billing_depart').html(db_getDepartmentName(result[0]['DepartmentID']));
+    if (result[0]['DepartmentID'] !== "0") {
+        $('#billing_depart').html(db_getDepartmentName(result[0]['DepartmentID']));
+    }
+    else {
+        $('#billing_depart').html(db_getCostCenterName(result[0]['CostCenterID']));
+    }
+    
     $('#date_needed').html(result[0]['DateNeeded']);
     $('#time_needed').html(result[0]['TimeNeeded']);
     
@@ -313,11 +290,9 @@ function updatePrintStatus() {
     var admin_del_loc_id = $('#admin_del_loc').val();
     var admin_job_status_id = $('#admin_job_status').val();
     var admin_msg_note = textReplaceApostrophe($('#admin_msg_note').val());
-    var admin_billing_depart_id = $('#admin_billing_depart').val();
     var status_change = "";
     
     db_updateDropOffJob(print_request_id, admin_job_status_id);
-    db_updateDropOffJobBillingDepart(print_request_id, admin_billing_depart_id);
     db_updatePrintRequestDelivery(print_request_id, admin_del_loc_id);
     status_change = db_getJobStatusDupName(admin_job_status_id);
     

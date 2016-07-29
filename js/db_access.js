@@ -13,6 +13,20 @@ function getLoginUserInfo(php_file, user, pass) {
     return result;
 }
 
+function getLDAPUserCostCenter(php_file, user, pass) {
+    var result = new Array();
+    $.ajax({
+        type:"POST",
+        url:php_file,
+        data:{username:user, password:pass},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
 // get DB //////////////////////////////////////////////////////////////////////
 function db_getDeliveryLocation() {
     var result = new Array();
@@ -698,6 +712,174 @@ function db_getDeliveryTimeExceeded(StartDate, EndDate) {
     return result;
 }
 
+function db_getDivisionID(CostCenterCode) {
+    var result = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_getDivisionID.php",
+        data:{CostCenterCode:CostCenterCode},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function db_getDivisionIDByCostCenterID(CostCenterID) {
+    var result = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_getDivisionIDByCostCenterID.php",
+        data:{CostCenterID:CostCenterID},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function db_getCostCenterID(CostCenterCode) {
+    var result = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_getCostCenterID.php",
+        data:{CostCenterCode:CostCenterCode},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function db_getCostCenterName(CostCenterID) {
+    var result = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_getCostCenterName.php",
+        data:{CostCenterID:CostCenterID},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function db_getCopierReportDivision(StartDate, EndDate) {
+    var result = new Array();
+    $.ajax({
+        type:"POST",
+        url:"php/db_getCopierReportDivision.php",
+        data:{StartDate:StartDate, EndDate:EndDate},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function db_getCopierReportCostCenter(StartDate, EndDate, DivisionID) {
+    var result = new Array();
+    $.ajax({
+        type:"POST",
+        url:"php/db_getCopierReportCostCenter.php",
+        data:{StartDate:StartDate, EndDate:EndDate, DivisionID:DivisionID},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function db_getCopierReportUsers(StartDate, EndDate, CostCenterID) {
+    var result = new Array();
+    $.ajax({
+        type:"POST",
+        url:"php/db_getCopierReportUsers.php",
+        data:{StartDate:StartDate, EndDate:EndDate, CostCenterID:CostCenterID},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function db_getCopierReportPrint(StartDate, EndDate, CostCenterID, LoginID) {
+    var result = new Array();
+    $.ajax({
+        type:"POST",
+        url:"php/db_getCopierReportPrint.php",
+        data:{StartDate:StartDate, EndDate:EndDate, CostCenterID:CostCenterID, LoginID:LoginID},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function db_getDuplicatingCostCenterID(PrintRequestID) {
+    var result = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_getDuplicatingCostCenterID.php",
+        data:{PrintRequestID:PrintRequestID},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function db_getDropOffJobCostCenterID(PrintRequestID) {
+    var result = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_getDropOffJobCostCenterID.php",
+        data:{PrintRequestID:PrintRequestID},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function db_getDuplicatingDepartID(PrintRequestID) {
+    var result = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_getDuplicatingDepartID.php",
+        data:{PrintRequestID:PrintRequestID},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function db_getDropOffJobDepartID(PrintRequestID) {
+    var result = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_getDropOffJobDepartID.php",
+        data:{PrintRequestID:PrintRequestID},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
 // insert DB ///////////////////////////////////////////////////////////////////
 function db_insertPrintRequest(DeviceTypeID, DeliveryLocationID, LoginType, LoginID, Requestor, Email, Phone, RequestTitle) {
     var ResultID = "";
@@ -727,13 +909,13 @@ function db_insertPlotter(PrintRequestID, JobStatusPlotID, PaperTypeID, SizeHeig
     return ResultID;
 }
 
-function db_insertDuplicating(PrintRequestID, JobStatusDupID, DepartmentID, Quantity, DateNeeded, TimeNeeded, PaperSizeID, DuplexID, PaperColorID, CoverColorID,
+function db_insertDuplicating(PrintRequestID, JobStatusDupID, CostCenterID, Quantity, DateNeeded, TimeNeeded, PaperSizeID, DuplexID, PaperColorID, CoverColorID,
                                 ColorCopy, FrontCover, BackCover, Confidential, ThreeHolePunch, Staple, Cut, TotalPrint, TotalCost, Note) {
     var ResultID = "";
     $.ajax({
         type:"POST",
         url:"php/db_insertDuplicating.php",
-        data:{PrintRequestID:PrintRequestID, JobStatusDupID:JobStatusDupID, DepartmentID:DepartmentID, Quantity:Quantity, DateNeeded:DateNeeded, TimeNeeded:TimeNeeded,
+        data:{PrintRequestID:PrintRequestID, JobStatusDupID:JobStatusDupID, CostCenterID:CostCenterID, Quantity:Quantity, DateNeeded:DateNeeded, TimeNeeded:TimeNeeded,
                 PaperSizeID:PaperSizeID, DuplexID:DuplexID, PaperColorID:PaperColorID, CoverColorID:CoverColorID, ColorCopy:ColorCopy, FrontCover:FrontCover, 
                 BackCover:BackCover, Confidential:Confidential, ThreeHolePunch:ThreeHolePunch, Staple:Staple, Cut:Cut, TotalPrint:TotalPrint, TotalCost:TotalCost, Note:Note},
         async: false,  
@@ -744,13 +926,13 @@ function db_insertDuplicating(PrintRequestID, JobStatusDupID, DepartmentID, Quan
     return ResultID;
 }
 
-function db_insertDropOffJob(PrintRequestID, JobStatusDupID, DepartmentID, JobName, Pages, Quantity, DateNeeded, TimeNeeded, PaperSizeID, DuplexID, PaperColorID, CoverColorID,
+function db_insertDropOffJob(PrintRequestID, JobStatusDupID, CostCenterID, JobName, Pages, Quantity, DateNeeded, TimeNeeded, PaperSizeID, DuplexID, PaperColorID, CoverColorID,
                                 ColorCopy, FrontCover, BackCover, Confidential, ThreeHolePunch, Staple, Cut, TotalPrint, TotalCost, Note) {
     var ResultID = "";
     $.ajax({
         type:"POST",
         url:"php/db_insertDropOffJob.php",
-        data:{PrintRequestID:PrintRequestID, JobStatusDupID:JobStatusDupID, DepartmentID:DepartmentID, JobName:JobName, Pages:Pages, Quantity:Quantity, DateNeeded:DateNeeded, TimeNeeded:TimeNeeded,
+        data:{PrintRequestID:PrintRequestID, JobStatusDupID:JobStatusDupID, CostCenterID:CostCenterID, JobName:JobName, Pages:Pages, Quantity:Quantity, DateNeeded:DateNeeded, TimeNeeded:TimeNeeded,
                 PaperSizeID:PaperSizeID, DuplexID:DuplexID, PaperColorID:PaperColorID, CoverColorID:CoverColorID, ColorCopy:ColorCopy, FrontCover:FrontCover, 
                 BackCover:BackCover, Confidential:Confidential, ThreeHolePunch:ThreeHolePunch, Staple:Staple, Cut:Cut, TotalPrint:TotalPrint, TotalCost:TotalCost, Note:Note},
         async: false,  
@@ -837,6 +1019,34 @@ function db_insertHonorStudent(HonorStudentName, HonorStudentEmail) {
         type:"POST",
         url:"php/db_insertHonorStudent.php",
         data:{HonorStudentName:HonorStudentName, HonorStudentEmail:HonorStudentEmail},
+        async: false,  
+        success:function(data) {
+            ResultID = JSON.parse(data);
+        }
+    });
+    return ResultID;
+}
+
+function db_insertDivision(CostCenterCode, Division) {
+    var ResultID = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_insertDivision.php",
+        data:{CostCenterCode:CostCenterCode, Division:Division},
+        async: false,  
+        success:function(data) {
+            ResultID = JSON.parse(data);
+        }
+    });
+    return ResultID;
+}
+
+function db_insertCostCenter(DivisionID, CostCenterCode, CostCenter) {
+    var ResultID = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_insertCostCenter.php",
+        data:{DivisionID:DivisionID, CostCenterCode:CostCenterCode, CostCenter:CostCenter},
         async: false,  
         success:function(data) {
             ResultID = JSON.parse(data);
@@ -1000,13 +1210,13 @@ function db_updateUserProfile(UserProfileID, UserName, UserEmail, UserPhone, Emp
     return Result;
 }
 
-function db_updateDuplicatingRequest(PrintRequestID, DepartmentID, Quantity, DateNeeded, TimeNeeded, PaperSizeID, DuplexID, PaperColorID, CoverColorID,
+function db_updateDuplicatingRequest(PrintRequestID, CostCenterID, Quantity, DateNeeded, TimeNeeded, PaperSizeID, DuplexID, PaperColorID, CoverColorID,
                                 ColorCopy, FrontCover, BackCover, Confidential, ThreeHolePunch, Staple, Cut, TotalPrint, TotalCost, Note) {
     var Result = false;
     $.ajax({
         type:"POST",
         url:"php/db_updateDuplicatingRequest.php",
-        data:{PrintRequestID:PrintRequestID, DepartmentID:DepartmentID, Quantity:Quantity, DateNeeded:DateNeeded, TimeNeeded:TimeNeeded,
+        data:{PrintRequestID:PrintRequestID, CostCenterID:CostCenterID, Quantity:Quantity, DateNeeded:DateNeeded, TimeNeeded:TimeNeeded,
                 PaperSizeID:PaperSizeID, DuplexID:DuplexID, PaperColorID:PaperColorID, CoverColorID:CoverColorID, ColorCopy:ColorCopy, FrontCover:FrontCover, 
                 BackCover:BackCover, Confidential:Confidential, ThreeHolePunch:ThreeHolePunch, Staple:Staple, Cut:Cut, TotalPrint:TotalPrint, TotalCost:TotalCost, Note:Note},
         async: false,  
@@ -1270,15 +1480,5 @@ function getClientComputerName() {
     });
     return result;
 }
-
-// 
-//$.ajax({
-//    url: 'https://freegeoip.net/json/',
-//    type: 'POST',
-//    dataType: 'jsonp',
-//    success: function(location) {
-//        alert(location.ip);
-//    }
-//});
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

@@ -3,7 +3,7 @@
     
     $PrintRequestID = filter_input(INPUT_POST, 'PrintRequestID');
     $JobStatusDupID = filter_input(INPUT_POST, 'JobStatusDupID');
-    $DepartmentID = filter_input(INPUT_POST, 'DepartmentID');
+    $CostCenterID = filter_input(INPUT_POST, 'CostCenterID');
     $JobName = filter_input(INPUT_POST, 'JobName');
     $Pages = filter_input(INPUT_POST, 'Pages');
     $Quantity = filter_input(INPUT_POST, 'Quantity');
@@ -24,9 +24,9 @@
     $TotalCost = filter_input(INPUT_POST, 'TotalCost');
     $Note = filter_input(INPUT_POST, 'Note');
 
-    $query = "INSERT INTO [".$dbDatabase."].[dbo].[DropOffJob] (PrintRequestID, JobStatusDupID, DepartmentID, JobName, Pages, Quantity, DateNeeded, TimeNeeded, "
+    $query = "INSERT INTO [".$dbDatabase."].[dbo].[DropOffJob] (PrintRequestID, JobStatusDupID, CostCenterID, JobName, Pages, Quantity, DateNeeded, TimeNeeded, "
                 . "PaperSizeID, DuplexID, PaperColorID, CoverColorID, ColorCopy, FrontCover, BackCover, Confidential, ThreeHolePunch, Staple, Cut, TotalPrint, TotalCost, Note) "
-                . "VALUES ('$PrintRequestID', '$JobStatusDupID', '$DepartmentID', '$JobName', '$Pages', '$Quantity', '$DateNeeded', '$TimeNeeded', "
+                . "VALUES ('$PrintRequestID', '$JobStatusDupID', '$CostCenterID', '$JobName', '$Pages', '$Quantity', '$DateNeeded', '$TimeNeeded', "
                 . "'$PaperSizeID', '$DuplexID', '$PaperColorID', '$CoverColorID', '$ColorCopy', '$FrontCover', '$BackCover', '$Confidential', '$ThreeHolePunch', '$Staple', '$Cut', '$TotalPrint', '$TotalCost', '$Note')";  
     
     $cmd = $dbConn->prepare($query);

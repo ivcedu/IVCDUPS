@@ -5,7 +5,6 @@ window.onload = function() {
     if (sessionStorage.key(0) !== null) {
         setActiveMenu();
         setAdminOption();
-        setUserProfile();
         getLoginInfo();
         
         getURLParameters();
@@ -76,6 +75,10 @@ $(document).ready(function() {
             window.open('rptBillingReport.html', '_self');
             return false;
         }
+        else if (click_from === "rptCopierReport.html") {
+            window.open('rptCopierReport.html', '_self');
+            return false;
+        }
         else if (click_from === "rptDeliveryTimeExceeded.html") {
             window.open('rptDeliveryTimeExceeded.html', '_self');
             return false;
@@ -127,6 +130,7 @@ function setAdminOption() {
         if (result[0]['AdminLevel'] === "Master") {
             $('#nav_completed_list').show();
             $('#nav_copier_report').show();
+            $('#nav_new_copier_report').show();
             $('#nav_del_time_exceeded').show();
             $('#menu_administrator').show();
             $('#nav_copier_price').show();
@@ -135,19 +139,15 @@ function setAdminOption() {
         else if (result[0]['AdminLevel'] === "Admin") {
             $('#nav_completed_list').show();
             $('#nav_copier_report').show();
+            $('#nav_new_copier_report').show();
             $('#nav_del_time_exceeded').show();
             $('#menu_administrator').show();
             $('#nav_copier_price').show();
         }
         else if (result[0]['AdminLevel'] === "Report") {
             $('#nav_copier_report').show();
+            $('#nav_new_copier_report').show();
         }
-    }
-}
-
-function setUserProfile() {
-    if (sessionStorage.getItem('ls_dc_loginType') !== "Student") {
-        $('#nav_my_profile').show();
     }
 }
 
@@ -186,7 +186,6 @@ function setRequestorInformation(login_id, requestor, email, phone, request_titl
     $('#requestor').html(requestor);
     $('#email').html(email);
     $('#phone').html(phone);
-    $('#user_depart').html(getUserDepartName(email));    
     $('#login_id').html(login_id);
     $('#request_title').html(request_title);
 }
@@ -196,7 +195,14 @@ function setDropOffJob() {
     result = db_getDropOffJob(print_request_id);
     
     $('#job_status').html(db_getJobStatusDupName(result[0]['JobStatusDupID']));
-    $('#billing_depart').html(db_getDepartmentName(result[0]['DepartmentID']));
+    
+    if (result[0]['DepartmentID'] !== "0") {
+        $('#billing_depart').html(db_getDepartmentName(result[0]['DepartmentID']));
+    }
+    else {
+        $('#billing_depart').html(db_getCostCenterName(result[0]['CostCenterID']));
+    }
+    
     $('#date_needed').html(result[0]['DateNeeded']);
     $('#time_needed').html(result[0]['TimeNeeded']);
     

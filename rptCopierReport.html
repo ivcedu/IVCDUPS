@@ -5,18 +5,20 @@
         <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
         <meta http-equiv="Cache-Control" content="no-cache"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>View Drop Off Request</title>
+        <title>New Copier Report</title>
         <!-- inspinia-2.5 css -->
         <link rel="stylesheet" href="../inspinia-2.5/css/bootstrap.min.css">
         <link rel="stylesheet" href="../inspinia-2.5/font-awesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../inspinia-2.5/css/plugins/datapicker/datepicker3.css">
         <link rel="stylesheet" href="../inspinia-2.5/css/animate.css">
         <link rel="stylesheet" href="../inspinia-2.5/css/style.css">
-        <!-- homer-1.9 App css -->
-        <link rel="stylesheet" href="../homer-1.9/fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css"/>
-        <link rel="stylesheet" href="../homer-1.9/fonts/pe-icon-7-stroke/css/helper.css"/>
         <!-- include css -->
+        <link rel="stylesheet" href="../include/jquery-ui-themes-1.11.4/themes/flick/jquery-ui.min.css"/>
+        <link rel="stylesheet" href="../include/sweetalert/css/sweetalert.css"/>
+        <link rel="stylesheet" href="../include/iconic-1.9.0/font/css/iconic-bootstrap.css"/>
         <!-- application css -->
         <link rel="stylesheet" href="css/ivcdups.css"/>
+        <link rel="stylesheet" href="css/popup-z-Index.css">
     </head>
     <body>
         <div id="wrapper">
@@ -32,25 +34,25 @@
                                 IN+
                             </div>
                         </li>
-                        <li class="iconic-color-default" id="nav_my_home">
+                        <li class="iconic-color-default">
                             <a href="userHome.html"><i class="fa fa-home"></i> <span class="nav-label">My Home</span></a>
                         </li>
                         <li class="iconic-color-default">
                             <a href="newPrintRequest.html"><i class="fa fa-print"></i> <span class="nav-label">New Request</span></a>
                         </li>
-                        <li id="nav_reports">
+                        <li class="active">
                             <a href=#><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Reports</span><span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level collapse" id="nav_sub_reports">
-                                <li class="iconic-color-default" id="nav_my_history"><a href="rptMyHistory.html">My History</a></li>
+                            <ul class="nav nav-second-level collapse">
+                                <li class="iconic-color-default"><a href="rptMyHistory.html">My History</a></li>
                                 <li class="iconic-color-default" style="display: none;" id="nav_completed_list"><a href="rptCompletedList.html">Completed List</a></li>
                                 <li class="iconic-color-default" style="display: none;" id="nav_copier_report"><a href="rptBillingReport.html">Old Copier Depart</a></li>
-                                <li class="iconic-color-default" style="display: none;" id="nav_new_copier_report"><a href="rptCopierReport.html">Copier Cost Center</a></li>
+                                <li class="active iconic-color-default" style="display: none;" id="nav_new_copier_report"><a href="rptCopierReport.html">Copier Cost Center</a></li>
                                 <li class="iconic-color-default" style="display: none;" id="nav_del_time_exceeded"><a href="rptDeliveryTimeExceeded.html">Delivery Time Exceeded</a></li>
                             </ul>
                         </li>
-                        <li style="display: none;" id="menu_administrator">
+                        <li class="collapse" style="display: none;" id="menu_administrator">
                             <a href=#><i class="fa fa-lock"></i> <span class="nav-label">Administrator</span><span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level collapse">
+                            <ul class="nav nav-second-level">
                                 <li class="iconic-color-default"><a href="administrator.html">Admin List</a></li>
                                 <li class="iconic-color-default" style="display: none;" id="nav_copier_price"><a href="copierPrice.html">Copier Price</a></li>
                                 <li class="iconic-color-default"><a href="honorStudent.html">Honor Student</a></li>
@@ -63,7 +65,7 @@
             <!-- main section -->
             <div id="page-wrapper" class="gray-bg-2">
                 <!-- top bar menu items -->
-                <div class="row border-bottom hidden-print">
+                <div class="row border-bottom">
                     <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
                         <div class="navbar-header iconic-color-default">
                             <a class="navbar-minimalize minimalize-styl-2 btn btn-primary" href="#"><i class="fa fa-bars"></i> </a>
@@ -76,86 +78,71 @@
                     </nav>
                 </div>
                 <!-- user active print request header-->
-                <div class="row wrapper border-bottom white-bg page-heading hidden-print">
-                    <div class="col-sm-2" style="padding-top: 20px;">
-                        <a href=# id="ico_btn_close"><i class="pe-7s-close-circle pe-2x pe-va iconic-color-default"></i></a>&nbsp;&nbsp;&nbsp;
-                        <a href=# id="ico_btn_print"><i class="pe-7s-print pe-2x pe-va iconic-color-default"></i></a>
-                    </div>
-                    <div class="col-sm-8">
-                        <h2 class="text-center">View Drop Off Request</h2>
+                <div class="row wrapper border-bottom white-bg page-heading">
+                    <div class="col-lg-12">
+                        <h2 class="text-center">Duplicating Copier Billing Report (Cost Center)</h2>
+                        <br>
+                        <form class="row form-horizontal">
+                            <label class="col-md-1" style="padding-top: 7px;">Start:</label>
+                            <div class="col-md-2">
+                                <div class="input-group" data-provide="datepicker">
+                                    <input type="text" class="form-control Z-IndexFront" readonly id="start_date">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                </div>
+                            </div>
+                            <label class="col-md-1" style="padding-top: 7px;">End:</label>
+                            <div class="col-md-2">
+                                <div class="input-group" data-provide="datepicker">
+                                    <input type="text" class="form-control Z-IndexFront" readonly id="end_date">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <button class="ladda-button btn btn-success col-md-12 iconic-color-default" id="btn_refresh"><i class="fa fa-refresh"></i> Refresh</button>
+                            </div>
+                            <div class="col-md-2">
+                                <button class="ladda-button btn btn-info col-md-12 iconic-color-default" id="btn_excel"><i class="fa fa-file-excel-o"></i> Excel</button>
+                            </div>
+                        </form>
+                        <br>
+                        <form class="row form-horizontal">
+                            <label class="col-md-1"><b>Pages:</b></label>
+                            <label class="col-md-2" style="color: blue;"><b id="total_pages"></b></label>
+                            <label class="col-md-1"><b>Cost:</b></label>
+                            <label class="col-md-2" style="color: blue;"><b id="total_cost"></b></label>
+                        </form>
                     </div>
                 </div>
                 <!-- user active print request list-->
                 <div class="wrapper wrapper-content animated fadeInRight">
-                    <!-- request status -->
                     <div class="row">
-                        <div class="col-sm-12">
+                        <div class="col-lg-12">
                             <div class="ibox float-e-margins">
-                                <div class="ibox-content" style="font-size: 14px;">
-                                    <div class="panel-body alert alert-success m-b-sm">
-                                        <div class="col-sm-2"><b>Job Status:</b></div> 
-                                        <div class="col-sm-4"><b id="job_status"></b></div>
-                                        <div class="col-sm-2"><b>Date Time:</b></div> 
-                                        <div class="col-sm-4"><b id="modified"></b></div>
+                                <div class="ibox-content">
+                                    <div class="table-responsive">
+                                        <table id="tbl_copier_report" class="table table-striped table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th class="col-md-1" data-sorter="false" style="text-align: center;"><i class="fa fa-money"></i></th>
+                                                    <th class="col-md-1" data-sorter="false" style="text-align: center;"><i class="fa fa-user"></i></th>
+                                                    <th class="col-md-1" data-sorter="false" style="text-align: center;"><i class="fa fa-folder-open"></i></th>
+                                                    <th class="col-md-4">Division/Cost Center/Users/Print Request</th>
+                                                    <th class="col-md-2" data-sorter="false" style="text-align: center;">Created</th>
+                                                    <th class="col-md-1" style="text-align: right;">Pages</th>
+                                                    <th class="col-md-2" style="text-align: right;">Cost</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tbl_body">
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- login user info -->
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="ibox float-e-margins">
-                                <div class="ibox-content" style="font-size: 14px; color: black;">
-                                    <div class="panel-body">
-                                        <div class="col-sm-2">Name:</div> 
-                                        <div class="col-sm-4" id="requestor"></div>
-                                        <div class="col-sm-2">Email:</div> 
-                                        <div class="col-sm-4" id="email"></div>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div class="col-sm-2">Phone:</div> 
-                                        <div class="col-sm-4" id="phone"></div>
-                                        <div class="col-sm-2">Employee ID:</div> 
-                                        <div class="col-sm-4" id="login_id"></div>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div class="col-sm-2">Cost Center:</div> 
-                                        <div class="col-sm-10" id="billing_depart"></div>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div class="col-sm-2">Request Title:</div> 
-                                        <div class="col-sm-10" id="request_title"></div>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div class="col-sm-2">Device Type:</div> 
-                                        <div class="col-sm-2">Drop Off</div>
-                                        <div class="col-sm-2">Date/Time Needed:</div> 
-                                        <div class="col-sm-2" id="date_needed"></div>
-                                        <div class="col-sm-2" id="time_needed"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>                
-                    <!-- duplicating section -->
-                    <div id="dropoff_section">
-                    </div>
-                    <!-- transaction section -->
-                    <div class="row" id="transaction_section">
-                        <div class="col-md-12">
-                            <div class="ibox float-e-margins">
-                                <div class="ibox-content" style="font-size: 14px; color: black;">
-                                    <div class="panel-body">
-                                        <div class="col-md-12" id="transaction_history"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>    
+                </div>
                 <!-- Footer-->
-                <footer class="footer hidden-print">
+                <footer class="footer">
                     <span class="pull-right">
                         COPYRIGHT &copy; 2016 IRVINE VALLEY COLLEGE
                     </span>
@@ -166,15 +153,19 @@
         <!-- inspinia-2.5 javascript -->
         <script src="../inspinia-2.5/js/jquery-2.1.1.js"></script>
         <script src="../inspinia-2.5/js/bootstrap.min.js"></script>
+        <script src="../inspinia-2.5/js/plugins/datapicker/bootstrap-datepicker.js"></script>
         <script src="../inspinia-2.5/js/plugins/metisMenu/jquery.metisMenu.js"></script>
         <script src="../inspinia-2.5/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
         <!-- inspinia-2.5 custom javascript -->
         <script src="../inspinia-2.5/js/inspinia.min.js"></script>
         <script src="../inspinia-2.5/js/plugins/pace/pace.min.js"></script>
         <!-- include javascript -->
+        <script src="../include/jquery-ui-1.11.4/js/jquery-ui.min.js"></script>
+        <script src="../include/jquery-tablesorter/js/jquery.tablesorter.min.js"></script>
+        <script src="../include/jquery-tablesorter/js/jquery.tablesorter.widgets.min.js"></script>
         <script src="../include/sweetalert/js/sweetalert.min.js"></script>
         <!-- application javascript -->
-        <script src="js/viewDropOff.js"></script>
+        <script src="js/rptCopierReport.js"></script>
         <script src="js/session_data.js"></script>
         <script src="js/db_access.js"></script>
     </body>

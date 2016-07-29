@@ -28,8 +28,6 @@ var m_file_attached = false;
 var m_total_page = 0;
 
 var m_str_dup_cost_info = "";
-var m_user_depart_id = "";
-var m_billing_depart_id = "";
 
 var m_dup_total_print = 0;
 var m_dup_total_cost = 0.00;
@@ -37,11 +35,11 @@ var m_dup_total_cost = 0.00;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {   
     if (sessionStorage.key(0) !== null) {
+        deleteReportSessionItems();
         setAdminOption();
-        setUserProfile();
         getLoginInfo();
         
-        getBillingDepart();
+        getUserCostCenterList();
         getDeviceType();
         getPaperType();
         getDuplex();
@@ -50,7 +48,7 @@ window.onload = function() {
         getPaperSize();
         getDuplicatingCopierPrice();
         
-        setDeviceDetail();
+//        setDeviceDetail();
         getUserInformation();
 }
     else {
@@ -109,11 +107,7 @@ $(document).ready(function() {
         }, 1000);
     });
     
-    // duplicating event ///////////////////////////////////////////////////////
-    $('#billing_depart').change(function() {
-        m_billing_depart_id = $(this).val();
-    });
-    
+    // duplicating event ///////////////////////////////////////////////////////    
     $('#quantity').change(function() {      
         var input_val = Number($(this).val().replace(/[^0-9\.]/g, ''));  
         input_val = Math.abs(input_val);
@@ -311,7 +305,6 @@ $(document).ready(function() {
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 function setAdminOption() {        
     var login_email = sessionStorage.getItem("ls_dc_loginEmail");
     var result = new Array();
@@ -321,6 +314,7 @@ function setAdminOption() {
         if (result[0]['AdminLevel'] === "Master") {
             $('#nav_completed_list').show();
             $('#nav_copier_report').show();
+            $('#nav_new_copier_report').show();
             $('#nav_del_time_exceeded').show();
             $('#menu_administrator').show();
             $('#nav_copier_price').show();
@@ -329,19 +323,15 @@ function setAdminOption() {
         else if (result[0]['AdminLevel'] === "Admin") {
             $('#nav_completed_list').show();
             $('#nav_copier_report').show();
+            $('#nav_new_copier_report').show();
             $('#nav_del_time_exceeded').show();
             $('#menu_administrator').show();
             $('#nav_copier_price').show();
         }
         else if (result[0]['AdminLevel'] === "Report") {
             $('#nav_copier_report').show();
+            $('#nav_new_copier_report').show();
         }
-    }
-}
-
-function setUserProfile() {
-    if (sessionStorage.getItem('ls_dc_loginType') !== "Student") {
-        $('#nav_my_profile').show();
     }
 }
 
@@ -465,38 +455,36 @@ function getDuplicatingCopierPrice() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function setHonorStudent() {
-    var result = new Array();
-    result = db_getHonorStudentByEmail(sessionStorage.getItem("ls_dc_loginEmail"));
-    
-    if (result.length === 1) {
-        $('#honor_student').show();
-        $('#ckb_waved_proof').attr("disabled", true);
-        m_free = true;
-    }
-}
+//function setHonorStudent() {
+//    var result = new Array();
+//    result = db_getHonorStudentByEmail(sessionStorage.getItem("ls_dc_loginEmail"));
+//    
+//    if (result.length === 1) {
+//        $('#honor_student').show();
+//        $('#ckb_waved_proof').attr("disabled", true);
+//        m_free = true;
+//    }
+//}
 
-function setDeviceDetail() {
-    if (sessionStorage.getItem('ls_dc_loginType') === "Student") {
-        setHonorStudent();
-        
-        $('#device_type').val("1");
-        $('#device_type').attr('disabled', true);
-        $('#plotter_section').show();
-    }
-    else {
-        $('#nav_my_profile').show();
-    }
-}
+//function setDeviceDetail() {
+//    if (sessionStorage.getItem('ls_dc_loginType') === "Student") {
+//        setHonorStudent();
+//        
+//        $('#device_type').val("1");
+//        $('#device_type').attr('disabled', true);
+//        $('#plotter_section').show();
+//    }
+//}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function getBillingDepart() {
+function getUserCostCenterList() {
     var result = new Array();
-    result = db_getDepartment();
-    
-    var html = "<option value='0'>Select...</option>";
+    result = JSON.parse(sessionStorage.getItem('ls_dc_usr_cost_center_list'));
+
+    var html = "";
     for (var i = 0; i < result.length; i++) {
-        html += "<option value='" + result[i]['DepartmentID'] + "'>" + result[i]['Department'] + "</option>";
+        var ar_cost_center = result[i].split(":");
+        html += "<option value='" + ar_cost_center[0] + "'>" + ar_cost_center[1] + "-" + ar_cost_center[2] + "</option>";
     }
     
     $('#billing_depart').append(html);
@@ -506,26 +494,16 @@ function getBillingDepart() {
 function getUserInformation() {
     if (sessionStorage.getItem('ls_dc_loginType') === "Staff") {
         $('#login_type').html("Employee ID:");
-        
-        var result = new Array();
-        result = db_getUserProfile(sessionStorage.getItem('ls_dc_loginEmail'));
-        $('#requestor').val(result[0]['UserName']);
-        $('#email').val(result[0]['UserEmail']);
-        $('#phone').val(result[0]['UserPhone']);
-        $('#login_id').val(result[0]['EmployeeID']);
-        m_user_depart_id = result[0]['DepartmentID'];
-        m_billing_depart_id = result[0]['DepartmentID'];
-        $('#user_depart').val(db_getUserDepartName(m_user_depart_id));
-        $('#billing_depart').val(m_billing_depart_id);
     }
     else {
         $('#login_type').html("Student ID:");
-        $('#requestor').val(sessionStorage.getItem('ls_dc_loginDisplayName'));
-        $('#email').val(sessionStorage.getItem('ls_dc_loginEmail'));
-        $('#phone').val(sessionStorage.getItem('ls_dc_loginPhone'));
-        $('#phone').attr("readonly", false);
-        $('#login_id').val(sessionStorage.getItem('ls_dc_loginID'));
     }
+    
+    $('#requestor').val(sessionStorage.getItem('ls_dc_loginDisplayName'));
+    $('#email').val(sessionStorage.getItem('ls_dc_loginEmail'));
+    $('#phone').val(sessionStorage.getItem('ls_dc_loginPhone'));
+    $('#phone').attr("readonly", false);
+    $('#login_id').val(sessionStorage.getItem('ls_dc_loginID'));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -871,7 +849,8 @@ function addPlotter(print_request_id) {
     return db_insertPlotter(print_request_id, job_status_plot_id, paper_type_id, size_height, size_width, plot_total_cost, waved_proof, m_free, note);
 }
 
-function addDuplicating(print_request_id) {    
+function addDuplicating(print_request_id) {
+    var cost_center_id = $('#billing_depart').val();
     var quantity = textReplaceApostrophe($('#quantity').val());
     var date_needed = textReplaceApostrophe($('#date_needed').val());
     var time_needed = textReplaceApostrophe($('#time_needed').val());
@@ -890,7 +869,7 @@ function addDuplicating(print_request_id) {
     var dup_total_cost = m_dup_total_cost;
     var note = textReplaceApostrophe($('#dup_note').val());
     
-    return db_insertDuplicating(print_request_id, "1", m_billing_depart_id, quantity, date_needed, time_needed, paper_size_id, duplex_id, paper_color_id, cover_color_id,
+    return db_insertDuplicating(print_request_id, "1", cost_center_id, quantity, date_needed, time_needed, paper_size_id, duplex_id, paper_color_id, cover_color_id,
                                 color_copy, front_cover, back_cover, confidential, three_hole_punch, staple, cut, total_print, dup_total_cost, note);
 }
 

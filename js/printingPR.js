@@ -46,7 +46,6 @@ function getURLParameters() {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 function getPrintRequest() {
     var result = new Array();
     result = db_getPrintRequest(print_request_id);
@@ -87,7 +86,6 @@ function setRequestorInformation(device_type_id, login_type, login_id, requestor
     
     if (login_type === "Staff") {
         $('#login_type').html("Employee ID:");
-        $('#user_depart').html(getUserDepartName(email));
     }
     else {
         $('#login_type').html("Student ID:");
@@ -151,7 +149,13 @@ function setDuplicating(device_type_id, dtstamp, modified) {
             $('#modified').html(convertDBDateTimeToString(modified));
         }
         
-        $('#billing_depart').html(db_getDepartmentName(result[0]['DepartmentID']));
+        if (result[0]['DepartmentID'] !== "0") {
+            $('#billing_depart').html(db_getDepartmentName(result[0]['DepartmentID']));
+        }
+        else {
+            $('#billing_depart').html(db_getCostCenterName(result[0]['CostCenterID']));
+        }
+        
         $('#quantity').html(result[0]['Quantity']);
         $('#date_needed').html(result[0]['DateNeeded']);
         $('#time_needed').html(result[0]['TimeNeeded']);

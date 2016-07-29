@@ -2,7 +2,7 @@
     require("config.php");
     
     $PrintRequestID = filter_input(INPUT_POST, 'PrintRequestID');
-    $DepartmentID = filter_input(INPUT_POST, 'DepartmentID');
+    $CostCenterID = filter_input(INPUT_POST, 'CostCenterID');
     $Quantity = filter_input(INPUT_POST, 'Quantity');
     $DateNeeded = filter_input(INPUT_POST, 'DateNeeded');
     $TimeNeeded = filter_input(INPUT_POST, 'TimeNeeded');
@@ -22,7 +22,7 @@
     $Note = filter_input(INPUT_POST, 'Note');
 
     $query = "UPDATE [".$dbDatabase."].[dbo].[Duplicating] "
-                ."SET DepartmentID = '".$DepartmentID."', "
+                ."SET CostCenterID = '".$CostCenterID."', "
                 ."Quantity = '".$Quantity."', "
                 ."DateNeeded = '".$DateNeeded."', "
                 ."TimeNeeded = '".$TimeNeeded."', "

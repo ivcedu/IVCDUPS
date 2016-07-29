@@ -44,9 +44,6 @@
                         <li class="iconic-color-default">
                             <a href="userHome.html"><i class="fa fa-home"></i> <span class="nav-label">My Home</span></a>
                         </li>
-                        <li class="iconic-color-default" style="display: none;" id="nav_my_profile">
-                            <a href="userProfile.html"><i class="fa fa-user"></i> <span class="nav-label">My Profile</span></a>
-                        </li>
                         <li class="active iconic-color-default">
                             <a href="newPrintRequest.html"><i class="fa fa-print"></i> <span class="nav-label">New Request</span></a>
                         </li>
@@ -55,7 +52,8 @@
                             <ul class="nav nav-second-level collapse">
                                 <li class="iconic-color-default"><a href="rptMyHistory.html">My History</a></li>
                                 <li class="iconic-color-default" style="display: none;" id="nav_completed_list"><a href="rptCompletedList.html">Completed List</a></li>
-                                <li class="iconic-color-default" style="display: none;" id="nav_copier_report"><a href="rptBillingReport.html">Copier Report</a></li>
+                                <li class="iconic-color-default" style="display: none;" id="nav_copier_report"><a href="rptBillingReport.html">Old Copier Depart</a></li>
+                                <li class="iconic-color-default" style="display: none;" id="nav_new_copier_report"><a href="rptCopierReport.html">Copier Cost Center</a></li>
                                 <li class="iconic-color-default" style="display: none;" id="nav_del_time_exceeded"><a href="rptDeliveryTimeExceeded.html">Delivery Time Exceeded</a></li>
                             </ul>
                         </li>
@@ -119,10 +117,6 @@
                                             <div class="col-md-4"><input type="text" class="form-control" readonly id="phone"></div>
                                             <label class="col-md-2 control-label" id="login_type"></label> 
                                             <div class="col-md-4"><input type="text" class="form-control" readonly id="login_id"></div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-2 control-label">Department:</label> 
-                                            <div class="col-md-10"><input type="text" class="form-control" readonly id="user_depart"></div>
                                         </div>
                                         <div class="form-group has-success">
                                             <label class="col-md-2 control-label">Request Title:</label> 
@@ -190,7 +184,7 @@
                                     <br>
                                     <form class="form-horizontal">
                                         <div class="form-group has-success">
-                                            <label class="col-md-2 control-label">Billing Depart:</label> 
+                                            <label class="col-md-2 control-label">Cost Center:</label> 
                                             <div class="col-md-4"><select class="form-control m-b" data-container="body" id="billing_depart"></select></div>
                                         </div>  
                                         <div class="form-group has-success">
@@ -240,13 +234,6 @@
                                             </div>
                                         </div>
                                     </form>
-                                    <!--
-                                    <div class="alert alert-success m-b-sm">
-                                        <p id="dup_cost_info"></p>
-                                        <p class="font-bold" id="dup_total_print"></p>
-                                        <p class="font-bold" id="dup_total_cost"></p>
-                                    </div>
-                                    -->
                                     <div class="panel-body">
                                         <div class="col-md-2">
                                             <button class="ladda-button btn btn-success col-md-12 iconic-color-default" data-style="zoom-in" id="btn_dup_submit"><i class="fa fa-arrow-circle-up"></i> Submit</button>

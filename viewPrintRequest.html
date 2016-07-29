@@ -42,9 +42,6 @@
                         <li class="iconic-color-default" id="nav_my_home">
                             <a href="userHome.html"><i class="fa fa-home"></i> <span class="nav-label">My Home</span></a>
                         </li>
-                        <li class="iconic-color-default" style="display: none;" id="nav_my_profile">
-                            <a href="userProfile.html"><i class="fa fa-user"></i> <span class="nav-label">My Profile</span></a>
-                        </li>
                         <li class="iconic-color-default">
                             <a href="newPrintRequest.html"><i class="fa fa-print"></i> <span class="nav-label">New Request</span></a>
                         </li>
@@ -53,7 +50,8 @@
                             <ul class="nav nav-second-level collapse" id="nav_sub_reports">
                                 <li class="iconic-color-default" id="nav_my_history"><a href="rptMyHistory.html">My History</a></li>
                                 <li class="iconic-color-default" style="display: none;" id="nav_completed_list"><a href="rptCompletedList.html">Completed List</a></li>
-                                <li class="iconic-color-default" style="display: none;" id="nav_copier_report"><a href="rptBillingReport.html">Copier Report</a></li>
+                                <li class="iconic-color-default" style="display: none;" id="nav_copier_report"><a href="rptBillingReport.html">Old Copier Depart</a></li>
+                                <li class="iconic-color-default" style="display: none;" id="nav_new_copier_report"><a href="rptCopierReport.html">Copier Cost Center</a></li>
                                 <li class="iconic-color-default" style="display: none;" id="nav_del_time_exceeded"><a href="rptDeliveryTimeExceeded.html">Delivery Time Exceeded</a></li>
                             </ul>
                         </li>
@@ -129,10 +127,6 @@
                                         <div class="col-sm-4" id="login_id"></div>
                                     </div>
                                     <div class="panel-body">
-                                        <div class="col-sm-2">Department:</div> 
-                                        <div class="col-sm-10" id="user_depart"></div>
-                                    </div>
-                                    <div class="panel-body">
                                         <div class="col-sm-2">Request Title:</div> 
                                         <div class="col-sm-10" id="request_title"></div>
                                     </div>
@@ -156,7 +150,7 @@
                             <div class="ibox float-e-margins">
                                 <div class="ibox-content" style="font-size: 14px; color: black;">
                                     <div class="panel-body">
-                                        <div class="col-sm-2">Billing Depart:</div> 
+                                        <div class="col-sm-2">Cost Center:</div> 
                                         <div class="col-sm-10" id="billing_depart"></div>
                                     </div>
                                     <div class="panel-body">

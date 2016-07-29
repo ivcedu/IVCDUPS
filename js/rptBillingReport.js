@@ -3,9 +3,9 @@ var m_total_cost = 0;
 
 ////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {   
-    if (sessionStorage.key(0) !== null) {        
+    if (sessionStorage.key(0) !== null) {
+        deleteReportCopierCostItems();
         setAdminOption();
-        setUserProfile();
         
         getLoginInfo();
         if (sessionStorage.getItem('ls_dc_pr_user_id') === null) {
@@ -63,7 +63,7 @@ $(document).ready(function() {
         return false;
     });
     
-    // table row depart + click ////////////////////////////////////////////////
+    // table row depart +/- click event ////////////////////////////////////////
     $('table').on('click', '[id^="row_depart_id_"]', function(e) {
         e.preventDefault();        
         var row_html = $(this).html();
@@ -88,7 +88,7 @@ $(document).ready(function() {
         return false;
     });
     
-    // table row users + click /////////////////////////////////////////////////
+    // table row users +/- click event /////////////////////////////////////////
     $('table').on('click', '[id^="row_user_id_"]', function(e) {
         e.preventDefault();        
         var row_html = $(this).html();
@@ -99,10 +99,6 @@ $(document).ready(function() {
         
         if (row_html === "<i class=\"fa fa-plus\"></i>") {
             $(this).html("<i class='fa fa-minus'></i>");
-            sessionStorage.setItem('ls_dc_pr_start_date', $('#start_date').val());
-            sessionStorage.setItem('ls_dc_pr_end_date', $('#end_date').val());
-            sessionStorage.setItem('ls_dc_pr_depart_id', depart_id);
-            sessionStorage.setItem('ls_dc_pr_user_id', user_id);
             getBillingReportPrint(depart_id, user_id);
         }
         else {
@@ -110,11 +106,6 @@ $(document).ready(function() {
             $(".class_user_id_" + user_id).remove();
             $("#tbl_billing_report").trigger("update");
             $("#tbl_billing_report").trigger("appendCache");
-            
-            sessionStorage.removeItem('ls_dc_pr_start_date');
-            sessionStorage.removeItem('ls_dc_pr_end_date');
-            sessionStorage.removeItem('ls_dc_pr_depart_id');
-            sessionStorage.removeItem('ls_dc_pr_user_id');
         }
         return false;
     });
@@ -127,11 +118,18 @@ $(document).ready(function() {
         result = db_getPrintRequest(print_request_id);
         
         sessionStorage.setItem('ivcdups_print_click', "rptBillingReport.html");
+        sessionStorage.setItem('ls_dc_pr_start_date', $('#start_date').val());
+        sessionStorage.setItem('ls_dc_pr_end_date', $('#end_date').val());
+        sessionStorage.setItem('ls_dc_pr_user_id', result[0]['LoginID']);
         if (result[0]['DeviceTypeID'] === "1" || result[0]['DeviceTypeID'] === "2") {
+            var dup_depart_id = db_getDuplicatingDepartID(print_request_id);
+            sessionStorage.setItem('ls_dc_pr_depart_id', dup_depart_id);
             window.open('viewPrintRequest.html?print_request_id=' + print_request_id, '_self');
             return false;
         }
         else {
+            var drp_depart_id = db_getDropOffJobDepartID(print_request_id);
+            sessionStorage.setItem('ls_dc_pr_depart_id', drp_depart_id);
             window.open('viewDropOff.html?print_request_id=' + print_request_id, '_self');
             return false;
         }
@@ -153,6 +151,7 @@ function setAdminOption() {
         if (result[0]['AdminLevel'] === "Master") {
             $('#nav_completed_list').show();
             $('#nav_copier_report').show();
+            $('#nav_new_copier_report').show();
             $('#nav_del_time_exceeded').show();
             $('#menu_administrator').show();
             $('#nav_copier_price').show();
@@ -161,19 +160,15 @@ function setAdminOption() {
         else if (result[0]['AdminLevel'] === "Admin") {
             $('#nav_completed_list').show();
             $('#nav_copier_report').show();
+            $('#nav_new_copier_report').show();
             $('#nav_del_time_exceeded').show();
             $('#menu_administrator').show();
             $('#nav_copier_price').show();
         }
         else if (result[0]['AdminLevel'] === "Report") {
             $('#nav_copier_report').show();
+            $('#nav_new_copier_report').show();
         }
-    }
-}
-
-function setUserProfile() {
-    if (sessionStorage.getItem('ls_dc_loginType') !== "Student") {
-        $('#nav_my_profile').show();
     }
 }
 

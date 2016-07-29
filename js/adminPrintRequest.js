@@ -131,19 +131,6 @@ function getLoginInfo() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function getBillingDepart() {
-    var result = new Array();
-    result = db_getDepartment();
-    
-    var html = "";
-    for (var i = 0; i < result.length; i++) {
-        html += "<option value='" + result[i]['DepartmentID'] + "'>" + result[i]['Department'] + "</option>";
-    }
-    
-    $('#admin_billing_depart').append(html);
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function setDeliveryLocation() {
     var result = new Array();
     result = db_getDeliveryLocation();
@@ -201,8 +188,6 @@ function getPrintRequest() {
         }
         else {
             setJobStatusDup();
-            getBillingDepart();
-            $('#admin_billing_section').show();
             $('#duplicating_section').show();
             setDuplicating(device_type_id, result[0]['DTStamp'], result[0]['Modified']);
         }
@@ -229,7 +214,6 @@ function setRequestorInformation(device_type_id, login_type, login_id, requestor
     
     if (login_type === "Staff") {
         $('#login_type').html("Employee ID:");
-        $('#user_depart').html(getUserDepartName(email));
     }
     else {
         $('#login_type').html("Student ID:");
@@ -290,7 +274,6 @@ function setDuplicating(device_type_id, dtstamp, modified) {
     if (result.length === 1) {  
         var job_status_dup_id = result[0]['JobStatusDupID'];
         $('#admin_job_status').val(job_status_dup_id);
-        $('#admin_billing_depart').val(result[0]['DepartmentID']);
         
         $('#job_status').html(db_getJobStatusDupName(result[0]['JobStatusDupID']));
         if (modified === null) {
@@ -300,7 +283,13 @@ function setDuplicating(device_type_id, dtstamp, modified) {
             $('#modified').html(convertDBDateTimeToString(modified));
         }
         
-        $('#billing_depart').html(db_getDepartmentName(result[0]['DepartmentID']));
+        if (result[0]['DepartmentID'] !== "0") {
+            $('#billing_depart').html(db_getDepartmentName(result[0]['DepartmentID']));
+        }
+        else {
+            $('#billing_depart').html(db_getCostCenterName(result[0]['CostCenterID']));
+        }
+        
         $('#quantity').html(result[0]['Quantity']);
         $('#date_needed').html(result[0]['DateNeeded']);
         $('#time_needed').html(result[0]['TimeNeeded']);
@@ -378,12 +367,10 @@ function updatePrintStatus() {
     var admin_del_loc_id = $('#admin_del_loc').val();
     var admin_job_status_id = $('#admin_job_status').val();
     var admin_msg_note = textReplaceApostrophe($('#admin_msg_note').val());
-    var admin_billing_depart_id = $('#admin_billing_depart').val();
     var status_change = "";
     
     if ($('#device_type').html() === "Duplicating") {
         db_updateDuplicating(print_request_id, admin_job_status_id);
-        db_updateDepartment(print_request_id, admin_billing_depart_id);
         db_updatePrintRequestDelivery(print_request_id, admin_del_loc_id);
         status_change = db_getJobStatusDupName(admin_job_status_id);
     }

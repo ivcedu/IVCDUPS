@@ -5,7 +5,6 @@ window.onload = function() {
     if (sessionStorage.key(0) !== null) {
         setActiveMenu();
         setAdminOption();
-        setUserProfile();
         getLoginInfo();
         
         getURLParameters();
@@ -83,6 +82,10 @@ $(document).ready(function() {
             window.open('rptBillingReport.html', '_self');
             return false;
         }
+        else if (click_from === "rptCopierReport.html") {
+            window.open('rptCopierReport.html', '_self');
+            return false;
+        }
         else if (click_from === "rptDeliveryTimeExceeded.html") {
             window.open('rptDeliveryTimeExceeded.html', '_self');
             return false;
@@ -148,6 +151,7 @@ function setAdminOption() {
         if (result[0]['AdminLevel'] === "Master") {
             $('#nav_completed_list').show();
             $('#nav_copier_report').show();
+            $('#nav_new_copier_report').show();
             $('#nav_del_time_exceeded').show();
             $('#menu_administrator').show();
             $('#nav_copier_price').show();
@@ -156,19 +160,15 @@ function setAdminOption() {
         else if (result[0]['AdminLevel'] === "Admin") {
             $('#nav_completed_list').show();
             $('#nav_copier_report').show();
+            $('#nav_new_copier_report').show();
             $('#nav_del_time_exceeded').show();
             $('#menu_administrator').show();
             $('#nav_copier_price').show();
         }
         else if (result[0]['AdminLevel'] === "Report") {
             $('#nav_copier_report').show();
+            $('#nav_new_copier_report').show();
         }
-    }
-}
-
-function setUserProfile() {
-    if (sessionStorage.getItem('ls_dc_loginType') !== "Student") {
-        $('#nav_my_profile').show();
     }
 }
 
@@ -199,19 +199,6 @@ function getPrintRequest() {
     }
 }
 
-function getUserDepartName(email) {
-    var result = new Array();
-    result = db_getUserProfile(email);
-    var department_id = result[0]['DepartmentID'];
-    
-    if (department_id !== "") {
-        return db_getUserDepartName(department_id);
-    }
-    else {
-        return "";
-    }
-}
-
 function setRequestorInformation(device_type_id, login_type, login_id, requestor, email, phone, request_title) {
     $('#requestor').html(requestor);
     $('#email').html(email);
@@ -219,7 +206,6 @@ function setRequestorInformation(device_type_id, login_type, login_id, requestor
     
     if (login_type === "Staff") {
         $('#login_type').html("Employee ID:");
-        $('#user_depart').html(getUserDepartName(email));
     }
     else {
         $('#login_type').html("Student ID:");
@@ -281,7 +267,13 @@ function setDuplicating(device_type_id, dtstamp, modified) {
             $('#modified').html(convertDBDateTimeToString(modified));
         }
         
-        $('#billing_depart').html(db_getDepartmentName(result[0]['DepartmentID']));
+        if (result[0]['DepartmentID'] !== "0") {
+            $('#billing_depart').html(db_getDepartmentName(result[0]['DepartmentID']));
+        }
+        else {
+            $('#billing_depart').html(db_getCostCenterName(result[0]['CostCenterID']));
+        }
+
         $('#quantity').html(result[0]['Quantity']);
         $('#date_needed').html(result[0]['DateNeeded']);
         $('#time_needed').html(result[0]['TimeNeeded']);

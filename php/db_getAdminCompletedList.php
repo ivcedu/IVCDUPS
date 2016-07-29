@@ -34,7 +34,8 @@
     $query_get_result = "SELECT	Completed, RequestTitle, Requestor, DeviceType, JobStatus, "
                         . "'$' + convert(varchar, SUM(TotalCost), 1) AS TotalCost "
                         . "FROM	#RESULT "
-                        . "GROUP BY Completed, RequestTitle, Requestor, DeviceType, JobStatus";
+                        . "GROUP BY Completed, RequestTitle, Requestor, DeviceType, JobStatus "
+                        . "ORDER BY Completed ASC";
     
     $dbConn->query($query_create_table);
     $dbConn->query($query_insert_result);

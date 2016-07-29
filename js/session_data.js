@@ -18,6 +18,35 @@ function objToString(obj) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+function deleteReportSessionItems() {
+    sessionStorage.removeItem('ls_dc_pr_start_date');
+    sessionStorage.removeItem('ls_dc_pr_end_date');
+    sessionStorage.removeItem('ls_dc_pr_depart_id');
+    sessionStorage.removeItem('ls_dc_pr_user_id');
+    
+    sessionStorage.removeItem('ss_dc_cp_start_date');
+    sessionStorage.removeItem('ss_dc_cp_end_date');
+    sessionStorage.removeItem('ss_dc_cp_division_id');
+    sessionStorage.removeItem('ss_dc_cp_cost_center_id');
+    sessionStorage.removeItem('ss_dc_cp_user_id');
+}
+
+function deleteReportBillingItems() {
+    sessionStorage.removeItem('ls_dc_pr_start_date');
+    sessionStorage.removeItem('ls_dc_pr_end_date');
+    sessionStorage.removeItem('ls_dc_pr_depart_id');
+    sessionStorage.removeItem('ls_dc_pr_user_id');
+}
+
+function deleteReportCopierCostItems() {
+    sessionStorage.removeItem('ss_dc_cp_start_date');
+    sessionStorage.removeItem('ss_dc_cp_end_date');
+    sessionStorage.removeItem('ss_dc_cp_division_id');
+    sessionStorage.removeItem('ss_dc_cp_cost_center_id');
+    sessionStorage.removeItem('ss_dc_cp_user_id');
+}
+
+////////////////////////////////////////////////////////////////////////////////
 function formatDollar(num, digit) {    
     var negative = "";
     var p = num.toFixed(digit).split(".");
