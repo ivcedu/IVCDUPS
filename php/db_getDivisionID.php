@@ -1,9 +1,9 @@
 <?php
     require("config.php");
 
-    $CostCenterCode = filter_input(INPUT_POST, 'CostCenterCode');
+    $Division = filter_input(INPUT_POST, 'Division');
     
-    $query = "SELECT DivisionID FROM [".$dbDatabase."].[dbo].[Division] WHERE CostCenterCode = '" . $CostCenterCode . "'";
+    $query = "SELECT TOP(1) DivisionID FROM [".$dbDatabase."].[dbo].[Division] WHERE Division = '" . $Division . "'";
 
     $cmd = $dbConn->prepare($query);
     $cmd->execute(); 

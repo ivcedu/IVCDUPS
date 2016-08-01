@@ -712,12 +712,12 @@ function db_getDeliveryTimeExceeded(StartDate, EndDate) {
     return result;
 }
 
-function db_getDivisionID(CostCenterCode) {
+function db_getDivisionID(Division) {
     var result = "";
     $.ajax({
         type:"POST",
         url:"php/db_getDivisionID.php",
-        data:{CostCenterCode:CostCenterCode},
+        data:{Division:Division},
         async: false,  
         success:function(data) {
             result = JSON.parse(data);

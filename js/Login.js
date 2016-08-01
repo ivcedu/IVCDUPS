@@ -164,8 +164,8 @@ function updateCostCenterInfoToDB(obj_result) {
             }
             
             var cost_center_code = textReplaceApostrophe($.trim(ar_descrip[0]));
-            var division = textReplaceApostrophe($.trim(ar_descrip[1].replace("IVC-", "")));
-            var cost_center = textReplaceApostrophe($.trim(ar_descrip[2].replace("IVC-", "")));
+            var cost_center = textReplaceApostrophe($.trim(ar_descrip[1].replace("IVC-", "")));
+            var division = textReplaceApostrophe($.trim(ar_descrip[2].replace("IVC-", "")));
             
             var division_id = getDivisionID(cost_center_code, division);
             var cost_center_id = getCostCenterID(division_id, cost_center_code, cost_center);
@@ -179,7 +179,7 @@ function updateCostCenterInfoToDB(obj_result) {
 }
 
 function getDivisionID(cost_center_code, division) {
-    var result = db_getDivisionID(cost_center_code);
+    var result = db_getDivisionID(division);
     if (result === null) {
         result = db_insertDivision(cost_center_code, division);
     }
