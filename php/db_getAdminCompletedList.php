@@ -9,7 +9,7 @@
     $query_create_table = "CREATE TABLE #RESULT (Completed nvarchar(255), RequestTitle nvarchar(255), Requestor nvarchar(255), DeviceType nvarchar(255), JobStatus nvarchar(255), TotalCost money)";
     $query_drop_table = "DROP TABLE #RESULT";
     
-    $query_insert_result = "INSERT INTO #RESULT SELECT CONVERT(VARCHAR(10), prrq.Modified, 101) AS Completed, "
+    $query_insert_result = "INSERT INTO #RESULT SELECT CONVERT(VARCHAR(10), prrq.DTStamp, 101) AS Completed, "
                         . "'<a href=# id=''print_request_id_' + CONVERT(NVARCHAR(255), prrq.PrintRequestID) + '''>' + prrq.RequestTitle + '</a>' AS RequestTitle, "
                         . "prrq.Requestor, "
                         . "dvtp.DeviceType, "
