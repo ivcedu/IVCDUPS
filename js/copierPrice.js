@@ -8,7 +8,7 @@ window.onload = function() {
         
         getLoginInfo();
         getCopierPrice();
-}
+    }
     else {
         window.open('Login.html', '_self');
     }

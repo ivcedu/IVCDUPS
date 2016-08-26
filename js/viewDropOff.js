@@ -10,7 +10,7 @@ window.onload = function() {
         getURLParameters();
         getPrintRequest();
         getTransactionHistory();
-}
+    }
     else {
         window.open('Login.html', '_self');
     }
@@ -133,7 +133,6 @@ function setAdminOption() {
             $('#nav_new_copier_report').show();
             $('#nav_del_time_exceeded').show();
             $('#menu_administrator').show();
-            $('#nav_copier_price').show();
             $('#nav_user_access').show();
         }
         else if (result[0]['AdminLevel'] === "Admin") {
@@ -142,7 +141,6 @@ function setAdminOption() {
             $('#nav_new_copier_report').show();
             $('#nav_del_time_exceeded').show();
             $('#menu_administrator').show();
-            $('#nav_copier_price').show();
         }
         else if (result[0]['AdminLevel'] === "Report") {
             $('#nav_copier_report').show();

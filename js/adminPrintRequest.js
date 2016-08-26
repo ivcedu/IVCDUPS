@@ -7,11 +7,10 @@ window.onload = function() {
         getLoginInfo();
         
         getURLParameters();
-        db_updatePrintRequestLocked(print_request_id, true);
         
         getPrintRequest();
         getTransactionHistory();
-}
+    }
     else {
         window.open('Login.html', '_self');
     }
@@ -113,12 +112,7 @@ function setAdminOption() {
     
     if (result.length === 1) {
         if (result[0]['AdminLevel'] === "Master") {
-            $('#nav_completed_list').show();
             $('#nav_user_access').show();
-            setDeliveryLocation();
-        }
-        else if (result[0]['AdminLevel'] === "Admin") {
-            $('#nav_completed_list').show();
             setDeliveryLocation();
         }
     }
@@ -175,7 +169,7 @@ function getPrintRequest() {
     
     if (result.length === 1) {
         var device_type_id = result[0]['DeviceTypeID'];
-        var del_loc_id = result[0]['DeliveryLocationID'];
+        var del_loc_id = result[0]['DeliveryLocationID'];        
         $('#admin_del_loc').val(del_loc_id);
         
         setRequestorInformation(device_type_id, result[0]['LoginType'], result[0]['LoginID'], result[0]['Requestor'], result[0]['Email'], result[0]['Phone'], result[0]['RequestTitle']);
@@ -240,8 +234,12 @@ function setPlotter(device_type_id, dtstamp, modified) {
     var result = new Array();
     result = db_getPlotter(print_request_id);
     if (result.length === 1) {
-        var job_status_dup_id = result[0]['JobStatusPlotID'];
-        $('#admin_job_status').val(job_status_dup_id);
+        var job_status_plot_id = result[0]['JobStatusPlotID'];
+        if (job_status_plot_id === "1" || job_status_plot_id === "2") {
+            db_updatePrintRequestLocked(print_request_id, true);
+        }
+        
+        $('#admin_job_status').val(job_status_plot_id);
         
         $('#job_status').html(db_getJobStatusPlotName(result[0]['JobStatusPlotID']));
         if (modified === null) {
@@ -273,6 +271,10 @@ function setDuplicating(device_type_id, dtstamp, modified) {
     result = db_getDuplicating(print_request_id);
     if (result.length === 1) {  
         var job_status_dup_id = result[0]['JobStatusDupID'];
+        if (job_status_dup_id === "1") {
+            db_updatePrintRequestLocked(print_request_id, true);
+        }
+        
         $('#admin_job_status').val(job_status_dup_id);
         
         $('#job_status').html(db_getJobStatusDupName(result[0]['JobStatusDupID']));

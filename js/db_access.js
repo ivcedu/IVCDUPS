@@ -880,6 +880,19 @@ function db_getDropOffJobDepartID(PrintRequestID) {
     return result;
 }
 
+function db_getAdminLockedPRList() {
+    var result = new Array();
+    $.ajax({
+        type:"POST",
+        url:"php/db_getAdminLockedPRList.php",
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
 // insert DB ///////////////////////////////////////////////////////////////////
 function db_insertPrintRequest(DeviceTypeID, DeliveryLocationID, LoginType, LoginID, Requestor, Email, Phone, RequestTitle) {
     var ResultID = "";

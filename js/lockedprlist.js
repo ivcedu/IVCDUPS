@@ -7,7 +7,7 @@ window.onload = function() {
         setAdminOption();
         
         getLoginInfo();
-        getAdminPrintList();
+        getAdminLockedPRList();
     }
     else {
         window.open('Login.html', '_self');
@@ -23,30 +23,15 @@ $(document).ready(function() {
         return false;
     });
     
-    // table row contract click //////////////////////////////////////////////
-    $('table').on('click', 'a', function(e) {
-        e.preventDefault();
-        var print_request_id = $(this).attr('id').replace("print_request_id_", "");
-        var result = new Array();
-        result = db_getPrintRequest(print_request_id);
-        
-        if (result[0]['Locked'] === "1") {
-            swal("Error", "Plotter/Duplicating request opened by requestor to edit/cancel. Please try back later", "error");
-            return false;
-        }
-        
-        if (result[0]['DeviceTypeID'] === "1" || result[0]['DeviceTypeID'] === "2") {
-            window.open('adminPrintRequest.html?print_request_id=' + print_request_id, '_self');
-            return false;
-        }
-        else {
-            window.open('adminDropOff.html?print_request_id=' + print_request_id, '_self');
-            return false;
-        }
+    // table row unlocked icon click ///////////////////////////////////////////
+    $('table').on('click', 'a[id^="unlocked_pr_id_"]', function() {
+        var print_request_id = $(this).attr('id').replace("unlocked_pr_id_", "");  
+        db_updatePrintRequestLocked(print_request_id, false);
+        getAdminLockedPRList();
     });
     
     // jquery datatables initialize ////////////////////////////////////////////
-    m_table = $('#tbl_admin_active_list').DataTable({ paging: false, bInfo: false, searching: false });
+    m_table = $('#tbl_admin_locked_list').DataTable({ paging: false, bInfo: false, searching: false });
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,9 +54,9 @@ function getLoginInfo() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-function getAdminPrintList() {
+function getAdminLockedPRList() {
     var result = new Array(); 
-    result = db_getAdminPrintRequestList();
+    result = db_getAdminLockedPRList();
     
     m_table.clear();
     m_table.rows.add(result).draw();

@@ -7,7 +7,7 @@ window.onload = function() {
         getPrintRequest();
         getTransactionHistory();
         window.print();
-}
+    }
     else {
         window.open('Login.html', '_self');
     }

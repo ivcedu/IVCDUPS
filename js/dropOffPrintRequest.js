@@ -37,7 +37,7 @@ window.onload = function() {
 
         getUserInformation();
         setJobOption();
-}
+    }
     else {
         window.open('Login.html', '_self');
     }

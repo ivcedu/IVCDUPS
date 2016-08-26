@@ -10,7 +10,7 @@ window.onload = function() {
         
         getPrintRequest();
         getTransactionHistory();
-}
+    }
     else {
         window.open('Login.html', '_self');
     }
@@ -90,12 +90,7 @@ function setAdminOption() {
     
     if (result.length === 1) {
         if (result[0]['AdminLevel'] === "Master") {
-            $('#nav_completed_list').show();
             $('#nav_user_access').show();
-            setDeliveryLocation();
-        }
-        else if (result[0]['AdminLevel'] === "Admin") {
-            $('#nav_completed_list').show();
             setDeliveryLocation();
         }
     }

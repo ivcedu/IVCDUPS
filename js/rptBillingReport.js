@@ -25,7 +25,7 @@ window.onload = function() {
             $("#row_user_id_" + user_id + "_DID_" + depart_id).html("<i class='fa fa-minus'></i>");
             getBillingReportPrint(depart_id, user_id);
         }
-}
+    }
     else {
         window.open('Login.html', '_self');
     }
@@ -154,7 +154,6 @@ function setAdminOption() {
             $('#nav_new_copier_report').show();
             $('#nav_del_time_exceeded').show();
             $('#menu_administrator').show();
-            $('#nav_copier_price').show();
             $('#nav_user_access').show();
         }
         else if (result[0]['AdminLevel'] === "Admin") {
@@ -163,7 +162,6 @@ function setAdminOption() {
             $('#nav_new_copier_report').show();
             $('#nav_del_time_exceeded').show();
             $('#menu_administrator').show();
-            $('#nav_copier_price').show();
         }
         else if (result[0]['AdminLevel'] === "Report") {
             $('#nav_copier_report').show();

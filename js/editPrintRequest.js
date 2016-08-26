@@ -54,7 +54,7 @@ window.onload = function() {
         getDuplicatingCopierPrice();
         
         getPrintRequest();
-}
+    }
     else {
         window.open('Login.html', '_self');
     }
