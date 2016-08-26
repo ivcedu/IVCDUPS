@@ -93,6 +93,9 @@ function setAdminOption() {
             $('#nav_user_access').show();
             setDeliveryLocation();
         }
+        else if (result[0]['AdminLevel'] === "Admin") {
+            setDeliveryLocation();
+        }
     }
 }
 
