@@ -29,7 +29,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="text-center m-b-md">
-                        <h2 style="color: white;"><i class="pe-7s-unlock pe-2x pe-va" style="color: #fcae11;"></i> Duplication Request</h2>
+                        <h2 style="color: white;"><i class="pe-7s-print pe-2x pe-va" style="color: #fcae11;"></i> Duplication Request</h2>
                     </div>
                     <div class="hpanel">
                         <div class="panel-body">
