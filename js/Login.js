@@ -29,22 +29,26 @@ window.onload = function() {
 ////////////////////////////////////////////////////////////////////////////////
 $(document).ready(function() {      
     $('#btn_login').click(function() { 
+        // ireport.ivc.edu validation //////////////////////////////////////////
+        if(location.href.indexOf("ireport.ivc.edu") >= 0 && !ireportValidation()) {
+            swal({  title: "Access Denied",
+                    text: "This is a Development site. It will redirect to IVC Application site",
+                    type: "error",
+                    confirmButtonText: "OK" },
+                    function() {
+                        sessionStorage.clear();
+                        window.open('https://services.ivc.edu/', '_self');
+                        return false;
+                    }
+            );
+        }
+        ////////////////////////////////////////////////////////////////////////
+        
         var login_error = loginInfo();
         if(login_error === "") {
             sessionStorage.setItem('ls_dc_loginFrom', window.location.href);
             var user_type = sessionStorage.getItem('ls_dc_loginType');
             if (user_type === "Staff") {
-//                var result = new Array();
-//                result = db_getUserProfile(sessionStorage.getItem('ls_dc_loginEmail'));
-//
-//                if (result.length === 0) {
-//                    window.open('userProfile.html', '_self');
-//                    return false;
-//                }
-//                else {
-//                    window.open('userHome.html', '_self');
-//                    return false;
-//                }
                 window.open('userHome.html', '_self');
                 return false;
             }
@@ -194,4 +198,15 @@ function getCostCenterID(division_id, cost_center_code, cost_center) {
     }
     
     return result;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+function ireportValidation() {
+    var username = $('#username').val().toLowerCase().replace("@ivc.edu", "");
+    if (ireportDBgetUserAccess(username) !== null) {
+        return true;
+    }
+    else {
+        return false;
+    }
 }
