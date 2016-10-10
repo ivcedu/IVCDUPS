@@ -33,8 +33,7 @@ $(document).ready(function() {
         if(location.href.indexOf("ireport.ivc.edu") >= 0 && !ireportValidation()) {
             swal({  title: "Access Denied",
                     text: "This is a Development site. It will redirect to IVC Application site",
-                    type: "error",
-                    confirmButtonText: "OK" },
+                    type: "error" },
                     function() {
                         sessionStorage.clear();
                         window.open('https://services.ivc.edu/', '_self');
@@ -43,25 +42,26 @@ $(document).ready(function() {
             );
         }
         ////////////////////////////////////////////////////////////////////////
-        
-        var login_error = loginInfo();
-        if(login_error === "") {
-            sessionStorage.setItem('ls_dc_loginFrom', window.location.href);
-            var user_type = sessionStorage.getItem('ls_dc_loginType');
-            if (user_type === "Staff") {
-                window.open('userHome.html', '_self');
-                return false;
+        else {
+            var login_error = loginInfo();
+            if(login_error === "") {
+                sessionStorage.setItem('ls_dc_loginFrom', window.location.href);
+                var user_type = sessionStorage.getItem('ls_dc_loginType');
+                if (user_type === "Staff") {
+                    window.open('userHome.html', '_self');
+                    return false;
+                }
+                else {
+                    swal("Error", "You don't have asscee to IVC Duplicating Services", "error");
+                    return false;
+                }
             }
             else {
-                swal("Error", "You don't have asscee to IVC Duplicating Services", "error");
+                $('#error_msg').html(login_error);
+                $('#logn_error').show();
+                this.blur();
                 return false;
             }
-        }
-        else {
-            $('#error_msg').html(login_error);
-            $('#logn_error').show();
-            this.blur();
-            return false;
         }
     });
     
