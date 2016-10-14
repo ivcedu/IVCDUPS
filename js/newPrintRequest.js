@@ -215,7 +215,14 @@ $(document).ready(function() {
         
         setTimeout(function() {
             var print_request_id = addPrintRequest();
-            uploadPDFAttachment(print_request_id);
+            if(!uploadPDFAttachment(print_request_id)) {
+                db_deletePrintRequest(print_request_id);
+                m_file_attached = false;
+                $('#attachment_file').filestyle('clear');
+                $('#pdf_pages').val("");
+                swal("Error", "There was a problem uploading your pdf attachment. Please add your pdf file again and resubmit", "error");
+                return false;
+            }
             
             addDuplicating(print_request_id);
             db_insertReceipt(print_request_id, m_str_dup_cost_info);
