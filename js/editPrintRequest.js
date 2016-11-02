@@ -123,7 +123,7 @@ $(document).ready(function() {
         if (result.length === 1) {
             var url_pdf = "attach_files/" + result[0]['FileLinkName'];
             var login_from = sessionStorage.getItem("ls_dc_loginFrom");
-            url_pdf = login_from.replace("IVCDUPS", "DCenter").replace("Login.html", "") + url_pdf;
+            url_pdf = login_from.replace("IVCDUPS", "DCenter").replace("ivcdups", "DCenter").replace("Login.html", "") + url_pdf;
             window.open(url_pdf, '_blank');
             return false;
         }
