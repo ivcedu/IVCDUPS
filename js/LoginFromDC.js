@@ -17,11 +17,11 @@ $(document).ready(function() {
         // ireport.ivc.edu validation //////////////////////////////////////////
         if(location.href.indexOf("ireport.ivc.edu") >= 0 && !ireportValidation()) {
             swal({  title: "Access Denied",
-                    text: "This is a Development site. It will redirect to IVC Application site",
+                    text: "This is a Development site. Please talk to Jose or Lionel",
                     type: "error" },
                     function() {
                         sessionStorage.clear();
-                        window.open('https://services.ivc.edu/', '_self');
+                        window.open('https://services.ivc.edu/IVCDUPS/LoginFromDC.html', '_self');
                         return false;
                     }
             );
@@ -182,4 +182,15 @@ function getCostCenterID(division_id, cost_center_code, cost_center) {
     }
     
     return result;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+function ireportValidation() {
+    var username = $('#username').val().toLowerCase().replace("@ivc.edu", "").replace("@saddleback.edu", "");
+    if (ireportDBgetUserAccess(username) !== null) {
+        return true;
+    }
+    else {
+        return false;
+    }
 }
