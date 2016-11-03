@@ -13,23 +13,25 @@ window.onload = function() {
 
 ////////////////////////////////////////////////////////////////////////////////
 $(document).ready(function() {      
-    $('#btn_login').click(function() { 
+    $('#btn_login').click(function() {
+        // ireport.ivc.edu validation //////////////////////////////////////////
+        if(location.href.indexOf("ireport.ivc.edu") >= 0 && !ireportValidation()) {
+            swal({  title: "Access Denied",
+                    text: "This is a Development site. It will redirect to IVC Application site",
+                    type: "error" },
+                    function() {
+                        sessionStorage.clear();
+                        window.open('https://services.ivc.edu/', '_self');
+                        return false;
+                    }
+            );
+        }
+        ////////////////////////////////////////////////////////////////////////
         var login_error = loginInfo();
         if(login_error === "") {
             sessionStorage.setItem('ls_dc_loginFrom', window.location.href);
             var user_type = sessionStorage.getItem('ls_dc_loginType');
             if (user_type === "Staff") {
-//                var result = new Array();
-//                result = db_getUserProfile(sessionStorage.getItem('ls_dc_loginEmail'));
-//
-//                if (result.length === 0) {
-//                    window.open('userProfile.html', '_self');
-//                    return false;
-//                }
-//                else {
-//                    window.open('dropOffPrintRequest.html', '_self');
-//                    return false;
-//                }
                 window.open('dropOffPrintRequest.html', '_self');
                 return false;
             }
