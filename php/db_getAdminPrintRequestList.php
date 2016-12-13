@@ -3,7 +3,7 @@
     
     $dbConn->setAttribute(constant('PDO::SQLSRV_ATTR_DIRECT_QUERY'), true);
     
-    $query_create_table = "CREATE TABLE #RESULT (Created nvarchar(255), RequestTitle nvarchar(255), Requestor nvarchar(255), DeviceType nvarchar(255), JobStatus nvarchar(255), TotalCost money)";
+    $query_create_table = "CREATE TABLE #RESULT (Created nvarchar(255), RequestTitle nvarchar(255), Requestor nvarchar(255), DeviceType nvarchar(255), JobStatus nvarchar(255), DueDate nvarchar(255), TotalCost money)";
     $query_drop_table = "DROP TABLE #RESULT";
     
     $query_insert_result = "INSERT INTO #RESULT SELECT CONVERT(VARCHAR(10), prrq.DTStamp, 101) AS Created, "
@@ -13,6 +13,9 @@
                         . "CASE WHEN prrq.DeviceTypeID = 1 THEN jstp.JobStatusPlot "
                         . "WHEN prrq.DeviceTypeID = 2 THEN jstd.JobStatusDup "
                         . "ELSE drjd.JobStatusDup END AS JobStatus, "
+                        . "CASE WHEN prrq.DeviceTypeID = 1 THEN '' "
+                        . "WHEN prrq.DeviceTypeID = 2 THEN dupl.DateNeeded "
+                        . "ELSE dojb.DateNeeded END AS DueDate, "
                         . "CASE WHEN prrq.DeviceTypeID = 1 THEN pltt.TotalCost "
                         . "WHEN prrq.DeviceTypeID = 2 THEN dupl.TotalCost "
                         . "ELSE dojb.TotalCost END AS TotalCost "
@@ -27,10 +30,10 @@
                         . "OR (jstd.JobStatusDupID <> '5' AND jstd.JobStatusDupID <> '6') "
                         . "OR (drjd.JobStatusDupID <> '5' AND drjd.JobStatusDupID <> '6')";
     
-    $query_get_result = "SELECT	Created, RequestTitle, Requestor, DeviceType, JobStatus, "
-                        . "'$' + convert(varchar, SUM(TotalCost), 1) AS TotalCost "
+    $query_get_result = "SELECT	Created, RequestTitle, Requestor, DeviceType, JobStatus, DueDate "
+//                        . "'$' + convert(varchar, SUM(TotalCost), 1) AS TotalCost "
                         . "FROM	#RESULT "
-                        . "GROUP BY Created, RequestTitle, Requestor, DeviceType, JobStatus";
+                        . "GROUP BY Created, RequestTitle, Requestor, DeviceType, JobStatus, DueDate";
 
     $dbConn->query($query_create_table);
     $dbConn->query($query_insert_result);
