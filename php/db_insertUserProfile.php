@@ -6,6 +6,9 @@
     $UserPhone = filter_input(INPUT_POST, 'UserPhone');
     $EmployeeID = filter_input(INPUT_POST, 'EmployeeID');
     $DepartmentID = filter_input(INPUT_POST, 'DepartmentID');
+    
+    $UserName = str_replace("'", "''", $UserName);
+    $UserEmail = str_replace("'", "", $UserEmail);
 
     $query = "INSERT INTO [".$dbDatabase."].[dbo].[UserProfile] (UserName, UserEmail, UserPhone, EmployeeID, DepartmentID) "
                 ."VALUES ('$UserName', '$UserEmail', '$UserPhone', '$EmployeeID', '$DepartmentID')";  

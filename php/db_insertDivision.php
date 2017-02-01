@@ -3,6 +3,9 @@
     
     $CostCenterCode = filter_input(INPUT_POST, 'CostCenterCode');
     $Division = filter_input(INPUT_POST, 'Division');
+    
+    $CostCenterCode = str_replace("'", "''", $CostCenterCode);
+    $Division = str_replace("'", "''", $Division);
 
     $query = "INSERT INTO [".$dbDatabase."].[dbo].[Division] (CostCenterCode, Division) "
                 ."VALUES ('$CostCenterCode', '$Division')";  

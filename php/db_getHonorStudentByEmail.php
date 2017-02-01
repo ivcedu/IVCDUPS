@@ -2,6 +2,8 @@
     require("config.php");
     
     $LoginEmail = filter_input(INPUT_POST, 'LoginEmail');
+    
+    $LoginEmail = str_replace("'", "", $LoginEmail);
 
     $query = "SELECT * FROM [".$dbDatabase."].[dbo].[HonorStudent] WHERE HonorStudentEmail = '" . $LoginEmail . "'";
 

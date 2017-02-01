@@ -8,6 +8,8 @@
     $TotalCost = filter_input(INPUT_POST, 'TotalCost');
     $WavedProof = filter_input(INPUT_POST, 'WavedProof');
     $Note = filter_input(INPUT_POST, 'Note');
+    
+    $Note = str_replace("'", "''", $Note);
 
     $query = "UPDATE [".$dbDatabase."].[dbo].[Plotter] "
                 ."SET PaperTypeID = '".$PaperTypeID."', "
