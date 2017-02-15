@@ -305,7 +305,7 @@ $(document).ready(function() {
     $('#plot_note').autosize();
     
     // bootstrap datepicker
-    $('#date_needed').datepicker({minDate: new Date()});
+    $('#date_needed').datepicker({ minDate: new Date(), beforeShowDay: $.datepicker.noWeekends });
     
     // timepicker
     $('#time_needed').timepicker();

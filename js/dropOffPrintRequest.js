@@ -220,7 +220,7 @@ $(document).ready(function() {
     $('#note_job_1').autosize();
     
     // bootstrap datepicker
-    $('#drop_date_needed').datepicker({minDate: new Date()});
+    $('#drop_date_needed').datepicker({ minDate: new Date(), beforeShowDay: $.datepicker.noWeekends });
     
     // timepicker
     $('#drop_time_needed').timepicker();
