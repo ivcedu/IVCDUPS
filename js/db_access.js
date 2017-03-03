@@ -1479,6 +1479,63 @@ function pdfGetTotalPages(file_data) {
     return Result;
 }
 
+// report DB ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function getRptDashboardMain(StartDate, EndDate) {
+    var result = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_rptDashboardMain.php",
+        data:{StartDate:StartDate, EndDate:EndDate},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function getRptDivisionTotalPagesCost(StartDate, EndDate, SortOption) {
+    var result = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_rptDivisionTotalPagesCost.php",
+        data:{StartDate:StartDate, EndDate:EndDate, SortOption:SortOption},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function getRptBlackWhiteColor(StartDate, EndDate) {
+    var result = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_rptBlackWhiteColor.php",
+        data:{StartDate:StartDate, EndDate:EndDate},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function getRptDuplicatingDropOff(StartDate, EndDate) {
+    var result = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_rptDuplicatingDropOff.php",
+        data:{StartDate:StartDate, EndDate:EndDate},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 function getClientComputerName() {

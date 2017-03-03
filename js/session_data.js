@@ -152,6 +152,18 @@ function getCurrentLastDayOfMonth() {
     return mon + "/" + day + "/" + yrs;
 }
 
+function getFistDayOfMothWithSetMonth(change_month) {
+    var cur_date = new Date();
+    cur_date.setMonth(cur_date.getMonth() + change_month);
+    var dt_firstDay = new Date(cur_date.getFullYear(), cur_date.getMonth(), 1);
+
+    var yrs = dt_firstDay.getFullYear();
+    var mon = dt_firstDay.getMonth() + 1;
+    var day = dt_firstDay.getDate();
+    
+    return mon + "/" + day + "/" + yrs;
+}
+
 function getToday() {
     var cur_date = new Date();
     
