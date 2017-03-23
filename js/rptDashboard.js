@@ -106,11 +106,20 @@ function drawC3MainBarChart(result) {
     c3_total_pages.push('TotalPages');
     c3_total_cost.push(['TotalCost']);
     
+    var rpt_total_page = 0;
+    var rpt_total_cost = 0.00;
+    
     for (var i = 0; i < result.length; i++) {
+        rpt_total_page += Number(result[i]['TotalPages']);
+        rpt_total_cost += Number(result[i]['TotalCost']);
+        
         c3_labels.push(result[i]['RptMonth'] + ' ' + result[i]['RptYear']);
         c3_total_pages.push(Number(result[i]['TotalPages']));
         c3_total_cost.push(Number(result[i]['TotalCost']));
     }
+    
+    $('#rpt_total_pages').html("Total Pages: " + rpt_total_page);
+    $('#rpt_total_cost').html("Total Cost: " + formatDollar(rpt_total_cost, 2));
     
     c3.generate({
             bindto: '#rpt_dashboard_main',
