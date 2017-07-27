@@ -6,7 +6,9 @@ window.onload = function() {
         getURLParameters();
         getPrintRequest();
         getTransactionHistory();
-        window.print();
+        setTimeout(function () {
+            window.print();  
+        }, 1500);
     }
     else {
         window.open('Login.html', '_self');
