@@ -98,6 +98,16 @@ $(document).ready(function() {
         return false;
     });
     
+    // nav menu administrator click ////////////////////////////////////////////
+    $('#menu_administrator').click(function() {
+        $("#nav_reports").removeClass("active");
+        $("#nav_sub_reports").addClass("collapse");
+        
+        $("#menu_sub_administrator").removeClass("collapse");
+        $("#menu_administrator").removeClass("collapse");
+        $("#menu_administrator").addClass("active");
+    });
+    
     ////////////////////////////////////////////////////////////////////////////
     $('#attachment_file').click(function() {  
         var result = new Array();
@@ -130,15 +140,15 @@ function setActiveMenu() {
         $("#nav_reports").addClass("active");
         $("#nav_completed_list").addClass("active");
     }
-    else if (click_from === "rptBillingReport.html") {
+    else if (click_from === "rptCopierReport.html") {
         $("#nav_sub_reports").removeClass("collapse");
         $("#nav_reports").addClass("active");
-        $("#nav_copier_report").addClass("active");
+        $("#nav_new_copier_report").addClass("active");
     }
     else if (click_from === "rptDeliveryTimeExceeded.html") {
         $("#nav_sub_reports").removeClass("collapse");
         $("#nav_reports").addClass("active");
-        $("#nav_copier_report").addClass("active");
+        $("#nav_del_time_exceeded").addClass("active");
     }
 }
 
@@ -151,7 +161,6 @@ function setAdminOption() {
         if (result[0]['AdminLevel'] === "Master") {
             $('#nav_completed_list').show();
             $('#nav_del_time_exceeded').show();
-//            $('#nav_copier_report').show();
             $('#nav_new_copier_report').show();
             $('#nav_dashboard').show();
             $('#menu_administrator').show();
@@ -160,13 +169,11 @@ function setAdminOption() {
         else if (result[0]['AdminLevel'] === "Admin") {
             $('#nav_completed_list').show();
             $('#nav_del_time_exceeded').show();
-//            $('#nav_copier_report').show();
             $('#nav_new_copier_report').show();
             $('#nav_dashboard').show();
             $('#menu_administrator').show();
         }
         else if (result[0]['AdminLevel'] === "Report") {
-//            $('#nav_copier_report').show();
             $('#nav_new_copier_report').show();
             $('#nav_dashboard').show();
         }
@@ -187,15 +194,25 @@ function getPrintRequest() {
     if (result.length === 1) {
         var device_type_id = result[0]['DeviceTypeID'];
         setRequestorInformation(device_type_id, result[0]['LoginType'], result[0]['LoginID'], result[0]['Requestor'], result[0]['Email'], result[0]['Phone'], result[0]['RequestTitle']);
-        setAttachment();
         
         if (device_type_id === "1") {
+            $('#prt_header_title').html("View Plotter Request");
+            $('#attachment_section').show();
+            setAttachment();
             $('#plotter_section').show();
-            setPlotter(device_type_id, result[0]['DTStamp'], result[0]['Modified']);
+            setPlotter(result[0]['DTStamp'], result[0]['Modified']);
+        }
+        else if (device_type_id === "2") {
+            $('#prt_header_title').html("View Duplicating Request");
+            $('#attachment_section').show();
+            setAttachment();
+            $('#duplicating_section').show();
+            setDuplicating(result[0]['DTStamp'], result[0]['Modified']);
         }
         else {
-            $('#duplicating_section').show();
-            setDuplicating(device_type_id, result[0]['DTStamp'], result[0]['Modified']);
+            $('#prt_header_title').html("View Catalog Request");
+            $('#catalog_section').show();
+            setCatalog(result[0]['DTStamp'], result[0]['Modified']);
         }
     }
 }
@@ -227,7 +244,7 @@ function setAttachment() {
     }
 }
 
-function setPlotter(device_type_id, dtstamp, modified) {    
+function setPlotter(dtstamp, modified) {    
     var result = new Array();
     result = db_getPlotter(print_request_id);
     if (result.length === 1) {        
@@ -256,7 +273,7 @@ function setPlotter(device_type_id, dtstamp, modified) {
     }
 }
 
-function setDuplicating(device_type_id, dtstamp, modified) {
+function setDuplicating(dtstamp, modified) {
     var result = new Array();
     result = db_getDuplicating(print_request_id);
     if (result.length === 1) {        
@@ -328,6 +345,37 @@ function setDuplicating(device_type_id, dtstamp, modified) {
         
         $('#dup_total_print').html(result[0]['TotalPrint']);
         $('#dup_total_cost').html(formatDollar(Number(result[0]['TotalCost']), 2));
+    }
+}
+
+function setCatalog(dtstamp, modified) {
+    var result = new Array();
+    result = db_getCatalogByPrintRequestID(print_request_id);
+    if (result.length === 1) { 
+        $('#job_status').html(db_getJobStatusDupName(result[0]['JobStatusDupID']));
+        if (modified === null) {
+            $('#modified').html(convertDBDateTimeToString(dtstamp));
+        }
+        else {
+            $('#modified').html(convertDBDateTimeToString(modified));
+        }
+        
+        var result2 = new Array();
+        result2 = db_getCatSectionByID(result[0]['CatSectionID']);
+        
+        $('#cat_billing_depart').html(db_getCostCenterName(result[0]['CostCenterID']));
+        $('#cat_fiscal_year').html(result2[0]['FiscalYear']);
+        $('#cat_section_options').html(result2[0]['Options']);
+        $('#cat_section_pages').html(result2[0]['Pages']);
+        $('#cat_section_list').html(result2[0]['SectionName']);
+        $('#cat_section_cost').html(formatDollar(Number(result2[0]['Cost']), 2));
+        $('#cat_quantity').html(result[0]['Quantity']);
+        $('#cat_date_needed').html(result[0]['DateNeeded']);
+        $('#cat_time_needed').html(result[0]['TimeNeeded']);
+        $('#cat_note').html(result[0]['Note'].replace(/\n/g, "<br>"));
+        
+        $('#cat_total_print').html(result[0]['TotalPrint']);
+        $('#cat_total_cost').html(formatDollar(Number(result[0]['TotalCost']), 2));
     }
 }
 

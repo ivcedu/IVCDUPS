@@ -90,6 +90,16 @@ $(document).ready(function() {
         window.open('printingDropOff.html?print_request_id=' + print_request_id, '_blank');
         return false;
     });
+    
+    // nav menu administrator click ////////////////////////////////////////////
+    $('#menu_administrator').click(function() {
+        $("#nav_reports").removeClass("active");
+        $("#nav_sub_reports").addClass("collapse");
+        
+        $("#menu_sub_administrator").removeClass("collapse");
+        $("#menu_administrator").removeClass("collapse");
+        $("#menu_administrator").addClass("active");
+    });
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -109,15 +119,15 @@ function setActiveMenu() {
         $("#nav_reports").addClass("active");
         $("#nav_completed_list").addClass("active");
     }
-    else if (click_from === "rptBillingReport.html") {
+    else if (click_from === "rptCopierReport.html") {
         $("#nav_sub_reports").removeClass("collapse");
         $("#nav_reports").addClass("active");
-        $("#nav_copier_report").addClass("active");
+        $("#nav_new_copier_report").addClass("active");
     }
     else if (click_from === "rptDeliveryTimeExceeded.html") {
         $("#nav_sub_reports").removeClass("collapse");
         $("#nav_reports").addClass("active");
-        $("#nav_copier_report").addClass("active");
+        $("#nav_del_time_exceeded").addClass("active");
     }
 }
 

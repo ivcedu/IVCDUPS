@@ -51,18 +51,17 @@
                                 <li class="iconic-color-default" id="nav_my_history"><a href="rptMyHistory.html">My History</a></li>
                                 <li class="iconic-color-default" style="display: none;" id="nav_completed_list"><a href="rptCompletedList.html">Completed List</a></li>
                                 <li class="iconic-color-default" style="display: none;" id="nav_del_time_exceeded"><a href="rptDeliveryTimeExceeded.html">Delivery Time Exceeded</a></li>
-                                <!--<li class="iconic-color-default" style="display: none;" id="nav_copier_report"><a href="rptBillingReport.html">Old Copier Depart</a></li>-->
                                 <li class="iconic-color-default" style="display: none;" id="nav_new_copier_report"><a href="rptCopierReport.html">Copier Cost Center</a></li>
                                 <li class="iconic-color-default" style="display: none;" id="nav_dashboard"><a href="rptDashboard.html">Dashboard</a></li>
                             </ul>
                         </li>
-                        <li style="display: none;" id="menu_administrator">
+                        <li class="collapse" style="display: none;" id="menu_administrator">
                             <a href=#><i class="fa fa-lock"></i> <span class="nav-label">Administrator</span><span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level collapse">
+                            <ul class="nav nav-second-level collapse" id="menu_sub_administrator">
                                 <li class="iconic-color-default"><a href="administrator.html">Admin List</a></li>
                                 <li class="iconic-color-default"><a href="lockedprlist.html">Locked List</a></li>
+                                <li class="iconic-color-default"><a href="dupCatalog.html">Catalog</a></li>
                                 <li class="iconic-color-default"><a href="copierPrice.html">Copier Price</a></li>
-                                <li class="iconic-color-default"><a href="honorStudent.html">Honor Student</a></li>
                                 <li class="iconic-color-default" style="display: none;" id="nav_user_access"><a href="userAccess.html">User Access</a></li>
                             </ul>
                         </li>
@@ -91,7 +90,7 @@
                         <a href=# id="ico_btn_print"><i class="pe-7s-print pe-2x pe-va iconic-color-default"></i></a>
                     </div>
                     <div class="col-sm-8">
-                        <h2 class="text-center">View Duplication Request</h2>
+                        <h2 class="text-center" id="prt_header_title"></h2>
                     </div>
                 </div>
                 <!-- user active print request list-->
@@ -136,7 +135,7 @@
                                         <div class="col-sm-2">Device Type:</div> 
                                         <div class="col-sm-10" id="device_type"></div>
                                     </div>
-                                    <div class="panel-body">
+                                    <div hidden class="panel-body" id="attachment_section">
                                         <div class="col-sm-2">Attachment (PDF):</div> 
                                         <div class="col-md-7"><a href="#" id="attachment_file"></a></div>
                                         <div class="col-sm-1">Pages:</div>
@@ -145,7 +144,47 @@
                                 </div>
                             </div>
                         </div>
-                    </div>                
+                    </div>
+                    <!-- catalog section -->
+                    <div hidden class="row" id="catalog_section">
+                        <div class="col-md-12">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-content" style="font-size: 14px; color: black;">
+                                    <div class="panel-body">
+                                        <div class="col-sm-2">Cost Center:</div> 
+                                        <div class="col-sm-4" id="cat_billing_depart"></div>
+                                        <div class="col-sm-2">Fiscal Year:</div> 
+                                        <div class="col-sm-2" id="cat_fiscal_year"></div>
+                                        <div class="col-sm-2" id="cat_section_options"></div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="col-sm-2">Catalog Section:</div> 
+                                        <div class="col-sm-4" id="cat_section_list"></div>
+                                        <div class="col-sm-2">Pages/Cost:</div> 
+                                        <div class="col-sm-2" id="cat_section_pages"></div>
+                                        <div class="col-sm-2" id="cat_section_cost"></div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="col-sm-2">Quantity:</div> 
+                                        <div class="col-sm-2" id="cat_quantity"></div>
+                                        <div class="col-sm-2">Date/Time Needed:</div> 
+                                        <div class="col-sm-2" id="cat_date_needed"></div>
+                                        <div class="col-sm-2" id="cat_time_needed"></div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="col-sm-2">Note:</div> 
+                                        <div class="col-sm-10" id="cat_note"></div>
+                                    </div>
+                                    <div class="panel-body alert alert-success m-b-sm">
+                                        <div class="col-sm-2"><b>Total Print:</b></div> 
+                                        <div class="col-sm-4"><b id="cat_total_print"></b></div>
+                                        <div class="col-sm-2"><b>Total Cost:</b></div> 
+                                        <div class="col-sm-4"><b id="cat_total_cost"></b></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <!-- duplicating section -->
                     <div hidden class="row" id="duplicating_section">
                         <div class="col-md-12">
