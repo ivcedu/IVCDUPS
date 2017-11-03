@@ -75,8 +75,8 @@
         <script src="../include/sweetalert/js/sweetalert.min.js"></script>
         <script src="../include/utilities/js/jquery.backstretch.min.js"></script>
         <!-- application javascript -->
-        <script src="js/Login.js"></script>
-        <script src="js/session_data.js"></script>
-        <script src="js/db_access.js"></script>
+        <script src="js/Login.js?v=2.0.0"></script>
+        <script src="js/session_data.js?v=2.2.0"></script>
+        <script src="js/db_access.js?v=2.2.0"></script>
     </body>
 </html>

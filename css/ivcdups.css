@@ -20,3 +20,9 @@
 .profile-font-color * {
     color: #ffffff !important;
 }
+
+/* datatable column align*/
+th.dt-center, 
+td.dt-center { 
+    text-align: center; 
+}

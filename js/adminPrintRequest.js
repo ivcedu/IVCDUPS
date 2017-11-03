@@ -5,9 +5,7 @@ window.onload = function() {
     if (sessionStorage.key(0) !== null) {
         setAdminOption();
         getLoginInfo();
-        
         getURLParameters();
-        
         getPrintRequest();
         getTransactionHistory();
     }
@@ -176,17 +174,25 @@ function getPrintRequest() {
         $('#admin_del_loc').val(del_loc_id);
         
         setRequestorInformation(device_type_id, result[0]['LoginType'], result[0]['LoginID'], result[0]['Requestor'], result[0]['Email'], result[0]['Phone'], result[0]['RequestTitle']);
-        setAttachment();
-        
+
         if (device_type_id === "1") {
             setJobStatusPlot();
+            $('#attachment_section').show();
+            setAttachment();
             $('#plotter_section').show();
             setPlotter(device_type_id, result[0]['DTStamp'], result[0]['Modified']);
         }
-        else {
+        else if (device_type_id === "2") {
             setJobStatusDup();
+            $('#attachment_section').show();
+            setAttachment();
             $('#duplicating_section').show();
             setDuplicating(device_type_id, result[0]['DTStamp'], result[0]['Modified']);
+        }
+        else {
+            setJobStatusDup();
+            $('#catalog_section').show();
+            setCatalog(result[0]['DTStamp'], result[0]['Modified']);
         }
     }
 }
@@ -277,9 +283,7 @@ function setDuplicating(device_type_id, dtstamp, modified) {
         if (job_status_dup_id === "1") {
             db_updatePrintRequestLocked(print_request_id, true);
         }
-        
         $('#admin_job_status').val(job_status_dup_id);
-        
         $('#job_status').html(db_getJobStatusDupName(result[0]['JobStatusDupID']));
         if (modified === null) {
             $('#modified').html(convertDBDateTimeToString(dtstamp));
@@ -287,14 +291,12 @@ function setDuplicating(device_type_id, dtstamp, modified) {
         else {
             $('#modified').html(convertDBDateTimeToString(modified));
         }
-        
         if (result[0]['DepartmentID'] !== "0") {
             $('#billing_depart').html(db_getDepartmentName(result[0]['DepartmentID']));
         }
         else {
             $('#billing_depart').html(db_getCostCenterName(result[0]['CostCenterID']));
         }
-        
         $('#quantity').html(result[0]['Quantity']);
         $('#date_needed').html(result[0]['DateNeeded']);
         $('#time_needed').html(result[0]['TimeNeeded']);
@@ -302,11 +304,25 @@ function setDuplicating(device_type_id, dtstamp, modified) {
         $('#duplex').html(db_getDuplexName(result[0]['DuplexID']));
         $('#paper_color').html(db_getPaperColorName(result[0]['PaperColorID']));
         $('#cover_color').html(db_getCoverColorName(result[0]['CoverColorID']));
+        $('#binding').html(db_getBindingName(result[0]['BindingID']));
         if (result[0]['ColorCopy'] === "1") {
             $("#ckb_color_copy").append("<i class='fa fa-check-square-o fa-lg'></i>");
+            $('#page_color_option_section').hide();
         }
         else {
             $("#ckb_color_copy").append("<i class='fa fa-square-o fa-lg'></i>");
+            if (result[0]['FirstPgColorPrint'] === "1") {
+                $("#ckb_first_pg_color_print").append("<i class='fa fa-check-square-o fa-lg'></i>");
+            }
+            else {
+               $("#ckb_first_pg_color_print").append("<i class='fa fa-square-o fa-lg'></i>"); 
+            }
+            if (result[0]['LastPgColorPrint'] === "1") {
+                $("#ckb_last_pg_color_print").append("<i class='fa fa-check-square-o fa-lg'></i>");
+            }
+            else {
+               $("#ckb_last_pg_color_print").append("<i class='fa fa-square-o fa-lg'></i>"); 
+            }
         }
         if (result[0]['FrontCover'] === "1") {
             $("#ckb_front_cover").append("<i class='fa fa-check-square-o fa-lg'></i>");
@@ -344,10 +360,53 @@ function setDuplicating(device_type_id, dtstamp, modified) {
         else {
            $("#ckb_cut").append("<i class='fa fa-square-o fa-lg'></i>"); 
         }
+        if (result[0]['Booklet'] === "1") {
+            $("#ckb_booklet").append("<i class='fa fa-check-square-o fa-lg'></i>");
+        }
+        else {
+           $("#ckb_booklet").append("<i class='fa fa-square-o fa-lg'></i>"); 
+        }
         $('#dup_note').html(result[0]['Note'].replace(/\n/g, "<br>"));
         
         $('#dup_total_print').html(result[0]['TotalPrint']);
         $('#dup_total_cost').html(formatDollar(Number(result[0]['TotalCost']), 2));
+    }
+}
+
+function setCatalog(dtstamp, modified) {
+    var result = new Array();
+    result = db_getCatalogByPrintRequestID(print_request_id);
+    if (result.length === 1) { 
+        var job_status_dup_id = result[0]['JobStatusDupID'];
+        if (job_status_dup_id === "1") {
+            db_updatePrintRequestLocked(print_request_id, true);
+        }
+        
+        $('#admin_job_status').val(job_status_dup_id);
+        $('#job_status').html(db_getJobStatusDupName(result[0]['JobStatusDupID']));
+        if (modified === null) {
+            $('#modified').html(convertDBDateTimeToString(dtstamp));
+        }
+        else {
+            $('#modified').html(convertDBDateTimeToString(modified));
+        }
+        
+        var result2 = new Array();
+        result2 = db_getCatSectionByID(result[0]['CatSectionID']);
+        
+        $('#cat_billing_depart').html(db_getCostCenterName(result[0]['CostCenterID']));
+        $('#cat_fiscal_year').html(result2[0]['FiscalYear']);
+        $('#cat_section_options').html(result2[0]['Options']);
+        $('#cat_section_pages').html(result2[0]['Pages']);
+        $('#cat_section_list').html(result2[0]['SectionName']);
+        $('#cat_section_cost').html(formatDollar(Number(result2[0]['Cost']), 2));
+        $('#cat_quantity').html(result[0]['Quantity']);
+        $('#cat_date_needed').html(result[0]['DateNeeded']);
+        $('#cat_time_needed').html(result[0]['TimeNeeded']);
+        $('#cat_note').html(result[0]['Note'].replace(/\n/g, "<br>"));
+        
+        $('#cat_total_print').html(result[0]['TotalPrint']);
+        $('#cat_total_cost').html(formatDollar(Number(result[0]['TotalCost']), 2));
     }
 }
 
@@ -376,6 +435,11 @@ function updatePrintStatus() {
     
     if ($('#device_type').html() === "Duplicating") {
         db_updateDuplicating(print_request_id, admin_job_status_id);
+        db_updatePrintRequestDelivery(print_request_id, admin_del_loc_id);
+        status_change = db_getJobStatusDupName(admin_job_status_id);
+    }
+    else if ($('#device_type').html() === "Catalog") {
+        db_updateCatalogStatus(print_request_id, admin_job_status_id);
         db_updatePrintRequestDelivery(print_request_id, admin_del_loc_id);
         status_change = db_getJobStatusDupName(admin_job_status_id);
     }

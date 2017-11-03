@@ -24,7 +24,7 @@
         <link rel="stylesheet" href="../include/sweetalert/css/sweetalert.css"/>
         <link rel="stylesheet" href="../include/iconic-1.9.0/font/css/iconic-bootstrap.css"/>
         <!-- application css -->
-        <link rel="stylesheet" href="css/ivcdups.css"/>
+        <link rel="stylesheet" href="css/ivcdups.css?v=2.1.0"/>
         <link rel="stylesheet" href="css/popup-z-Index.css">
     </head>
     <body>
@@ -53,7 +53,6 @@
                                 <li class="iconic-color-default"><a href="rptMyHistory.html">My History</a></li>
                                 <li class="iconic-color-default" style="display: none;" id="nav_completed_list"><a href="rptCompletedList.html">Completed List</a></li>
                                 <li class="iconic-color-default" style="display: none;" id="nav_del_time_exceeded"><a href="rptDeliveryTimeExceeded.html">Delivery Time Exceeded</a></li>
-                                <!--<li class="iconic-color-default" style="display: none;" id="nav_copier_report"><a href="rptBillingReport.html">Old Copier Depart</a></li>-->
                                 <li class="iconic-color-default" style="display: none;" id="nav_new_copier_report"><a href="rptCopierReport.html">Copier Cost Center</a></li>
                                 <li class="iconic-color-default" style="display: none;" id="nav_dashboard"><a href="rptDashboard.html">Dashboard</a></li>
                             </ul>
@@ -63,8 +62,8 @@
                             <ul class="nav nav-second-level">
                                 <li class="iconic-color-default"><a href="administrator.html">Admin List</a></li>
                                 <li class="iconic-color-default"><a href="lockedprlist.html">Locked List</a></li>
+                                <li class="iconic-color-default"><a href="dupCatalog.html">Catalog</a></li>
                                 <li class="iconic-color-default"><a href="copierPrice.html">Copier Price</a></li>
-                                <li class="iconic-color-default"><a href="honorStudent.html">Honor Student</a></li>
                                 <li class="iconic-color-default" style="display: none;" id="nav_user_access"><a href="userAccess.html">User Access</a></li>
                             </ul>
                         </li>
@@ -155,9 +154,6 @@
                                             </div>
                                             <label class="col-md-1 col-md-offset-1 control-label">Pages:</label>
                                             <div class="col-md-1"><input type="text" class="form-control text-center font-bold" readonly id="pdf_pages"></div>
-                                            <div class="col-md-2 pull-right" style="padding-top: 5px;">
-                                                <a href="http://www.adobe.com/products/acrobat/word-to-pdf-converter.html" target="_blank">How to convert word to PDF</a>
-                                            </div>   
                                         </div>  
                                     </form>
                                     <div hidden class="sk-spinner sk-spinner-fading-circle" id="spinner_attachment">
@@ -178,6 +174,71 @@
                             </div>
                         </div>
                     </div>
+                    <!-- catalog section -->
+                    <div hidden class="row" id="catalog_section">
+                        <div class="col-md-12">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-content">
+                                    <br>
+                                    <form class="form-horizontal">
+                                        <div class="form-group" style="font-size: 14px;">
+                                            <div class="col-md-10 col-md-offset-2">
+                                                <p class="text-danger" style="font-style: italic;">
+                                                    <a href="http://catalog.ivc.edu/" target="_blank"><b>IVC Catalog and Student Handbook</b></a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group has-success">
+                                            <label class="col-md-2 control-label">Cost Center:</label> 
+                                            <div class="col-md-4"><select class="form-control m-b" data-container="body" id="cat_billing_depart"></select></div> 
+                                            <label class="col-md-2 control-label">Fiscal Year:</label>
+                                            <div class="col-md-2"><input type="text" class="form-control" readonly id="cat_fiscal_year"></div>
+                                            <div class="col-md-2"><input type="text" class="form-control" readonly id="cat_section_options"></div>
+                                        </div>
+                                        <div class="form-group has-success">
+                                            <label class="col-md-2 control-label">Catalog Section:</label> 
+                                            <div class="col-md-4"><select class="form-control m-b" data-container="body" id="cat_section_list"></select></div>
+                                            <label class="col-md-2 control-label">Pages/Cost:</label>
+                                            <div class="col-md-2"><input type="text" class="form-control" readonly id="cat_section_pages"></div>
+                                            <div class="col-md-2"><input type="text" class="form-control" readonly id="cat_section_cost"></div>
+                                        </div>
+                                        <div class="form-group has-success">
+                                            <label class="col-md-2 control-label">Quantity:</label>
+                                            <div class="col-md-2"><input type="text" class="form-control" id="cat_quantity"></div>
+                                            <label class="col-md-2 col-md-offset-2 control-label">Date/Time Needed:</label>
+                                            <div class="col-md-2">
+                                                <div class="input-group" data-provide="datepicker">
+                                                    <input type="text" class="form-control Z-IndexFront" readonly id="cat_date_needed">
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="input-group bootstrap-timepicker">
+                                                    <input class="form-control input-small" type="text" readonly id="cat_time_needed">
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">Note:</label>
+                                            <div class="col-md-10">
+                                                <textarea class="form-control" style="resize: vertical; height: 55px;" id="cat_note"></textarea>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <div class="panel-body">
+                                        <div class="col-md-2">
+                                            <button class="ladda-button btn btn-success col-md-12 iconic-color-default" data-style="zoom-in" id="btn_cat_submit"><i class="fa fa-arrow-circle-up"></i> Submit</button>
+                                        </div>
+                                        <div class="col-md-2 col-md-offset-8">
+                                            <button class="btn btn-outline btn-info col-md-12 iconic-color-default" id="btn_cat_cancel"><i class="fa fa-times-circle"></i> Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <!-- duplicating section -->
                     <div hidden class="row" id="duplicating_section">
                         <div class="col-md-12">
@@ -187,7 +248,7 @@
                                     <form class="form-horizontal">
                                         <div class="form-group has-success">
                                             <label class="col-md-2 control-label">Cost Center:</label> 
-                                            <div class="col-md-4"><select class="form-control m-b" data-container="body" id="billing_depart"></select></div>
+                                            <div class="col-md-4"><select class="form-control m-b" data-container="body" id="billing_depart"></select></div> 
                                         </div>  
                                         <div class="form-group has-success">
                                             <label class="col-md-2 control-label">Quantity:</label>
@@ -215,11 +276,15 @@
                                         <div class="form-group has-success">
                                             <label class="col-md-2 control-label">Paper Color:</label> 
                                             <div class="col-md-4"><select class="form-control m-b" data-container="body" id="paper_color"></select></div>
-                                            <label class="col-md-2 control-label">Cover Color:</label> 
+                                            <label class="col-md-2 control-label">Cover Sheet:</label> 
                                             <div class="col-md-4"><select class="form-control m-b" data-container="body" id="cover_color"></select></div>
                                         </div>
+                                        <div class="form-group has-success">
+                                            <label class="col-md-2 control-label">Binding:</label> 
+                                            <div class="col-md-4"><select class="form-control m-b" data-container="body" id="binding"></select></div>
+                                        </div>    
                                         <div class="form-group">
-                                            <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_color_copy">&nbsp;&nbsp;&nbsp;Color Copy</label></div></div>
+                                            <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_color_copy">&nbsp;&nbsp;&nbsp;Color Print</label></div></div>
                                             <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_front_cover">&nbsp;&nbsp;&nbsp;Front Cover</label></div></div>
                                             <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_back_cover">&nbsp;&nbsp;&nbsp;Back Cover</label></div></div>
                                             <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_confidential">&nbsp;&nbsp;&nbsp;Confidential</label></div></div>
@@ -228,7 +293,12 @@
                                             <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_three_hole_punch">&nbsp;&nbsp;&nbsp;Three Hole Punch</label></div></div>
                                             <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_staple">&nbsp;&nbsp;&nbsp;Staple</label></div></div>
                                             <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_cut">&nbsp;&nbsp;&nbsp;Cut</label></div></div>
+                                            <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_booklet">&nbsp;&nbsp;&nbsp;Booklet</label></div></div>
                                         </div>
+                                        <div class="form-group" id="page_color_option_section">
+                                            <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_first_pg_color_print">&nbsp;&nbsp;&nbsp;First Page Color Print</label></div></div>
+                                            <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_last_pg_color_print">&nbsp;&nbsp;&nbsp;Last Page Color Print</label></div></div>
+                                        </div>   
                                         <div class="form-group">
                                             <label class="col-md-2 control-label">Note:</label>
                                             <div class="col-md-10">
@@ -338,9 +408,10 @@
         <script src="../include/bootstrap-filestyle/js/bootstrap-filestyle.1.2.1.min.js"></script>
         <script src="../include/sweetalert/js/sweetalert.min.js"></script>
         <!-- application javascript -->
-        <script src="js/newPrintRequest.js"></script>
-        <script src="js/session_data.js"></script>
-        <script src="js/db_access.js"></script>
-        <script src="js/sendEmail.js"></script>
+        <script src="js/newPrintRequest.js?v=2.3.0"></script>
+        <script src="js/copierPriceObject.js?v=1.0.0"></script>
+        <script src="js/session_data.js?v=2.2.0"></script>
+        <script src="js/db_access.js?v=2.2.0"></script>
+        <script src="js/sendEmail.js?v=2.0.0"></script>
     </body>
 </html>

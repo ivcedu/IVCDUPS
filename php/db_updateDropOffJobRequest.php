@@ -19,6 +19,12 @@
     $ThreeHolePunch = filter_input(INPUT_POST, 'ThreeHolePunch');
     $Staple = filter_input(INPUT_POST, 'Staple');
     $Cut = filter_input(INPUT_POST, 'Cut');
+    
+    $BindingID = filter_input(INPUT_POST, 'BindingID');
+    $Booklet = filter_input(INPUT_POST, 'Booklet');
+    $FirstPgColorPrint = filter_input(INPUT_POST, 'FirstPgColorPrint');
+    $LastPgColorPrint = filter_input(INPUT_POST, 'LastPgColorPrint');
+    
     $TotalPrint = filter_input(INPUT_POST, 'TotalPrint');
     $TotalCost = filter_input(INPUT_POST, 'TotalCost');
     $Note = filter_input(INPUT_POST, 'Note');
@@ -41,6 +47,10 @@
                 . "ThreeHolePunch = '".$ThreeHolePunch."', "
                 . "Staple = '".$Staple."', "
                 . "Cut = '".$Cut."', "
+                . "BindingID = '".$BindingID."', "
+                . "Booklet = '".$Booklet."', "
+                . "FirstPgColorPrint = '".$FirstPgColorPrint."', "
+                . "LastPgColorPrint = '".$LastPgColorPrint."', "
                 . "TotalPrint = '".$TotalPrint."', "
                 . "TotalCost = '".$TotalCost."', "
                 . "Note = '".$Note."' "

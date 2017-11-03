@@ -46,7 +46,6 @@
                                 <li class="iconic-color-default"><a href="rptMyHistory.html">My History</a></li>
                                 <li class="iconic-color-default"><a href="rptCompletedList.html">Completed List</a></li>
                                 <li class="iconic-color-default"><a href="rptDeliveryTimeExceeded.html">Delivery Time Exceeded</a></li>
-                                <!--<li class="iconic-color-default"><a href="rptBillingReport.html">Old Copier Depart</a></li>-->
                                 <li class="iconic-color-default"><a href="rptCopierReport.html">Copier Cost Center</a></li>
                                 <li class="iconic-color-default"><a href="rptDashboard.html">Dashboard</a></li>
                             </ul>
@@ -56,8 +55,8 @@
                             <ul class="nav nav-second-level">
                                 <li class="iconic-color-default"><a href="administrator.html">Admin List</a></li>
                                 <li class="iconic-color-default"><a href="lockedprlist.html">Locked List</a></li>
+                                <li class="iconic-color-default"><a href="dupCatalog.html">Catalog</a></li>
                                 <li class="active iconic-color-default"><a href="copierPrice.html">Copier Price</a></li>
-                                <li class="iconic-color-default"><a href="honorStudent.html">Honor Student</a></li>
                                 <li class="iconic-color-default" style="display: none;" id="nav_user_access"><a href="userAccess.html">User Access</a></li>
                             </ul>
                         </li>
@@ -201,6 +200,42 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
+                                            <label class="col-lg-4 control-label">Single Letter 80:</label>
+                                            <div class="col-lg-8">
+                                                <div class="input-group m-b">
+                                                    <span class="input-group-addon">$</span>
+                                                    <input type="text" class="form-control" id="s_letter_80">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-lg-4 control-label">Double Letter 80:</label>
+                                            <div class="col-lg-8">
+                                                <div class="input-group m-b">
+                                                    <span class="input-group-addon">$</span>
+                                                    <input type="text" class="form-control" id="d_letter_80">
+                                                </div>    
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-lg-4 control-label">Single Letter Color 80:</label>
+                                            <div class="col-lg-8">
+                                                <div class="input-group m-b">
+                                                    <span class="input-group-addon">$</span>
+                                                    <input type="text" class="form-control" id="s_letter_color_80">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-lg-4 control-label">Double Letter Color 80:</label>
+                                            <div class="col-lg-8">
+                                                <div class="input-group m-b">
+                                                    <span class="input-group-addon">$</span>
+                                                    <input type="text" class="form-control" id="d_letter_color_80">
+                                                </div>    
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
                                             <label class="col-lg-4 control-label">Front Cover:</label>
                                             <div class="col-lg-8">
                                                 <div class="input-group m-b">
@@ -245,6 +280,33 @@
                                                 </div>   
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <label class="col-lg-4 control-label">Coil Binding:</label>
+                                            <div class="col-lg-8">
+                                                <div class="input-group m-b">
+                                                    <span class="input-group-addon">$</span>
+                                                    <input type="text" class="form-control" id="coil_binding">
+                                                </div>   
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-lg-4 control-label">Comb Binding:</label>
+                                            <div class="col-lg-8">
+                                                <div class="input-group m-b">
+                                                    <span class="input-group-addon">$</span>
+                                                    <input type="text" class="form-control" id="comb_binding">
+                                                </div>   
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-lg-4 control-label">Booklet:</label>
+                                            <div class="col-lg-8">
+                                                <div class="input-group m-b">
+                                                    <span class="input-group-addon">$</span>
+                                                    <input type="text" class="form-control" id="booklet">
+                                                </div>   
+                                            </div>
+                                        </div>
                                         <div class="hr-line-dashed"></div>
                                         <div class="form-group">
                                             <div class="col-sm-4 col-sm-offset-4">
@@ -282,7 +344,8 @@
         <script src="../include/bootstrap-filestyle/js/bootstrap-filestyle.1.1.2.min.js"></script>
         <script src="../include/sweetalert/js/sweetalert.min.js"></script>
         <!-- application javascript -->
-        <script src="js/copierPrice.js"></script>
+        <script src="js/copierPrice.js?v=2.3.0"></script>
+        <script src="js/copierPriceObject.js?v=1.0.0"></script>
         <script src="js/session_data.js"></script>
         <script src="js/db_access.js"></script>
         <script src="js/sendEmail.js"></script>

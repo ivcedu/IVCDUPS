@@ -172,6 +172,14 @@ $(document).ready(function() {
             window.open('viewPrintRequest.html?print_request_id=' + print_request_id, '_self');
             return false;
         }
+        else if (result[0]['DeviceTypeID'] === "4") {
+            var dup_cost_center_id = db_getCatalogCostCenterID(print_request_id);
+            var dup_division_id = db_getDivisionIDByCostCenterID(dup_cost_center_id);
+            sessionStorage.setItem('ss_dc_cp_division_id', dup_division_id);
+            sessionStorage.setItem('ss_dc_cp_cost_center_id', dup_cost_center_id);
+            window.open('viewPrintRequest.html?print_request_id=' + print_request_id, '_self');
+            return false;
+        }
         else {
             var drp_cost_center_id = db_getDropOffJobCostCenterID(print_request_id);
             var drp_division_id = db_getDivisionIDByCostCenterID(drp_cost_center_id);

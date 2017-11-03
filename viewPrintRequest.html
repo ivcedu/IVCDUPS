@@ -23,7 +23,7 @@
         <link rel="stylesheet" href="../include/sweetalert/css/sweetalert.css"/>
         <link rel="stylesheet" href="../include/iconic-1.9.0/font/css/iconic-bootstrap.css"/>
         <!-- application css -->
-        <link rel="stylesheet" href="css/ivcdups.css"/>
+        <link rel="stylesheet" href="css/ivcdups.css?v=2.1.0"/>
     </head>
     <body>
         <div id="wrapper">
@@ -210,11 +210,15 @@
                                     <div class="panel-body">
                                         <div class="col-sm-2">Paper Color:</div> 
                                         <div class="col-sm-4" id="paper_color"></div>
-                                        <div class="col-sm-2">Cover Color:</div> 
+                                        <div class="col-sm-2">Cover Sheet:</div> 
                                         <div class="col-sm-4" id="cover_color"></div>
                                     </div>
                                     <div class="panel-body">
-                                        <div class="col-sm-3"><span id="ckb_color_copy"></span>&nbsp;&nbsp;&nbsp;Color Copy</div>
+                                        <div class="col-sm-2">Binding:</div> 
+                                        <div class="col-sm-4" id="binding"></div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="col-sm-3"><span id="ckb_color_copy"></span>&nbsp;&nbsp;&nbsp;Color Print</div>
                                         <div class="col-sm-3"><span id="ckb_front_cover"></span>&nbsp;&nbsp;&nbsp;Front Cover</div>
                                         <div class="col-sm-3"><span id="ckb_back_cover"></span>&nbsp;&nbsp;&nbsp;Back Cover</div>
                                         <div class="col-sm-3"><span id="ckb_confidential"></span>&nbsp;&nbsp;&nbsp;Confidential</div>
@@ -223,6 +227,11 @@
                                         <div class="col-sm-3"><span id="ckb_three_hole_punch"></span>&nbsp;&nbsp;&nbsp;Three Hole Punch</div>
                                         <div class="col-sm-3"><span id="ckb_staple"></span>&nbsp;&nbsp;&nbsp;Staple</div>
                                         <div class="col-sm-3"><span id="ckb_cut"></span>&nbsp;&nbsp;&nbsp;Cut</div>
+                                        <div class="col-sm-3"><span id="ckb_booklet"></span>&nbsp;&nbsp;&nbsp;Booklet</div>
+                                    </div>
+                                    <div class="panel-body" id="page_color_option_section">
+                                        <div class="col-sm-3"><span id="ckb_first_pg_color_print"></span>&nbsp;&nbsp;&nbsp;First Page Color Print</div>
+                                        <div class="col-sm-3"><span id="ckb_last_pg_color_print"></span>&nbsp;&nbsp;&nbsp;Last Page Color Print</div>
                                     </div>
                                     <div class="panel-body">
                                         <div class="col-sm-2">Note:</div> 
@@ -323,8 +332,8 @@
         <script src="../include/bootstrap-filestyle/js/bootstrap-filestyle.1.2.1.min.js"></script>
         <script src="../include/sweetalert/js/sweetalert.min.js"></script>
         <!-- application javascript -->
-        <script src="js/viewPrintRequest.js"></script>
-        <script src="js/session_data.js"></script>
-        <script src="js/db_access.js"></script>
+        <script src="js/viewPrintRequest.js?v=2.3.0"></script>
+        <script src="js/session_data.js?v=2.2.0"></script>
+        <script src="js/db_access.js?v=2.2.0"></script>
     </body>
 </html>

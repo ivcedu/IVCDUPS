@@ -11,27 +11,26 @@
                         . "prrq.Requestor, "
                         . "dvtp.DeviceType, "
                         . "CASE WHEN prrq.DeviceTypeID = 1 THEN jstp.JobStatusPlot "
-                        . "WHEN prrq.DeviceTypeID = 2 THEN jstd.JobStatusDup "
-                        . "ELSE drjd.JobStatusDup END AS JobStatus, "
+                        . "ELSE jstd.JobStatusDup END AS JobStatus, "
                         . "CASE WHEN prrq.DeviceTypeID = 1 THEN '' "
                         . "WHEN prrq.DeviceTypeID = 2 THEN dupl.DateNeeded "
+                        . "WHEN prrq.DeviceTypeID = 4 THEN catg.DateNeeded "
                         . "ELSE dojb.DateNeeded END AS DueDate, "
                         . "CASE WHEN prrq.DeviceTypeID = 1 THEN pltt.TotalCost "
                         . "WHEN prrq.DeviceTypeID = 2 THEN dupl.TotalCost "
+                        . "WHEN prrq.DeviceTypeID = 4 THEN catg.TotalCost "
                         . "ELSE dojb.TotalCost END AS TotalCost "
                         . "FROM [".$dbDatabase."].[dbo].[PrintRequest] AS prrq LEFT JOIN [".$dbDatabase."].[dbo].[DeviceType] AS dvtp ON prrq.DeviceTypeID = dvtp.DeviceTypeID "
                         . "LEFT JOIN [".$dbDatabase."].[dbo].[Plotter] AS pltt ON prrq.PrintRequestID = pltt.PrintRequestID "
                         . "LEFT JOIN [".$dbDatabase."].[dbo].[JobStatusPlot] AS jstp ON pltt.JobStatusPlotID = jstp.JobStatusPlotID "
                         . "LEFT JOIN [".$dbDatabase."].[dbo].[Duplicating] AS dupl ON prrq.PrintRequestID = dupl.PrintRequestID "
-                        . "LEFT JOIN [".$dbDatabase."].[dbo].[JobStatusDup] AS jstd ON dupl.JobStatusDupID = jstd.JobStatusDupID "
                         . "LEFT JOIN [".$dbDatabase."].[dbo].[DropOffJob] AS dojb ON prrq.PrintRequestID = dojb.PrintRequestID "
-                        . "LEFT JOIN [".$dbDatabase."].[dbo].[JobStatusDup] AS drjd ON dojb.JobStatusDupID = drjd.JobStatusDupID "
+                        . "LEFT JOIN [".$dbDatabase."].[dbo].[Catalog] AS catg ON prrq.PrintRequestID = catg.PrintRequestID "
+                        . "LEFT JOIN [".$dbDatabase."].[dbo].[JobStatusDup] AS jstd ON jstd.JobStatusDupID = dupl.JobStatusDupID OR jstd.JobStatusDupID = dojb.JobStatusDupID OR jstd.JobStatusDupID = catg.JobStatusDupID "
                         . "WHERE (jstp.JobStatusPlotID <> '8' AND jstp.JobStatusPlotID <> '9') "
-                        . "OR (jstd.JobStatusDupID <> '5' AND jstd.JobStatusDupID <> '6') "
-                        . "OR (drjd.JobStatusDupID <> '5' AND drjd.JobStatusDupID <> '6')";
+                        . "OR (jstd.JobStatusDupID <> '5' AND jstd.JobStatusDupID <> '6')";
     
     $query_get_result = "SELECT	Created, RequestTitle, Requestor, DeviceType, JobStatus, DueDate "
-//                        . "'$' + convert(varchar, SUM(TotalCost), 1) AS TotalCost "
                         . "FROM	#RESULT "
                         . "GROUP BY Created, RequestTitle, Requestor, DeviceType, JobStatus, DueDate";
 

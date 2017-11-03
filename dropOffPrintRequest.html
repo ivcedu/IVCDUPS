@@ -24,7 +24,7 @@
         <link rel="stylesheet" href="../include/sweetalert/css/sweetalert.css"/>
         <link rel="stylesheet" href="../include/iconic-1.9.0/font/css/iconic-bootstrap.css"/>
         <!-- application css -->
-        <link rel="stylesheet" href="css/ivcdups.css"/>
+        <link rel="stylesheet" href="css/ivcdups.css?v=2.1.0"/>
         <link rel="stylesheet" href="css/popup-z-Index.css">
     </head>
     <body class="canvas-menu">
@@ -124,25 +124,29 @@
                                         <br>
                                         <div class="form-group has-success">
                                             <div class="col-md-2"><h2 class="pull-right font-bold">JOB # 1</h2></div>
-                                            <label class="col-md-2 col-md-offset-4 control-label">Quantity:</label>
+                                        </div>
+                                        <div class="form-group has-success">
+                                            <label class="col-md-2 control-label">Paper Size:</label> 
+                                            <div class="col-md-4"><select class="form-control m-b" data-container="body" id="paper_size_job_1"></select></div>
+                                            <label class="col-md-2 control-label">Quantity:</label>
                                             <div class="col-md-1"><input type="text" class="form-control" id="quantity_job_1"></div>
                                             <label class="col-md-2 control-label">Pages:</label>
                                             <div class="col-md-1"><input type="text" class="form-control" id="pdf_pages_job_1"></div>
                                         </div>
                                         <div class="form-group has-success">
-                                            <label class="col-md-2 control-label">Paper Size:</label> 
-                                            <div class="col-md-4"><select class="form-control m-b" data-container="body" id="paper_size_job_1"></select></div>
+                                            <label class="col-md-2 control-label">Paper Color:</label> 
+                                            <div class="col-md-4"><select class="form-control m-b" data-container="body" id="paper_color_job_1"></select></div>
                                             <label class="col-md-2 control-label">Duplex:</label> 
                                             <div class="col-md-4"><select class="form-control m-b" data-container="body" id="duplex_job_1"></select></div>
                                         </div>
                                         <div class="form-group has-success">
-                                            <label class="col-md-2 control-label">Paper Color:</label> 
-                                            <div class="col-md-4"><select class="form-control m-b" data-container="body" id="paper_color_job_1"></select></div>
-                                            <label class="col-md-2 control-label">Cover Color:</label> 
+                                            <label class="col-md-2 control-label">Binding:</label> 
+                                            <div class="col-md-4"><select class="form-control m-b" data-container="body" id="binding_job_1"></select></div>
+                                            <label class="col-md-2 control-label">Cover Sheet:</label> 
                                             <div class="col-md-4"><select class="form-control m-b" data-container="body" id="cover_color_job_1"></select></div>
-                                        </div>
+                                        </div>    
                                         <div class="form-group">
-                                            <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_color_copy_job_1">&nbsp;&nbsp;&nbsp;Color Copy</label></div></div>
+                                            <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_color_copy_job_1">&nbsp;&nbsp;&nbsp;Color Print</label></div></div>
                                             <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_front_cover_job_1">&nbsp;&nbsp;&nbsp;Front Cover</label></div></div>
                                             <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_back_cover_job_1">&nbsp;&nbsp;&nbsp;Back Cover</label></div></div>
                                             <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_confidential_job_1">&nbsp;&nbsp;&nbsp;Confidential</label></div></div>
@@ -151,7 +155,12 @@
                                             <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_three_hole_punch_job_1">&nbsp;&nbsp;&nbsp;Three Hole Punch</label></div></div>
                                             <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_staple_job_1">&nbsp;&nbsp;&nbsp;Staple</label></div></div>
                                             <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_cut_job_1">&nbsp;&nbsp;&nbsp;Cut</label></div></div>
+                                            <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_booklet_job_1">&nbsp;&nbsp;&nbsp;Booklet</label></div></div>
                                         </div>
+                                        <div class="form-group" id="page_color_option_section_job_1">
+                                            <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_first_pg_color_print_job_1">&nbsp;&nbsp;&nbsp;First Page Color Print</label></div></div>
+                                            <div class="col-md-3"><div class="i-checks"><label><input type="checkbox" id="ckb_last_pg_color_print_job_1">&nbsp;&nbsp;&nbsp;Last Page Color Print</label></div></div>
+                                        </div> 
                                         <div class="form-group">
                                             <label class="col-md-2 control-label">Note:</label>
                                             <div class="col-md-10">
@@ -200,9 +209,10 @@
         <script src="../include/bootstrap-filestyle/js/bootstrap-filestyle.1.2.1.min.js"></script>
         <script src="../include/sweetalert/js/sweetalert.min.js"></script>
         <!-- application javascript -->
-        <script src="js/dropOffPrintRequest.js"></script>
-        <script src="js/session_data.js"></script>
-        <script src="js/db_access.js"></script>
-        <script src="js/sendEmail.js"></script>
+        <script src="js/dropOffPrintRequest.js?v=2.3.0"></script>
+        <script src="js/copierPriceObject.js?v=1.0.0"></script>
+        <script src="js/session_data.js?v=2.2.0"></script>
+        <script src="js/db_access.js?v=2.2.0"></script>
+        <script src="js/sendEmail.js?v=2.0.0"></script>
     </body>
 </html>

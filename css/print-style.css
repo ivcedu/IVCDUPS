@@ -1,4 +1,4 @@
-@media print {      
+@media print {
     a[href]:after { content: none !important; }
 /*    .hidden-print, header, .group-media, .btn, .footer, .nav, ul.links.list-inline, ul.action-links { display:none !important; }*/
     
@@ -29,7 +29,7 @@
     
     body {
 	margin: 0;
-	padding 0 !important;
+	padding: 0 !important;
 	min-width: 768px;
         font-size: 11px;
     }

@@ -1,39 +1,22 @@
-// duplicating copier price
-var m_s_letter = 0.00;
-var m_d_letter = 0.00;
-var m_s_letter_color = 0.00;
-var m_d_letter_color = 0.00;
-var m_s_legal = 0.00;
-var m_d_legal = 0.00;
-var m_s_legal_color = 0.00;
-var m_d_legal_color = 0.00;
-var m_s_tabloid = 0.00;
-var m_d_tabloid = 0.00;
-var m_s_tabloid_color = 0.00;
-var m_d_tabloid_color = 0.00;
-var m_front_cover = 0.00;
-var m_front_cover_color = 0.00;
-var m_back_cover = 0.00;
-var m_back_cover_color = 0.00;
-var m_cut = 0.00;
-
 var job_index = 1;
 
 var str_paper_size_option = "";
 var str_duplex_option = "";
 var str_paper_color_option = "";
 var str_cover_color_option = "";
+var str_binding_option = "";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 window.onload = function() {   
     if (sessionStorage.key(0) !== null) {
-        getDuplicatingCopierPrice();
+        cp_Object.getCopierPriceList();
         getUserCostCenterList();
         
         getPaperSize();
         getDuplex();
         getPaperColor();
         getCoverColor();
+        getBindingList();
 
         getUserInformation();
         setJobOption();
@@ -108,8 +91,22 @@ $(document).ready(function() {
         calculateDropOffTotalCost(index_id, total_page);
     });
     
+    $(document).on('change', '[id^="binding_job_"]', function() {
+        var index_id = $(this).attr('id').replace("binding_job_", "");
+        var total_page = Number($('#pdf_pages_job_' + index_id).val()) * Number($('#quantity_job_' + index_id).val());
+        calculateDropOffTotalCost(index_id, total_page);
+    });
+    
     $(document).on('ifChanged', '[id^="ckb_color_copy_job_"]', function() {
         var index_id = $(this).attr('id').replace("ckb_color_copy_job_", "");
+        if ($('#ckb_color_copy_job_' + index_id).is(':checked')) {
+            $('#ckb_first_pg_color_print_job_' + index_id).iCheck('uncheck');
+            $('#ckb_last_pg_color_print_job_' + index_id).iCheck('uncheck');
+            $('#page_color_option_section_job_' + index_id).hide();
+        }
+        else {
+            $('#page_color_option_section_job_' + index_id).show();
+        }
         var total_page = Number($('#pdf_pages_job_' + index_id).val()) * Number($('#quantity_job_' + index_id).val());
         calculateDropOffTotalCost(index_id, total_page);
     });
@@ -146,6 +143,24 @@ $(document).ready(function() {
     
     $(document).on('ifChanged', '[id^="ckb_cut_job_"]', function() {
         var index_id = $(this).attr('id').replace("ckb_cut_job_", "");
+        var total_page = Number($('#pdf_pages_job_' + index_id).val()) * Number($('#quantity_job_' + index_id).val());
+        calculateDropOffTotalCost(index_id, total_page);
+    });
+    
+    $(document).on('ifChanged', '[id^="ckb_booklet_job_"]', function() {
+        var index_id = $(this).attr('id').replace("ckb_booklet_job_", "");
+        var total_page = Number($('#pdf_pages_job_' + index_id).val()) * Number($('#quantity_job_' + index_id).val());
+        calculateDropOffTotalCost(index_id, total_page);
+    });
+    
+    $(document).on('ifChanged', '[id^="ckb_first_pg_color_print_job_"]', function() {
+        var index_id = $(this).attr('id').replace("ckb_first_pg_color_print_job_", "");
+        var total_page = Number($('#pdf_pages_job_' + index_id).val()) * Number($('#quantity_job_' + index_id).val());
+        calculateDropOffTotalCost(index_id, total_page);
+    });
+    
+    $(document).on('ifChanged', '[id^="ckb_last_pg_color_print_job_"]', function() {
+        var index_id = $(this).attr('id').replace("ckb_last_pg_color_print_job_", "");
         var total_page = Number($('#pdf_pages_job_' + index_id).val()) * Number($('#quantity_job_' + index_id).val());
         calculateDropOffTotalCost(index_id, total_page);
     });
@@ -276,29 +291,16 @@ function getCoverColor() {
     str_cover_color_option = html;
 }
 
-function getDuplicatingCopierPrice() {
-    var result = new Array(); 
-    result = db_getCopierPrice();
+function getBindingList() {
+    var result = new Array();
+    result = db_getBindingList();
     
-    if (result.length === 1) {
-        m_s_letter = Number(result[0]['s_letter']);
-        m_d_letter = Number(result[0]['d_letter']);
-        m_s_letter_color = Number(result[0]['s_letter_color']);
-        m_d_letter_color = Number(result[0]['d_letter_color']);
-        m_s_legal = Number(result[0]['s_legal']);
-        m_d_legal = Number(result[0]['d_legal']);
-        m_s_legal_color = Number(result[0]['s_legal_color']);
-        m_d_legal_color = Number(result[0]['d_legal_color']);
-        m_s_tabloid = Number(result[0]['s_tabloid']);
-        m_d_tabloid = Number(result[0]['d_tabloid']);
-        m_s_tabloid_color = Number(result[0]['s_tabloid_color']);
-        m_d_tabloid_color = Number(result[0]['d_tabloid_color']);
-        m_front_cover = Number(result[0]['front_cover']);
-        m_front_cover_color = Number(result[0]['front_cover_color']);
-        m_back_cover = Number(result[0]['back_cover']);
-        m_back_cover_color = Number(result[0]['back_cover_color']);
-        m_cut = Number(result[0]['cut']);
+    var html = "<option value='0'>None</option>";
+    for (var i = 0; i < result.length; i++) {
+        html += "<option value='" + result[i]['BindingID'] + "'>" + result[i]['Binding'] + "</option>";
     }
+    
+    str_binding_option = html;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -330,6 +332,7 @@ function setJobOption() {
     $('#duplex_job_' + job_index).append(str_duplex_option);
     $('#paper_color_job_' + job_index).append(str_paper_color_option);
     $('#cover_color_job_' + job_index).append(str_cover_color_option);
+    $('#binding_job_' + job_index).append(str_binding_option);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -346,156 +349,64 @@ function duplexSettingForPages(index_id, pdf_pages) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function calculateDropOffTotalCost(index_id, total_page) {
     var cost_info = "";
-    var paper_cost = 0.0;
     var quantity = Number($('#quantity_job_' + index_id).val());
     var pages = Number($('#pdf_pages_job_' + index_id).val());
     var paper_color = $('#paper_color_job_' + index_id + ' option:selected').text();
+    var color_copy = ($('#ckb_color_copy_job_' + index_id).is(':checked') ? true : false);
     
     cost_info += "Original Page: " + pages + "<br/>";
     cost_info += "Quantity: " + quantity + "<br/>";
     cost_info += "Paper Color: " + paper_color + "<br/>";
     
-    paper_cost = getDropOffPrintPaperPrice(index_id);
-    cost_info += getDropOffPrintPaperSizeHTML(index_id);
+    var paper_cost = getDropOffPrintPaperPrice(index_id, color_copy);
+    cost_info += getDropOffPrintPaperSizeHTML(index_id, color_copy);
     
-    var front_cover = dropOfffrontCoverCost(index_id);
+    var total_cost = paper_cost * total_page;
+    total_cost += dropOffBindingCost(index_id) + dropOfffrontCoverCost(index_id) + dropOffbackCoverCost(index_id) + dropOffcutCost(index_id) + dropOffBookletCost(index_id);
+    
+    if (!color_copy) {
+        total_cost += dropOffFirstPgColorPrintCost(index_id, quantity);
+        total_cost += dropOffLastPgColorPrintCost(index_id, quantity);
+        cost_info += dropOffFirstPgColorPrintHTML(index_id, quantity);
+        cost_info += dropOffLastPgColorPrintHTML(index_id, quantity);
+    }
+    
+    cost_info += dropOffBindingHTML(index_id);
     cost_info += dropOfffrontCoverHTML(index_id);
-    
-    var back_cover = dropOffbackCoverCost(index_id);
     cost_info += dropOffbackCoverHTML(index_id);
-    
     cost_info += dropOffconfidential(index_id);
     cost_info += dropOffthreeHolePunch(index_id);
     cost_info += dropOffstaple(index_id);
     cost_info += dropOffcutHTML(index_id);
-    
-    var total_cost = paper_cost * total_page;
-    total_cost += front_cover + back_cover + dropOffcutCost(index_id);
+    cost_info += dropOffBookletHTML(index_id);
     
     cost_info += "<b>Print Cost: " + formatDollar(paper_cost, 3) + "</b><br>";
-    
     $('#cost_info_job_' + index_id).html(cost_info.trim());
     $('#total_print_job_' + index_id).html(total_page);
     $('#total_cost_job_' + index_id).html(formatDollar(total_cost, 2));
 }
 
-function getDropOffPrintPaperPrice(index_id) {
-    var cost = 0.0;
+function getDropOffPrintPaperPrice(index_id, color_copy) {
     var paper_size_id = $('#paper_size_job_' + index_id).val();
     var duplex_id = $('#duplex_job_' + index_id).val();
-    var color_copy = ($('#ckb_color_copy_job_' + index_id).is(':checked') ? true : false);
-    
-    switch(paper_size_id) {
-        case "1":
-            if (color_copy) {
-                if (duplex_id === "1") {
-                    cost = m_s_letter_color;
-                }
-                else {
-                    cost = m_d_letter_color;
-                }
-            }
-            else {
-                if (duplex_id === "1") {
-                    cost = m_s_letter;
-                }
-                else {
-                    cost = m_d_letter;
-                }
-            }
-            break;
-        case "2":
-            if (color_copy) {
-                if (duplex_id === "1") {
-                    cost = m_s_legal_color;
-                }
-                else {
-                    cost = m_d_legal_color;
-                }
-            }
-            else {
-                if (duplex_id === "1") {
-                    cost = m_s_legal;
-                }
-                else {
-                    cost = m_d_legal;
-                }
-            }
-            break;
-        case "3":
-            if (color_copy) {
-                if (duplex_id === "1") {
-                    cost = m_s_tabloid_color;
-                }
-                else {
-                    cost = m_d_tabloid_color;
-                }
-            }
-            else {
-                if (duplex_id === "1") {
-                    cost = m_s_tabloid;
-                }
-                else {
-                    cost = m_d_tabloid;
-                }
-            }
-            break;
-        default:
-            break;
-    }
-    
-    return cost;
+
+    return cp_Object.getPrintPaperPrice(paper_size_id, duplex_id, color_copy);
 }
 
-function getDropOffPrintPaperSizeHTML(index_id) {
+function getDropOffPrintPaperSizeHTML(index_id, color_copy) {
     var paper_size_id = $('#paper_size_job_' + index_id).val();
-    var color_copy = ($('#ckb_color_copy_job_' + index_id).is(':checked') ? true : false);
-    
-    switch(paper_size_id) {
-        case "1":
-            if (color_copy) {
-                return "Paper Size: Letter 8.5 X 11 Color Copy<br/>";
-            }
-            else {
-                return "Paper Size: Letter 8.5 X 11<br/>";
-            }
-            break;
-        case "2":
-            if (color_copy) {
-                return "Paper Size: Legal 8.5 X 14 Color Copy<br/>";
-            }
-            else {
-                return "Paper Size: Legal 8.5 X 14<br/>";
-            }
-            break;
-        case "3":
-            if (color_copy) {
-                return "Paper Size: Tabloid 11 X 17 Color Copy<br/>";
-            }
-            else {
-                return "Paper Size: Tabloid 11 X 17<br/>";
-            }
-            break;
-        default:
-            return "";
-            break;
-    }
+    return cp_Object.getPrintPaperPriceText(paper_size_id, color_copy);
 }
 
 function dropOfffrontCoverCost(index_id) {
     var color_cover_id = $('#cover_color_job_' + index_id).val();
-    var cover_color = $('#cover_color_job_' + index_id + ' option:selected').text();
     var front_cover = ($('#ckb_front_cover_job_' + index_id).is(':checked') ? true : false);
+    
     if (front_cover) {
-        if (color_cover_id === "1") {
-            return m_front_cover;
-        }
-        else {
-            return m_front_cover_color;
-        }
-    }
+        return cp_Object.getFrontCoverPrice(color_cover_id);
+    } 
     else {
-        return 0.0;
+        return 0.00;
     }
 }
 
@@ -503,14 +414,10 @@ function dropOfffrontCoverHTML(index_id) {
     var color_cover_id = $('#cover_color_job_' + index_id).val();
     var cover_color = $('#cover_color_job_' + index_id + ' option:selected').text();
     var front_cover = ($('#ckb_front_cover_job_' + index_id).is(':checked') ? true : false);
+    
     if (front_cover) {
-        if (color_cover_id === "1") {
-            return "Front Cover White : " + formatDollar(m_front_cover, 2) + "<br/>";
-        }
-        else {
-            return "Front Cover " + cover_color + " : " + formatDollar(m_front_cover_color, 2) + "<br/>";
-        }
-    }
+        return cp_Object.getFrontCoverPriceText(color_cover_id, cover_color);
+    } 
     else {
         return "";
     }
@@ -518,18 +425,13 @@ function dropOfffrontCoverHTML(index_id) {
 
 function dropOffbackCoverCost(index_id) {
     var color_cover_id = $('#cover_color_job_' + index_id).val();
-    var cover_color = $('#cover_color_job_' + index_id + ' option:selected').text();
     var back_cover = ($('#ckb_back_cover_job_' + index_id).is(':checked') ? true : false);
+    
     if (back_cover) {
-        if (color_cover_id === "1") {
-            return m_back_cover;
-        }
-        else {
-            return m_back_cover_color;
-        }
+        return cp_Object.getBackCoverPrice(color_cover_id);
     }
     else {
-        return 0.0;
+        return 0.00;
     }
 }
 
@@ -537,13 +439,9 @@ function dropOffbackCoverHTML(index_id) {
     var color_cover_id = $('#cover_color_job_' + index_id).val();
     var cover_color = $('#cover_color_job_' + index_id + ' option:selected').text();
     var back_cover = ($('#ckb_back_cover_job_' + index_id).is(':checked') ? true : false);
+    
     if (back_cover) {
-        if (color_cover_id === "1") {
-            return "Back Cover White : " + formatDollar(m_back_cover, 2) + "<br/>";
-        }
-        else {
-            return "Back Cover " + cover_color + " : " + formatDollar(m_back_cover_color, 2) + "<br/>";
-        }
+        return cp_Object.getBackCoverPriceText(color_cover_id, cover_color);
     }
     else {
         return "";
@@ -583,17 +481,107 @@ function dropOffstaple(index_id) {
 function dropOffcutCost(index_id) {
     var cut = ($('#ckb_cut_job_' + index_id).is(':checked') ? true : false);
     if (cut) {
-        return m_cut;
+        return cp_Object.getCut();
     }
     else {
-        return 0.0;
+        return 0.00;
     }
 }
 
 function dropOffcutHTML(index_id) {
     var cut = ($('#ckb_cut_job_' + index_id).is(':checked') ? true : false);
     if (cut) {
-        return "Cut : " + formatDollar(m_cut, 2) + "<br/>";
+        return "Cut : " + formatDollar(cp_Object.getCut(), 2) + "<br/>";
+    }
+    else {
+        return "";
+    }
+}
+
+function dropOffBindingCost(index_id) {
+    var binding_id = $('#binding_job_' + index_id).val();
+    return cp_Object.getBindingPrice(binding_id);
+}
+
+function dropOffBindingHTML(index_id) {
+    var binding_id = $('#binding_job_' + index_id).val();
+    return cp_Object.getBindingPriceText(binding_id);
+}
+
+function dropOffBookletCost(index_id) {
+    var booklet = ($('#ckb_booklet_job_' + index_id).is(':checked') ? true : false);
+    if (booklet) {
+        return cp_Object.getBooklet();
+    }
+    else {
+        return 0.00;
+    }
+}
+
+function dropOffBookletHTML(index_id) {
+    var booklet = ($('#ckb_booklet_job_' + index_id).is(':checked') ? true : false);
+    if (booklet) {
+        return "Booklet : " + formatDollar(cp_Object.getBooklet(), 2) + "<br/>";
+    }
+    else {
+        return "";
+    }
+}
+
+function dropOffFirstPgColorPrintCost(index_id, qty) {
+    var first_pg_color_print = ($('#ckb_first_pg_color_print_job_' + index_id).is(':checked') ? true : false);
+    if (first_pg_color_print) {
+        var paper_size_id = $('#paper_size_job_' + index_id).val();
+        var duplex_id = $('#duplex_job_' + index_id).val();
+        
+        var first_bw_price = cp_Object.getPrintPaperPrice(paper_size_id, duplex_id, false) * qty;
+        var first_color_price = cp_Object.getPrintPaperPrice(paper_size_id, duplex_id, true) * qty;
+        return first_color_price - first_bw_price;
+    }
+    else {
+        return 0.00;
+    }
+}
+
+function dropOffFirstPgColorPrintHTML(index_id, qty) {
+    var first_pg_color_print = ($('#ckb_first_pg_color_print_job_' + index_id).is(':checked') ? true : false);
+    if (first_pg_color_print) {
+        var paper_size_id = $('#paper_size_job_' + index_id).val();
+        var duplex_id = $('#duplex_job_' + index_id).val();
+        
+        var first_bw_price = cp_Object.getPrintPaperPrice(paper_size_id, duplex_id, false) * qty;
+        var first_color_price = cp_Object.getPrintPaperPrice(paper_size_id, duplex_id, true) * qty;
+        return "First Page Color Print: " + formatDollar(first_color_price - first_bw_price, 2) + "<br/>";
+    }
+    else {
+        return "";
+    }
+}
+
+function dropOffLastPgColorPrintCost(index_id, qty) {
+    var last_pg_color_print = ($('#ckb_last_pg_color_print_job_' + index_id).is(':checked') ? true : false);
+    if (last_pg_color_print) {
+        var paper_size_id = $('#paper_size_job_' + index_id).val();
+        var duplex_id = $('#duplex_job_' + index_id).val();
+   
+        var last_bw_price = cp_Object.getPrintPaperPrice(paper_size_id, duplex_id, false) * qty;
+        var last_color_price = cp_Object.getPrintPaperPrice(paper_size_id, duplex_id, true) * qty;
+        return last_color_price - last_bw_price;
+    }
+    else {
+        return 0.00;
+    }
+}
+
+function dropOffLastPgColorPrintHTML(index_id, qty) {
+    var last_pg_color_print = ($('#ckb_last_pg_color_print_job_' + index_id).is(':checked') ? true : false);
+    if (last_pg_color_print) {
+        var paper_size_id = $('#paper_size_job_' + index_id).val();
+        var duplex_id = $('#duplex_job_' + index_id).val();
+   
+        var last_bw_price = cp_Object.getPrintPaperPrice(paper_size_id, duplex_id, false) * qty;
+        var last_color_price = cp_Object.getPrintPaperPrice(paper_size_id, duplex_id, true) * qty;
+        return "Last Page Color Print: " + formatDollar(last_color_price - last_bw_price, 2) + "<br/>";
     }
     else {
         return "";
@@ -673,13 +661,16 @@ function addEachDropOffJob(print_request_id, job_row) {
     var three_hole_punch = ($('#ckb_three_hole_punch_job_' + job_row).is(':checked') ? true : false);
     var staple = ($('#ckb_staple_job_' + job_row).is(':checked') ? true : false);
     var cut = ($('#ckb_cut_job_' + job_row).is(':checked') ? true : false);
-    
+    var binding_id = $('#binding_job_' + job_row).val();
+    var booklet = ($('#ckb_booklet_job_' + job_row).is(':checked') ? true : false);
+    var first_pg_color_print = ($('#ckb_first_pg_color_print_job_' + job_row).is(':checked') ? true : false);
+    var last_pg_color_print = ($('#ckb_last_pg_color_print_job_' + job_row).is(':checked') ? true : false);
     var total_print = $('#total_print_job_' + job_row).html();
     var total_cost = revertDollar($('#total_cost_job_' + job_row).html());
     var note = textReplaceApostrophe($('#note_job_' + + job_row).val());
     
-    return db_insertDropOffJob(print_request_id, "1", cost_center_id, job_name, pages, quantity, date_needed, time_needed, paper_size_id, duplex_id, paper_color_id, cover_color_id,
-                                color_copy, front_cover, back_cover, confidential, three_hole_punch, staple, cut, total_print, total_cost, note);
+    return db_insertDropOffJob(print_request_id, "1", cost_center_id, job_name, pages, quantity, date_needed, time_needed, paper_size_id, duplex_id, paper_color_id, cover_color_id, color_copy, front_cover, back_cover,
+                                confidential, three_hole_punch, staple, cut, binding_id, booklet, first_pg_color_print, last_pg_color_print, total_print, total_cost, note);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -691,26 +682,30 @@ function setAddJobSectionHTML() {
     str_html += "<form class='form-horizontal'>"; 
     str_html += "<br>";
     str_html += "<div class='form-group has-success'>";
-    str_html += "<div class='col-md-2'><h2 class='pull-right font-bold'>JOB # " + job_index + "</h2></div>";
-    str_html += "<label class='col-md-2 col-md-offset-4 control-label'>Quantity:</label>";                                 
-    str_html += "<div class='col-md-1'><input type='text' class='form-control' id='quantity_job_" + job_index + "'></div>";                                  
-    str_html += "<label class='col-md-2 control-label'>Pages:</label>";                                     
-    str_html += "<div class='col-md-1'><input type='text' class='form-control' id='pdf_pages_job_" + job_index + "'></div>";                                         
+    str_html += "<div class='col-md-2'><h2 class='pull-right font-bold'>JOB # " + job_index + "</h2></div>";                                   
     str_html += "</div>";                                         
     str_html += "<div class='form-group has-success'>";                                         
     str_html += "<label class='col-md-2 control-label'>Paper Size:</label>";                                        
     str_html += "<div class='col-md-4'><select class='form-control m-b' data-container='body' id='paper_size_job_" + job_index + "'></select></div>";                                    
-    str_html += "<label class='col-md-2 control-label'>Duplex:</label>";                                    
-    str_html += "<div class='col-md-4'><select class='form-control m-b' data-container='body' id='duplex_job_" + job_index + "'></select></div>";                                         
+    str_html += "<label class='col-md-2 control-label'>Quantity:</label>";                                 
+    str_html += "<div class='col-md-1'><input type='text' class='form-control' id='quantity_job_" + job_index + "'></div>";                                  
+    str_html += "<label class='col-md-2 control-label'>Pages:</label>";                                     
+    str_html += "<div class='col-md-1'><input type='text' class='form-control' id='pdf_pages_job_" + job_index + "'></div>";                                          
     str_html += "</div>";                                        
     str_html += "<div class='form-group has-success'>";                                          
     str_html += "<label class='col-md-2 control-label'>Paper Color:</label>";                                        
     str_html += "<div class='col-md-4'><select class='form-control m-b' data-container='body' id='paper_color_job_" + job_index + "'></select></div>"; 
-    str_html += "<label class='col-md-2 control-label'>Cover Color:</label>";
+    str_html += "<label class='col-md-2 control-label'>Duplex:</label>";                                    
+    str_html += "<div class='col-md-4'><select class='form-control m-b' data-container='body' id='duplex_job_" + job_index + "'></select></div>";
+    str_html += "</div>";
+    str_html += "<div class='form-group has-success'>";                                          
+    str_html += "<label class='col-md-2 control-label'>Binding:</label>";                                        
+    str_html += "<div class='col-md-4'><select class='form-control m-b' data-container='body' id='binding_job_" + job_index + "'></select></div>";
+    str_html += "<label class='col-md-2 control-label'>Cover Sheet:</label>";
     str_html += "<div class='col-md-4'><select class='form-control m-b' data-container='body' id='cover_color_job_" + job_index + "'></select></div>";
-    str_html += "</div>";                                        
+    str_html += "</div>"; 
     str_html += "<div class='form-group'>"; 
-    str_html += "<div class='col-md-3'><div class='i-checks'><label><input type='checkbox' id='ckb_color_copy_job_" + job_index + "'>&nbsp;&nbsp;&nbsp;Color Copy</label></div></div>";
+    str_html += "<div class='col-md-3'><div class='i-checks'><label><input type='checkbox' id='ckb_color_copy_job_" + job_index + "'>&nbsp;&nbsp;&nbsp;Color Print</label></div></div>";
     str_html += "<div class='col-md-3'><div class='i-checks'><label><input type='checkbox' id='ckb_front_cover_job_" + job_index + "'>&nbsp;&nbsp;&nbsp;Front Cover</label></div></div>";
     str_html += "<div class='col-md-3'><div class='i-checks'><label><input type='checkbox' id='ckb_back_cover_job_" + job_index + "'>&nbsp;&nbsp;&nbsp;Back Cover</label></div></div>";
     str_html += "<div class='col-md-3'><div class='i-checks'><label><input type='checkbox' id='ckb_confidential_job_" + job_index + "'>&nbsp;&nbsp;&nbsp;Confidential</label></div></div>";                                        
@@ -719,7 +714,12 @@ function setAddJobSectionHTML() {
     str_html += "<div class='col-md-3'><div class='i-checks'><label><input type='checkbox' id='ckb_three_hole_punch_job_" + job_index + "'>&nbsp;&nbsp;&nbsp;Three Hole Punch</label></div></div>";
     str_html += "<div class='col-md-3'><div class='i-checks'><label><input type='checkbox' id='ckb_staple_job_" + job_index + "'>&nbsp;&nbsp;&nbsp;Staple</label></div></div>";
     str_html += "<div class='col-md-3'><div class='i-checks'><label><input type='checkbox' id='ckb_cut_job_" + job_index + "'>&nbsp;&nbsp;&nbsp;Cut</label></div></div>";
-    str_html += "</div>";                                        
+    str_html += "<div class='col-md-3'><div class='i-checks'><label><input type='checkbox' id='ckb_booklet_job_" + job_index + "'>&nbsp;&nbsp;&nbsp;Booklet</label></div></div>";
+    str_html += "</div>";
+    str_html += "<div class='form-group' id='page_color_option_section_job_" + job_index + "'>";
+    str_html += "<div class='col-md-3'><div class='i-checks'><label><input type='checkbox' id='ckb_first_pg_color_print_job_" + job_index + "'>&nbsp;&nbsp;&nbsp;First Page Color Print</label></div></div>";
+    str_html += "<div class='col-md-3'><div class='i-checks'><label><input type='checkbox' id='ckb_last_pg_color_print_job_" + job_index + "'>&nbsp;&nbsp;&nbsp;Last Page Color Print</label></div></div>";
+    str_html += "</div>";
     str_html += "<div class='form-group'>";
     str_html += "<label class='col-md-2 control-label'>Note:</label>";
     str_html += "<div class='col-md-10'>";

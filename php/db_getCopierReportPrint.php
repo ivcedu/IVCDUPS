@@ -40,6 +40,21 @@
                     . "AND prrq.LoginID = '".$LoginID."' "
                     . "GROUP BY prrq.PrintRequestID, prrq.RequestTitle, CONVERT(VARCHAR(10), prrq.DTStamp, 101)";
     
+    $query_catalog = "INSERT INTO #BILLINGPRINT "
+                    . "SELECT prrq.PrintRequestID, "
+                    . "prrq.RequestTitle, "
+                    . "CONVERT(VARCHAR(10), prrq.DTStamp, 101), "
+                    . "SUM(ctlg.TotalPrint) AS TotalPages, "
+                    . "SUM(ctlg.TotalCost) AS TotalCost "
+                    . "FROM [".$dbDatabase."].[dbo].[PrintRequest] AS prrq INNER JOIN [".$dbDatabase."].[dbo].[Catalog] AS ctlg ON prrq.PrintRequestID = ctlg.PrintRequestID "
+                    . "INNER JOIN [".$dbDatabase."].[dbo].[CostCenter] AS csct ON ctlg.CostCenterID = csct.CostCenterID "
+                    . "INNER JOIN [".$dbDatabase."].[dbo].[JobStatusDup] AS jstd ON ctlg.JobStatusDupID = jstd.JobStatusDupID "
+                    . "WHERE prrq.LoginType = 'Staff' AND jstd.JobStatusDupID = '5' "
+                    . "AND TRY_CONVERT(DATE, prrq.DTStamp, 101) BETWEEN '".$StartDate."' AND '".$EndDate."' "
+                    . "AND csct.CostCenterID = '".$CostCenterID."' "
+                    . "AND prrq.LoginID = '".$LoginID."' "
+                    . "GROUP BY prrq.PrintRequestID, prrq.RequestTitle, CONVERT(VARCHAR(10), prrq.DTStamp, 101)";
+    
     $query_get_result = "SELECT PrintRequestID, RequestTitle, Created, SUM(TotalPages) AS TotalPages, SUM(TotalCost) AS TotalCost "
                         . "FROM #BILLINGPRINT GROUP BY PrintRequestID, RequestTitle, Created "
                         . "ORDER BY RequestTitle ASC";
@@ -47,6 +62,7 @@
     $dbConn->query($query_create_table);
     $dbConn->query($query_duplicating);
     $dbConn->query($query_dropoff);
+    $dbConn->query($query_catalog);
 
     $cmd = $dbConn->prepare($query_get_result);
     $cmd->execute(); 

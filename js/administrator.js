@@ -35,7 +35,7 @@ $(document).ready(function() {
             return false;
         }
         
-        if (result[0]['DeviceTypeID'] === "1" || result[0]['DeviceTypeID'] === "2") {
+        if (result[0]['DeviceTypeID'] === "1" || result[0]['DeviceTypeID'] === "2" || result[0]['DeviceTypeID'] === "4") {
             window.open('adminPrintRequest.html?print_request_id=' + print_request_id, '_self');
             return false;
         }

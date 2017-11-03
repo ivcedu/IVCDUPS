@@ -37,7 +37,7 @@ $(document).ready(function() {
         result = db_getPrintRequest(print_request_id);
         
         sessionStorage.setItem('ivcdups_print_click', "userHome.html");
-        if (result[0]['DeviceTypeID'] === "1" || result[0]['DeviceTypeID'] === "2") {
+        if (result[0]['DeviceTypeID'] === "1" || result[0]['DeviceTypeID'] === "2" || result[0]['DeviceTypeID'] === "4") {
             window.open('viewPrintRequest.html?print_request_id=' + print_request_id, '_self');
             return false;
         }
@@ -61,7 +61,7 @@ $(document).ready(function() {
     });
 
     // jquery datatables initialize ////////////////////////////////////////////
-    m_table = $('#tbl_usr_active_list').DataTable({ paging: false, bInfo: false, searching: false, columnDefs: [{ orderable: false, targets: 5 }] });
+    m_table = $('#tbl_usr_active_list').DataTable({ paging: false, bInfo: false, searching: false, columnDefs:[{ className: "dt-center", orderable: false, targets: 5 }] });
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -74,7 +74,6 @@ function setAdminOption() {
         if (result[0]['AdminLevel'] === "Master") {
             $('#nav_completed_list').show();
             $('#nav_del_time_exceeded').show();
-//            $('#nav_copier_report').show();
             $('#nav_new_copier_report').show();
             $('#nav_dashboard').show();
             $('#menu_administrator').show();
@@ -83,13 +82,11 @@ function setAdminOption() {
         else if (result[0]['AdminLevel'] === "Admin") {
             $('#nav_completed_list').show();
             $('#nav_del_time_exceeded').show();
-//            $('#nav_copier_report').show();
             $('#nav_new_copier_report').show();
             $('#nav_dashboard').show();
             $('#menu_administrator').show();
         }
         else if (result[0]['AdminLevel'] === "Report") {
-//            $('#nav_copier_report').show();
             $('#nav_new_copier_report').show();
             $('#nav_dashboard').show();
         }

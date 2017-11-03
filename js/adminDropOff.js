@@ -182,32 +182,35 @@ function setAddJobSectionHTML(job_index, ar_result) {
     str_html += "<div class='col-sm-12'>";
     str_html += "<div class='ibox float-e-margins'>";
     str_html += "<div class='ibox-content' style='font-size: 14px; color: black;'>";
-    
     str_html += "<div class='panel-body'>";
     str_html += "<div class='col-sm-2'><b>JOB # " + job_index + "</b></div>";
-    str_html += "<div class='col-sm-2 col-sm-offset-2'>Quantity:</div>";
-    str_html += "<div class='col-sm-2'>" + ar_result['Quantity'] + "</div>";
-    str_html += "<div class='col-sm-2'>Pages:</div>";
-    str_html += "<div class='col-sm-2'>" + ar_result['Pages'] + "</div>";
     str_html += "</div>"; 
     str_html += "<div class='panel-body'>";
     str_html += "<div class='col-sm-2'>Paper Size:</div>";
     str_html += "<div class='col-sm-4'>" + db_getPaperSizeName(ar_result['PaperSizeID']) + "</div>";
-    str_html += "<div class='col-sm-2'>Duplex:</div>";
-    str_html += "<div class='col-sm-4'>" + db_getDuplexName(ar_result['DuplexID']) + "</div>";
+    str_html += "<div class='col-sm-2'>Quantity:</div>";
+    str_html += "<div class='col-sm-1'>" + ar_result['Quantity'] + "</div>";
+    str_html += "<div class='col-sm-2'>Pages:</div>";
+    str_html += "<div class='col-sm-1'>" + ar_result['Pages'] + "</div>";
     str_html += "</div>"; 
     str_html += "<div class='panel-body'>";
     str_html += "<div class='col-sm-2'>Paper Color:</div>";
     str_html += "<div class='col-sm-4'>" + db_getPaperColorName(ar_result['PaperColorID']) + "</div>";
-    str_html += "<div class='col-sm-2'>Cover Color:</div>";
+    str_html += "<div class='col-sm-2'>Duplex:</div>";
+    str_html += "<div class='col-sm-4'>" + db_getDuplexName(ar_result['DuplexID']) + "</div>";
+    str_html += "</div>";
+    str_html += "<div class='panel-body'>";
+    str_html += "<div class='col-sm-2'>Binding:</div>";
+    str_html += "<div class='col-sm-4'>" + (db_getBindingName(ar_result['BindingID']) === null ? "" : db_getBindingName(ar_result['BindingID'])) + "</div>";
+    str_html += "<div class='col-sm-2'>Cover Sheet:</div>";
     str_html += "<div class='col-sm-4'>" + db_getCoverColorName(ar_result['CoverColorID']) + "</div>";
     str_html += "</div>";
     str_html += "<div class='panel-body'>";
     if (ar_result['ColorCopy'] === "1") {
-        str_html += "<div class='col-sm-3'><span><i class='fa fa-check-square-o fa-lg'></i></span>&nbsp;&nbsp;&nbsp;Color Copy</div>";
+        str_html += "<div class='col-sm-3'><span><i class='fa fa-check-square-o fa-lg'></i></span>&nbsp;&nbsp;&nbsp;Color Print</div>";
     }
     else {
-        str_html += "<div class='col-sm-3'><span><i class='fa fa-square-o fa-lg'></i></span>&nbsp;&nbsp;&nbsp;Color Copy</div>";
+        str_html += "<div class='col-sm-3'><span><i class='fa fa-square-o fa-lg'></i></span>&nbsp;&nbsp;&nbsp;Color Print</div>";
     }
     if (ar_result['FrontCover'] === "1") {
         str_html += "<div class='col-sm-3'><span><i class='fa fa-check-square-o fa-lg'></i></span>&nbsp;&nbsp;&nbsp;Front Cover</div>";
@@ -247,7 +250,31 @@ function setAddJobSectionHTML(job_index, ar_result) {
     else {
         str_html += "<div class='col-sm-3'><span><i class='fa fa-square-o fa-lg'></i></span>&nbsp;&nbsp;&nbsp;Cut</div>";
     }
+    if (ar_result['Booklet'] === "1") {
+        str_html += "<div class='col-sm-3'><span><i class='fa fa-check-square-o fa-lg'></i></span>&nbsp;&nbsp;&nbsp;Booklet</div>";
+    }
+    else {
+        str_html += "<div class='col-sm-3'><span><i class='fa fa-square-o fa-lg'></i></span>&nbsp;&nbsp;&nbsp;Booklet</div>";
+    }
     str_html += "</div>";
+    
+    if (ar_result['ColorCopy'] === "0") {
+        str_html += "<div class='panel-body'>";
+        if (ar_result['FirstPgColorPrint'] === "1") {
+            str_html += "<div class='col-sm-3'><span><i class='fa fa-check-square-o fa-lg'></i></span>&nbsp;&nbsp;&nbsp;First Page Color Print</div>";
+        }
+        else {
+            str_html += "<div class='col-sm-3'><span><i class='fa fa-square-o fa-lg'></i></span>&nbsp;&nbsp;&nbsp;First Page Color Print</div>";
+        }
+        if (ar_result['LastPgColorPrint'] === "1") {
+            str_html += "<div class='col-sm-3'><span><i class='fa fa-check-square-o fa-lg'></i></span>&nbsp;&nbsp;&nbsp;Last Page Color Print</div>";
+        }
+        else {
+            str_html += "<div class='col-sm-3'><span><i class='fa fa-square-o fa-lg'></i></span>&nbsp;&nbsp;&nbsp;Last Page Color Print</div>";
+        }   
+        str_html += "</div>";
+    }
+    
     str_html += "<div class='panel-body'>";
     str_html += "<div class='col-sm-2'>Note:</div>";
     str_html += "<div class='col-sm-10'>" + ar_result['Note'].replace(/\n/g, "<br>") + "</div>";

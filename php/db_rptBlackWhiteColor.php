@@ -16,6 +16,13 @@
                         . "INNER JOIN [".$dbDatabase."].[dbo].[JobStatusDup] AS jstd ON dupl.JobStatusDupID = jstd.JobStatusDupID "
                         . "WHERE jstd.JobStatusDupID = '5' AND TRY_CONVERT(DATE, prrq.DTStamp, 101) BETWEEN '".$StartDate."' AND '".$EndDate."'";
     
+    $query_catalog = "INSERT INTO #REPORTS "
+                        . "SELECT '0' AS ColorCopy, "
+                        . "ctlg.TotalPrint AS TotalPages "
+                        . "FROM [".$dbDatabase."].[dbo].[PrintRequest] AS prrq INNER JOIN [".$dbDatabase."].[dbo].[Catalog] AS ctlg ON prrq.PrintRequestID = ctlg.PrintRequestID "
+                        . "INNER JOIN [".$dbDatabase."].[dbo].[JobStatusDup] AS jstd ON ctlg.JobStatusDupID = jstd.JobStatusDupID "
+                        . "WHERE jstd.JobStatusDupID = '5' AND TRY_CONVERT(DATE, prrq.DTStamp, 101) BETWEEN '".$StartDate."' AND '".$EndDate."'";
+    
     $query_dropoff = "INSERT INTO #REPORTS "
                     . "SELECT droj.ColorCopy AS ColorCopy, "
                     . "droj.TotalPrint AS TotalPages "
@@ -29,6 +36,7 @@
     
     $dbConn->query($query_create_table);
     $dbConn->query($query_duplicating);
+    $dbConn->query($query_catalog);
     $dbConn->query($query_dropoff);
 
     $cmd = $dbConn->prepare($query_get_result);

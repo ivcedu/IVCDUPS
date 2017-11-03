@@ -244,6 +244,20 @@ function db_getCoverColorName(CoverColorID) {
     return result;
 }
 
+function db_getBindingName(BindingID) {
+    var result = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_getBindingName.php",
+        data:{BindingID:BindingID},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
 function db_getDepartment() {
     var result = new Array();
     $.ajax({
@@ -353,75 +367,6 @@ function db_getAdminList() {
     return result;
 }
 
-function db_getBursarByEmail(LoginEmail) {
-    var result = new Array();
-    $.ajax({
-        type:"POST",
-        url:"php/db_getBursarByEmail.php",
-        data:{LoginEmail:LoginEmail},
-        async: false,  
-        success:function(data) {
-            result = JSON.parse(data);
-        }
-    });
-    return result;
-}
-
-function db_getHonorStudentList() {
-    var result = new Array();
-    $.ajax({
-        type:"POST",
-        url:"php/db_getHonorStudentList.php",
-        async: false,  
-        success:function(data) {
-            result = JSON.parse(data);
-        }
-    });
-    return result;
-}
-
-function db_getHonorStudentByID(HonorStudentID) {
-    var result = new Array();
-    $.ajax({
-        type:"POST",
-        url:"php/db_getHonorStudentByID.php",
-        data:{HonorStudentID:HonorStudentID},
-        async: false,  
-        success:function(data) {
-            result = JSON.parse(data);
-        }
-    });
-    return result;
-}
-
-function db_getHonorStudentByEmail(LoginEmail) {
-    var result = new Array();
-    $.ajax({
-        type:"POST",
-        url:"php/db_getHonorStudentByEmail.php",
-        data:{LoginEmail:LoginEmail},
-        async: false,  
-        success:function(data) {
-            result = JSON.parse(data);
-        }
-    });
-    return result;
-}
-
-function db_getMDeptUserByEmail(LoginEmail) {
-    var result = new Array();
-    $.ajax({
-        type:"POST",
-        url:"php/db_getMDeptUserByEmail.php",
-        data:{LoginEmail:LoginEmail},
-        async: false,  
-        success:function(data) {
-            result = JSON.parse(data);
-        }
-    });
-    return result;
-}
-
 function db_getUserPrintRequestList(Email) {
     var result = new Array();
     $.ajax({
@@ -442,19 +387,6 @@ function db_getUserHistoryList(Email, StartDate, EndDate) {
         type:"POST",
         url:"php/db_getUserHistoryList.php",
         data:{Email:Email, StartDate:StartDate, EndDate:EndDate},
-        async: false,  
-        success:function(data) {
-            result = JSON.parse(data);
-        }
-    });
-    return result;
-}
-
-function db_getBursarPrintRequestList() {
-    var result = new Array();
-    $.ajax({
-        type:"POST",
-        url:"php/db_getBursarPrintRequestList.php",
         async: false,  
         success:function(data) {
             result = JSON.parse(data);
@@ -838,6 +770,20 @@ function db_getDuplicatingCostCenterID(PrintRequestID) {
     return result;
 }
 
+function db_getCatalogCostCenterID(PrintRequestID) {
+    var result = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_getCatalogCostCenterID.php",
+        data:{PrintRequestID:PrintRequestID},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
 function db_getDropOffJobCostCenterID(PrintRequestID) {
     var result = "";
     $.ajax({
@@ -893,6 +839,73 @@ function db_getAdminLockedPRList() {
     return result;
 }
 
+function db_getCatSectionByID(CatSectionID) {
+    var result = new Array();
+    $.ajax({
+        type:"POST",
+        url:"php/db_getCatSectionByID.php",
+        data:{CatSectionID:CatSectionID},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function db_getCatSectionList() {
+    var result = new Array();
+    $.ajax({
+        type:"POST",
+        url:"php/db_getCatSectionList.php",
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function db_getCatSectionListDataTable() {
+    var result = new Array();
+    $.ajax({
+        type:"POST",
+        url:"php/db_getCatSectionListDataTable.php",
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function db_getCatalogByPrintRequestID(PrintRequestID) {
+    var result = new Array();
+    $.ajax({
+        type:"POST",
+        url:"php/db_getCatalogByPrintRequestID.php",
+        data:{PrintRequestID:PrintRequestID},
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
+function db_getBindingList() {
+    var result = new Array();
+    $.ajax({
+        type:"POST",
+        url:"php/db_getBindingList.php",
+        async: false,  
+        success:function(data) {
+            result = JSON.parse(data);
+        }
+    });
+    return result;
+}
+
 // insert DB ///////////////////////////////////////////////////////////////////
 function db_insertPrintRequest(DeviceTypeID, DeliveryLocationID, LoginType, LoginID, Requestor, Email, Phone, RequestTitle) {
     var ResultID = "";
@@ -922,15 +935,16 @@ function db_insertPlotter(PrintRequestID, JobStatusPlotID, PaperTypeID, SizeHeig
     return ResultID;
 }
 
-function db_insertDuplicating(PrintRequestID, JobStatusDupID, CostCenterID, Quantity, DateNeeded, TimeNeeded, PaperSizeID, DuplexID, PaperColorID, CoverColorID,
-                                ColorCopy, FrontCover, BackCover, Confidential, ThreeHolePunch, Staple, Cut, TotalPrint, TotalCost, Note) {
+function db_insertDuplicating(PrintRequestID, JobStatusDupID, CostCenterID, Quantity, DateNeeded, TimeNeeded, PaperSizeID, DuplexID, PaperColorID, CoverColorID, ColorCopy, FrontCover, 
+                                BackCover, Confidential, ThreeHolePunch, Staple, Cut, BindingID, Booklet, FirstPgColorPrint, LastPgColorPrint, TotalPrint, TotalCost, Note) {
     var ResultID = "";
     $.ajax({
         type:"POST",
         url:"php/db_insertDuplicating.php",
         data:{PrintRequestID:PrintRequestID, JobStatusDupID:JobStatusDupID, CostCenterID:CostCenterID, Quantity:Quantity, DateNeeded:DateNeeded, TimeNeeded:TimeNeeded,
                 PaperSizeID:PaperSizeID, DuplexID:DuplexID, PaperColorID:PaperColorID, CoverColorID:CoverColorID, ColorCopy:ColorCopy, FrontCover:FrontCover, 
-                BackCover:BackCover, Confidential:Confidential, ThreeHolePunch:ThreeHolePunch, Staple:Staple, Cut:Cut, TotalPrint:TotalPrint, TotalCost:TotalCost, Note:Note},
+                BackCover:BackCover, Confidential:Confidential, ThreeHolePunch:ThreeHolePunch, Staple:Staple, Cut:Cut, BindingID:BindingID, Booklet:Booklet, 
+                FirstPgColorPrint:FirstPgColorPrint, LastPgColorPrint:LastPgColorPrint, TotalPrint:TotalPrint, TotalCost:TotalCost, Note:Note},
         async: false,  
         success:function(data) {
             ResultID = JSON.parse(data);
@@ -940,14 +954,15 @@ function db_insertDuplicating(PrintRequestID, JobStatusDupID, CostCenterID, Quan
 }
 
 function db_insertDropOffJob(PrintRequestID, JobStatusDupID, CostCenterID, JobName, Pages, Quantity, DateNeeded, TimeNeeded, PaperSizeID, DuplexID, PaperColorID, CoverColorID,
-                                ColorCopy, FrontCover, BackCover, Confidential, ThreeHolePunch, Staple, Cut, TotalPrint, TotalCost, Note) {
+                            ColorCopy, FrontCover, BackCover, Confidential, ThreeHolePunch, Staple, Cut, BindingID, Booklet, FirstPgColorPrint, LastPgColorPrint, TotalPrint, TotalCost, Note) {
     var ResultID = "";
     $.ajax({
         type:"POST",
         url:"php/db_insertDropOffJob.php",
         data:{PrintRequestID:PrintRequestID, JobStatusDupID:JobStatusDupID, CostCenterID:CostCenterID, JobName:JobName, Pages:Pages, Quantity:Quantity, DateNeeded:DateNeeded, TimeNeeded:TimeNeeded,
                 PaperSizeID:PaperSizeID, DuplexID:DuplexID, PaperColorID:PaperColorID, CoverColorID:CoverColorID, ColorCopy:ColorCopy, FrontCover:FrontCover, 
-                BackCover:BackCover, Confidential:Confidential, ThreeHolePunch:ThreeHolePunch, Staple:Staple, Cut:Cut, TotalPrint:TotalPrint, TotalCost:TotalCost, Note:Note},
+                BackCover:BackCover, Confidential:Confidential, ThreeHolePunch:ThreeHolePunch, Staple:Staple, Cut:Cut, 
+                BindingID:BindingID, Booklet:Booklet, FirstPgColorPrint:FirstPgColorPrint, LastPgColorPrint:LastPgColorPrint, TotalPrint:TotalPrint, TotalCost:TotalCost, Note:Note},
         async: false,  
         success:function(data) {
             ResultID = JSON.parse(data);
@@ -1026,20 +1041,6 @@ function db_insertAdmin(AdminName, AdminEmail, AdminLevel) {
     return ResultID;
 }
 
-function db_insertHonorStudent(HonorStudentName, HonorStudentEmail) {
-    var ResultID = "";
-    $.ajax({
-        type:"POST",
-        url:"php/db_insertHonorStudent.php",
-        data:{HonorStudentName:HonorStudentName, HonorStudentEmail:HonorStudentEmail},
-        async: false,  
-        success:function(data) {
-            ResultID = JSON.parse(data);
-        }
-    });
-    return ResultID;
-}
-
 function db_insertDivision(CostCenterCode, Division) {
     var ResultID = "";
     $.ajax({
@@ -1060,6 +1061,35 @@ function db_insertCostCenter(DivisionID, CostCenterCode, CostCenter) {
         type:"POST",
         url:"php/db_insertCostCenter.php",
         data:{DivisionID:DivisionID, CostCenterCode:CostCenterCode, CostCenter:CostCenter},
+        async: false,  
+        success:function(data) {
+            ResultID = JSON.parse(data);
+        }
+    });
+    return ResultID;
+}
+
+function db_insertCatSection(Active, FiscalYear, SectionName, Pages, Cost, Options) {
+    var ResultID = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_insertCatSection.php",
+        data:{Active:Active, FiscalYear:FiscalYear, SectionName:SectionName, Pages:Pages, Cost:Cost, Options:Options},
+        async: false,  
+        success:function(data) {
+            ResultID = JSON.parse(data);
+        }
+    });
+    return ResultID;
+}
+
+function db_insertCatalog(PrintRequestID, CatSectionID, JobStatusDupID, CostCenterID, Quantity, DateNeeded, TimeNeeded, TotalPrint, TotalCost, Note) {
+    var ResultID = "";
+    $.ajax({
+        type:"POST",
+        url:"php/db_insertCatalog.php",
+        data:{PrintRequestID:PrintRequestID, CatSectionID:CatSectionID, JobStatusDupID:JobStatusDupID, CostCenterID:CostCenterID, Quantity:Quantity, 
+                DateNeeded:DateNeeded, TimeNeeded:TimeNeeded, TotalPrint:TotalPrint, TotalCost:TotalCost, Note:Note},
         async: false,  
         success:function(data) {
             ResultID = JSON.parse(data);
@@ -1223,15 +1253,16 @@ function db_updateUserProfile(UserProfileID, UserName, UserEmail, UserPhone, Emp
     return Result;
 }
 
-function db_updateDuplicatingRequest(PrintRequestID, CostCenterID, Quantity, DateNeeded, TimeNeeded, PaperSizeID, DuplexID, PaperColorID, CoverColorID,
-                                ColorCopy, FrontCover, BackCover, Confidential, ThreeHolePunch, Staple, Cut, TotalPrint, TotalCost, Note) {
+function db_updateDuplicatingRequest(PrintRequestID, CostCenterID, Quantity, DateNeeded, TimeNeeded, PaperSizeID, DuplexID, PaperColorID, CoverColorID, ColorCopy, FrontCover, BackCover,
+                                    Confidential, ThreeHolePunch, Staple, Cut, BindingID, Booklet, FirstPgColorPrint, LastPgColorPrint, TotalPrint, TotalCost, Note) {
     var Result = false;
     $.ajax({
         type:"POST",
         url:"php/db_updateDuplicatingRequest.php",
         data:{PrintRequestID:PrintRequestID, CostCenterID:CostCenterID, Quantity:Quantity, DateNeeded:DateNeeded, TimeNeeded:TimeNeeded,
                 PaperSizeID:PaperSizeID, DuplexID:DuplexID, PaperColorID:PaperColorID, CoverColorID:CoverColorID, ColorCopy:ColorCopy, FrontCover:FrontCover, 
-                BackCover:BackCover, Confidential:Confidential, ThreeHolePunch:ThreeHolePunch, Staple:Staple, Cut:Cut, TotalPrint:TotalPrint, TotalCost:TotalCost, Note:Note},
+                BackCover:BackCover, Confidential:Confidential, ThreeHolePunch:ThreeHolePunch, Staple:Staple, Cut:Cut, 
+                BindingID:BindingID, Booklet:Booklet, FirstPgColorPrint:FirstPgColorPrint, LastPgColorPrint:LastPgColorPrint, TotalPrint:TotalPrint, TotalCost:TotalCost, Note:Note},
         async: false,  
         success:function(data) {
             Result = JSON.parse(data);
@@ -1240,15 +1271,16 @@ function db_updateDuplicatingRequest(PrintRequestID, CostCenterID, Quantity, Dat
     return Result;
 }
 
-function db_updateDropOffJobRequest(PrintRequestID, DepartmentID, JobName, Pages, Quantity, DateNeeded, TimeNeeded, PaperSizeID, DuplexID, PaperColorID, CoverColorID,
-                                    ColorCopy, FrontCover, BackCover, Confidential, ThreeHolePunch, Staple, Cut, TotalPrint, TotalCost, Note) {
+function db_updateDropOffJobRequest(PrintRequestID, DepartmentID, JobName, Pages, Quantity, DateNeeded, TimeNeeded, PaperSizeID, DuplexID, PaperColorID, CoverColorID, ColorCopy, FrontCover, BackCover, Confidential,
+                                    ThreeHolePunch, Staple, Cut, BindingID, Booklet, FirstPgColorPrint, LastPgColorPrint, TotalPrint, TotalCost, Note) {
     var Result = false;
     $.ajax({
         type:"POST",
         url:"php/db_updateDropOffJobRequest.php",
         data:{PrintRequestID:PrintRequestID, DepartmentID:DepartmentID, JobName:JobName, Pages:Pages, Quantity:Quantity, DateNeeded:DateNeeded, TimeNeeded:TimeNeeded,
                 PaperSizeID:PaperSizeID, DuplexID:DuplexID, PaperColorID:PaperColorID, CoverColorID:CoverColorID, ColorCopy:ColorCopy, FrontCover:FrontCover, 
-                BackCover:BackCover, Confidential:Confidential, ThreeHolePunch:ThreeHolePunch, Staple:Staple, Cut:Cut, TotalPrint:TotalPrint, TotalCost:TotalCost, Note:Note},
+                BackCover:BackCover, Confidential:Confidential, ThreeHolePunch:ThreeHolePunch, Staple:Staple, Cut:Cut, 
+                BindingID:BindingID, Booklet:Booklet, FirstPgColorPrint:FirstPgColorPrint, LastPgColorPrint:LastPgColorPrint, TotalPrint:TotalPrint, TotalCost:TotalCost, Note:Note},
         async: false,  
         success:function(data) {
             Result = JSON.parse(data);
@@ -1316,7 +1348,9 @@ function db_updateAdmin(AdminID, AdminName, AdminEmail, AdminLevel) {
 function db_updateCopierPrice(CopierPriceID, s_letter, d_letter, s_letter_color, d_letter_color,
                                 s_legal, d_legal, s_legal_color, d_legal_color,
                                 s_tabloid, d_tabloid, s_tabloid_color, d_tabloid_color,
-                                front_cover, front_cover_color, back_cover, back_cover_color, cut) {
+                                s_letter_80, d_letter_80, s_letter_color_80, d_letter_color_80,
+                                front_cover, front_cover_color, back_cover, back_cover_color, cut,
+                                coil_binding, comb_binding, booklet) {
     var Result = false;
     $.ajax({
         type:"POST",
@@ -1324,7 +1358,9 @@ function db_updateCopierPrice(CopierPriceID, s_letter, d_letter, s_letter_color,
         data:{CopierPriceID:CopierPriceID, s_letter:s_letter, d_letter:d_letter, s_letter_color:s_letter_color, d_letter_color:d_letter_color,
                 s_legal:s_legal, d_legal:d_legal, s_legal_color:s_legal_color, d_legal_color:d_legal_color,
                 s_tabloid:s_tabloid, d_tabloid:d_tabloid, s_tabloid_color:s_tabloid_color, d_tabloid_color:d_tabloid_color,
-                front_cover:front_cover, front_cover_color:front_cover_color, back_cover:back_cover, back_cover_color:back_cover_color, cut:cut},
+                s_letter_80:s_letter_80, d_letter_80:d_letter_80, s_letter_color_80:s_letter_color_80, d_letter_color_80:d_letter_color_80,
+                front_cover:front_cover, front_cover_color:front_cover_color, back_cover:back_cover, back_cover_color:back_cover_color, cut:cut,
+                coil_binding:coil_binding, comb_binding:comb_binding, booklet:booklet},
         async: false,  
         success:function(data) {
             Result = JSON.parse(data);
@@ -1333,12 +1369,41 @@ function db_updateCopierPrice(CopierPriceID, s_letter, d_letter, s_letter_color,
     return Result;
 }
 
-function db_updateHonorStudent(HonorStudentID, HonorStudentName, HonorStudentEmail) {
+function db_updateCatSectionByID(CatSectionID, Active, FiscalYear, SectionName, Pages, Cost, Options) {
     var Result = false;
     $.ajax({
         type:"POST",
-        url:"php/db_updateHonorStudent.php",
-        data:{HonorStudentID:HonorStudentID, HonorStudentName:HonorStudentName, HonorStudentEmail:HonorStudentEmail},
+        url:"php/db_updateCatSectionByID.php",
+        data:{CatSectionID:CatSectionID, Active:Active, FiscalYear:FiscalYear, SectionName:SectionName, Pages:Pages, Cost:Cost, Options:Options},
+        async: false,  
+        success:function(data) {
+            Result = JSON.parse(data);
+        }
+    });
+    return Result;
+}
+
+function db_updateCatalogStatus(PrintRequestID, JobStatusDupID) {
+    var Result = false;
+    $.ajax({
+        type:"POST",
+        url:"php/db_updateCatalogStatus.php",
+        data:{PrintRequestID:PrintRequestID, JobStatusDupID:JobStatusDupID},
+        async: false,  
+        success:function(data) {
+            Result = JSON.parse(data);
+        }
+    });
+    return Result;
+}
+
+function db_updateCatalogRequest(PrintRequestID, CatSectionID, CostCenterID, Quantity, DateNeeded, TimeNeeded, TotalPrint, TotalCost, Note) {
+    var Result = false;
+    $.ajax({
+        type:"POST",
+        url:"php/db_updateCatalogRequest.php",
+        data:{PrintRequestID:PrintRequestID, CatSectionID:CatSectionID, CostCenterID:CostCenterID, Quantity:Quantity, 
+                DateNeeded:DateNeeded, TimeNeeded:TimeNeeded, TotalPrint:TotalPrint, TotalCost:TotalCost, Note:Note},
         async: false,  
         success:function(data) {
             Result = JSON.parse(data);
@@ -1410,20 +1475,6 @@ function db_deleteAdmin(AdminID) {
         type:"POST",
         url:"php/db_deleteAdmin.php",
         data:{AdminID:AdminID},
-        async: false,  
-        success:function(data) {
-            Result = JSON.parse(data);
-        }
-    });
-    return Result;
-}
-
-function db_deleteHonorStudent(HonorStudentID) {
-    var Result = false;
-    $.ajax({
-        type:"POST",
-        url:"php/db_deleteHonorStudent.php",
-        data:{HonorStudentID:HonorStudentID},
         async: false,  
         success:function(data) {
             Result = JSON.parse(data);

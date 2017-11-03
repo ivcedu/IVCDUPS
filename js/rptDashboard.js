@@ -56,7 +56,6 @@ function setAdminOption() {
         if (result[0]['AdminLevel'] === "Master") {
             $('#nav_completed_list').show();
             $('#nav_del_time_exceeded').show();
-//            $('#nav_copier_report').show();
             $('#nav_new_copier_report').show();
             $('#nav_dashboard').show();
             $('#menu_administrator').show();
@@ -65,13 +64,11 @@ function setAdminOption() {
         else if (result[0]['AdminLevel'] === "Admin") {
             $('#nav_completed_list').show();
             $('#nav_del_time_exceeded').show();
-//            $('#nav_copier_report').show();
             $('#nav_new_copier_report').show();
             $('#nav_dashboard').show();
             $('#menu_administrator').show();
         }
         else if (result[0]['AdminLevel'] === "Report") {
-//            $('#nav_copier_report').show();
             $('#nav_new_copier_report').show();
             $('#nav_dashboard').show();
         }
@@ -158,8 +155,12 @@ function getDivisionTotalPages(start_date, end_date) {
 
 function drawC3TotalPagesPieChart(result) {
     var c3_pie_data = [];
+    var pie_count = result.length;
     
-    for (var i = 0; i <= 7; i++) {
+    if (result.length >= 7) {
+        pie_count = 8;
+    }
+    for (var i = 0; i < pie_count; i++) {
         var raw_data = [];
         raw_data.push(result[i]['Division']);
         raw_data.push(Number(result[i]['TotalPages']));
@@ -170,11 +171,13 @@ function drawC3TotalPagesPieChart(result) {
     for (var j = 8; j < result.length; j++) {
         num_other_data += Number(result[j]['TotalPages']);
     }
-    var other_data = [];
-    other_data.push('Other');
-    other_data.push(num_other_data);
-    c3_pie_data.push(other_data);
-    
+    if (num_other_data > 0) {
+        var other_data = [];
+        other_data.push('Other');
+        other_data.push(num_other_data);
+        c3_pie_data.push(other_data);
+    }
+
     c3.generate({
             bindto: '#rpt_division_total_page',
             data:{
@@ -198,8 +201,12 @@ function getDivisionTotalCost(start_date, end_date) {
 
 function drawC3TotalCostPieChart(result) {
     var c3_pie_data = [];
+    var pie_count = result.length;
     
-    for (var i = 0; i <= 7; i++) {
+    if (result.length >= 7) {
+        pie_count = 8;
+    }
+    for (var i = 0; i < pie_count; i++) {
         var raw_data = [];
         raw_data.push(result[i]['Division']);
         raw_data.push(Number(result[i]['TotalCost']));
@@ -210,11 +217,13 @@ function drawC3TotalCostPieChart(result) {
     for (var j = 8; j < result.length; j++) {
         num_other_data += Number(result[j]['TotalCost']);
     }
-    var other_data = [];
-    other_data.push('Other');
-    other_data.push(num_other_data);
-    c3_pie_data.push(other_data);
-    
+    if (num_other_data > 0) {
+        var other_data = [];
+        other_data.push('Other');
+        other_data.push(num_other_data);
+        c3_pie_data.push(other_data);
+    }
+
     c3.generate({
             bindto: '#rpt_division_total_cost',
             data:{

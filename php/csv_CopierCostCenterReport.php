@@ -25,6 +25,22 @@
                         . "WHERE prrq.LoginType = 'Staff' AND jstd.JobStatusDupID = '5' "
                         . "AND TRY_CONVERT(DATE, prrq.DTStamp, 101) BETWEEN '".$StartDate."' AND '".$EndDate."'";
     
+    $query_catalog = "INSERT INTO #EXCELCOPIER "
+                        . "SELECT prrq.PrintRequestID, "
+                        . "dvsn.Division, "
+                        . "csct.CostCenterCode + '-' + csct.CostCenter, "
+                        . "prrq.Requestor, "
+                        . "prrq.RequestTitle, "
+                        . "CONVERT(VARCHAR(10), prrq.DTStamp, 101), "
+                        . "ctlg.TotalPrint AS TotalPages, "
+                        . "ctlg.TotalCost AS TotalCost "
+                        . "FROM [".$dbDatabase."].[dbo].[PrintRequest] AS prrq INNER JOIN [".$dbDatabase."].[dbo].[Catalog] AS ctlg ON prrq.PrintRequestID = ctlg.PrintRequestID "
+                        . "INNER JOIN [".$dbDatabase."].[dbo].[CostCenter] AS csct ON ctlg.CostCenterID = csct.CostCenterID "
+                        . "INNER JOIN [".$dbDatabase."].[dbo].[Division] AS dvsn ON csct.DivisionID = dvsn.DivisionID "
+                        . "INNER JOIN [".$dbDatabase."].[dbo].[JobStatusDup] AS jstd ON ctlg.JobStatusDupID = jstd.JobStatusDupID "
+                        . "WHERE prrq.LoginType = 'Staff' AND jstd.JobStatusDupID = '5' "
+                        . "AND TRY_CONVERT(DATE, prrq.DTStamp, 101) BETWEEN '".$StartDate."' AND '".$EndDate."'";
+    
     $query_dropoff = "INSERT INTO #EXCELCOPIER "
                     . "SELECT prrq.PrintRequestID, "
                     . "dvsn.Division, "
@@ -48,6 +64,7 @@
 
     $dbConn->query($query_create_table);
     $dbConn->query($query_duplicating);
+    $dbConn->query($query_catalog);
     $dbConn->query($query_dropoff);
 
     $cmd = $dbConn->prepare($query_get_result);

@@ -56,6 +56,44 @@
                     <div class="col-sm-1" id="pdf_pages"></div>
                 </div>
                 <div class="row"><div class="col-sm-12"><hr></div></div>
+                <!-- catalog section -->
+                <div hidden id="catalog_section">
+                    <div class="row">
+                        <div class="col-sm-2">Cost Center:</div>
+                        <div class="col-sm-4" id="cat_billing_depart"></div>
+                        <div class="col-sm-2">Fiscal Year:</div> 
+                        <div class="col-sm-2" id="cat_fiscal_year"></div>
+                        <div class="col-sm-2" id="cat_section_options"></div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-2">Catalog Section:</div> 
+                        <div class="col-sm-4" id="cat_section_list"></div>
+                        <div class="col-sm-2">Pages/Cost:</div> 
+                        <div class="col-sm-2" id="cat_section_pages"></div>
+                        <div class="col-sm-2" id="cat_section_cost"></div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-2">Quantity:</div> 
+                        <div class="col-sm-2" id="cat_quantity"></div>
+                        <div class="col-sm-2">Date/Time Needed:</div> 
+                        <div class="col-sm-2" id="cat_date_needed"></div>
+                        <div class="col-sm-2" id="cat_time_needed"></div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-2">Note:</div> 
+                        <div class="col-sm-10" id="cat_note"></div>
+                    </div>
+                    <br>
+                    <div class="row well">
+                        <div class="col-sm-2"><b>Total Print:</b></div> 
+                        <div class="col-sm-4"><b id="cat_total_print"></b></div>
+                        <div class="col-sm-2"><b>Total Cost:</b></div> 
+                        <div class="col-sm-4"><b id="cat_total_cost"></b></div>
+                    </div>
+                </div>    
                 <!-- duplicating section -->
                 <div hidden id="duplicating_section">
                     <div class="row">
@@ -81,12 +119,17 @@
                     <div class="row">
                         <div class="col-sm-2">Paper Color:</div>
                         <div class="col-sm-4" id="paper_color"></div>
-                        <div class="col-sm-2">Cover Color:</div>
+                        <div class="col-sm-2">Cover Sheet:</div>
                         <div class="col-sm-4" id="cover_color"></div>
                     </div>
                     <br>
                     <div class="row">
-                        <div class="col-sm-3"><span id="ckb_color_copy"></span>&nbsp;&nbsp;&nbsp;Color Copy</div>
+                        <div class="col-sm-2">Binding:</div>
+                        <div class="col-sm-4" id="binding"></div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-3"><span id="ckb_color_copy"></span>&nbsp;&nbsp;&nbsp;Color Print</div>
                         <div class="col-sm-3"><span id="ckb_front_cover"></span>&nbsp;&nbsp;&nbsp;Front Cover</div>
                         <div class="col-sm-3"><span id="ckb_back_cover"></span>&nbsp;&nbsp;&nbsp;Back Cover</div>
                         <div class="col-sm-3"><span id="ckb_confidential"></span>&nbsp;&nbsp;&nbsp;Confidential</div>
@@ -96,6 +139,12 @@
                         <div class="col-sm-3"><span id="ckb_three_hole_punch"></span>&nbsp;&nbsp;&nbsp;Three Hole Punch</div>
                         <div class="col-sm-3"><span id="ckb_staple"></span>&nbsp;&nbsp;&nbsp;Staple</div>
                         <div class="col-sm-3"><span id="ckb_cut"></span>&nbsp;&nbsp;&nbsp;Cut</div>
+                        <div class="col-sm-3"><span id="ckb_booklet"></span>&nbsp;&nbsp;&nbsp;Booklet</div>
+                    </div>
+                    <br>
+                    <div class="row" id="page_color_option_section">
+                        <div class="col-sm-4"><span id="ckb_first_pg_color_print"></span>&nbsp;&nbsp;&nbsp;First Page Color Print</div>
+                        <div class="col-sm-4"><span id="ckb_last_pg_color_print"></span>&nbsp;&nbsp;&nbsp;Last Page Color Print</div>
                     </div>
                     <br>
                     <div class="row">
@@ -175,8 +224,8 @@
         <script src="../inspinia-2.5/js/plugins/pace/pace.min.js"></script>
         <!-- include javascript -->
         <!-- application javascript -->
-        <script src="js/printingPR.js"></script>
-        <script src="js/session_data.js"></script>
-        <script src="js/db_access.js"></script>
+        <script src="js/printingPR.js?v=2.3.0"></script>
+        <script src="js/session_data.js?v=2.2.0"></script>
+        <script src="js/db_access.js?v=2.2.0"></script>
     </body>
 </html>
