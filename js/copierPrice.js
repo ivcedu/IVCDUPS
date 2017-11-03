@@ -108,7 +108,7 @@ function updateCopierPrice() {
     var comb_binding = $('#comb_binding').val();
     var booklet = $('#booklet').val();
     
-    return db_updateCopierPrice(calDupObject.getCopierPriceID(), s_letter, d_letter, s_letter_color, d_letter_color,
+    return db_updateCopierPrice(cp_Object.getCopierPriceID(), s_letter, d_letter, s_letter_color, d_letter_color,
                                 s_legal, d_legal, s_legal_color, d_legal_color,
                                 s_tabloid, d_tabloid, s_tabloid_color, d_tabloid_color,
                                 s_letter_80, d_letter_80, s_letter_color_80, d_letter_color_80,
