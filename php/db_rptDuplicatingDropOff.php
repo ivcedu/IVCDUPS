@@ -17,7 +17,7 @@
                         . "WHERE jstd.JobStatusDupID = '5' AND TRY_CONVERT(DATE, prrq.DTStamp, 101) BETWEEN '".$StartDate."' AND '".$EndDate."'";
     
     $query_catalog = "INSERT INTO #REPORTS "
-                        . "SELECT 'Online', "
+                        . "SELECT 'Catalog', "
                         . "ctlg.TotalPrint AS TotalPages "
                         . "FROM [".$dbDatabase."].[dbo].[PrintRequest] AS prrq INNER JOIN [".$dbDatabase."].[dbo].[Catalog] AS ctlg ON prrq.PrintRequestID = ctlg.PrintRequestID "
                         . "INNER JOIN [".$dbDatabase."].[dbo].[JobStatusDup] AS jstd ON ctlg.JobStatusDupID = jstd.JobStatusDupID "
