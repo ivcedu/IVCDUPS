@@ -81,7 +81,7 @@ function loginInfo() {
     var result = new Array();
     var obj_result;
     if (username.indexOf("@ivc.edu") >= 1) {
-        username = username.replace("@ivc.edu", "");
+        username = $.trim(username.replace("@ivc.edu", ""));
         result = getLoginUserInfo("php/login.php", username, password);
         
         if (result.length === 0) {
@@ -96,7 +96,7 @@ function loginInfo() {
         }
     }
     else {
-        username = username.replace("@saddleback.edu", "");
+        username = $.trim(username.replace("@saddleback.edu", ""));
         result = getLoginUserInfo("php/login_saddleback.php", username, password);
         
         if (result.length === 0) {
