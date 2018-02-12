@@ -9,10 +9,6 @@
     $Email = filter_input(INPUT_POST, 'Email');
     $Phone = filter_input(INPUT_POST, 'Phone');
     $RequestTitle = filter_input(INPUT_POST, 'RequestTitle');
-    
-    $Requestor = str_replace("'", "''", $Requestor);
-    $Email = str_replace("'", "", $Email);
-    $RequestTitle = str_replace("'", "''", $RequestTitle);
 
     $query = "INSERT INTO [".$dbDatabase."].[dbo].[PrintRequest] (DeviceTypeID, DeliveryLocationID, LoginType, LoginID, Requestor, Email, Phone, RequestTitle) "
                 ."VALUES ('$DeviceTypeID', '$DeliveryLocationID', '$LoginType', '$LoginID', '$Requestor', '$Email', '$Phone', '$RequestTitle')";  

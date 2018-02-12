@@ -3,25 +3,6 @@ var m_bond_cost = 0.00;
 var m_glossy_cost = 0.00;
 var m_free = false;
 
-// duplicating copier price
-//var m_s_letter = 0.00;
-//var m_d_letter = 0.00;
-//var m_s_letter_color = 0.00;
-//var m_d_letter_color = 0.00;
-//var m_s_legal = 0.00;
-//var m_d_legal = 0.00;
-//var m_s_legal_color = 0.00;
-//var m_d_legal_color = 0.00;
-//var m_s_tabloid = 0.00;
-//var m_d_tabloid = 0.00;
-//var m_s_tabloid_color = 0.00;
-//var m_d_tabloid_color = 0.00;
-//var m_front_cover = 0.00;
-//var m_front_cover_color = 0.00;
-//var m_back_cover = 0.00;
-//var m_back_cover_color = 0.00;
-//var m_cut = 0.00;
-
 // pdf file system
 var m_file_size = 0;
 var m_file_attached = false;
@@ -51,7 +32,6 @@ window.onload = function() {
         getCoverColor();
         getPaperSize();
         getBindingList();
-//        getDuplicatingCopierPrice();
         cp_Object.getCopierPriceList();
         getCatSectionList();
         getUserInformation();
