@@ -1266,7 +1266,7 @@ function sendEmailAdminPrintRequestDeleted(device_type) {
     
     var subject = device_type + " print request has been canceled";
     var message = "Dear " + name + ", <br><br>";
-    message += device_type + " print request, title <strong>" + $('#request_title').val() + "</strong> has been canceled from requestor<br>";    
+    message += device_type + " print request, title <strong>" + $('#request_title').val() + "</strong> has been CANCELED from requestor<br>";    
     message += "Please refresh your admin page.<br><br>";
 
     message += "Thank you.<br>";

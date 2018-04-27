@@ -434,10 +434,10 @@ function sendEmailCancel() {
     var name = $('#requestor').html();
     var email = $('#email').html();
     
-    var subject = "Your Drop Off request has been cancel";
+    var subject = "Your Drop Off request has been canceled";
     var message = "Dear " + name + ", <br><br>";
     
-    message += "Your Drop Off request titled <b>" + $('#request_title').html() + "</b> has been CANCEL. The reason for this is:<br>";
+    message += "Your Drop Off request titled <b>" + $('#request_title').html() + "</b> has been CANCELED. The reason for this is:<br>";
     message += $('#admin_msg_note').val().replace(/\n/g, "<br>") + "<br><br>";
     
     message += "Should you have any questions or comments, please contact the IVC Duplicating Center.<br><br>"; 
